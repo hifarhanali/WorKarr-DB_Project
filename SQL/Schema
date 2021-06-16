@@ -1,0 +1,212 @@
+USE MASTER
+GO
+DROP DATABASE IF EXISTS WorKarr_db
+GO
+CREATE DATABASE WorKarr_db
+GO
+USE WorKarr_db
+GO
+
+
+-- to display all constraits of a table
+--SELECT OBJECT_NAME(object_id) AS ConstraintName,
+--SCHEMA_NAME(schema_id) AS SchemaName,
+--type_desc AS ConstraintType
+--FROM sys.objects
+--WHERE type_desc LIKE '%CONSTRAINT' AND OBJECT_NAME(parent_object_id)='User'
+
+
+----username=farhan_a1i
+----password=()()WorKarr()()123
+
+--1) Category Table--------------
+DROP TABLE IF EXISTS Category
+GO
+CREATE TABLE Category(
+CategoryID				INT					IDENTITY(1,1) PRIMARY KEY,
+[Name]					VARCHAR(50)			NOT NULL UNIQUE
+)
+GO
+
+--2) User Table--------------
+DROP TABLE IF EXISTS [User]
+GO
+Create Table [User](
+UserID					INT					IDENTITY(1, 1) PRIMARY KEY,
+FName					VARCHAR(30)			NOT NULL,
+LName					VARCHAR(30)			NOT NULL,
+Gender					varchar(10)			CHECK(Gender IN ('Female', 'Male', 'Others',NUll)) DEFAULT NULL,
+Email					VARCHAR(60)			Not NULL UNIQUE CHECK (Email LIKE '_%@_%._%'),
+[Password]				VARCHAR(50)			NOT NULL, CHECK(len([Password])>= 8),
+Username				VARCHAR(50)			NOT NULL UNIQUE,
+---seller stuff 
+NumOrders				INT					DEFAULT 0,
+Rating					DECIMAL(2, 1)		DEFAULT 0	CHECK (Rating BETWEEN 0 AND 5),
+Earnings				INT					NOT NULL	CHECK(Earnings >= 0) DEFAULT 0,
+[Description]			VARCHAR(600)		NULL	Default NULL,
+[Availability]			BIT					NOT NULL DEFAULT 1,
+CategoryID				INT			 	    CONSTRAINT USER_FK_CATEGORY FOREIGN KEY REFERENCES Category(CategoryID) ON DELETE NO ACTION ON UPDATE CASCADE,
+[GUID]					VARCHAR(50)			NOT NULL UNIQUE,
+IsValidEmail			BIT					DEFAULT 0,
+Photo					VARCHAR(200)		DEFAULT 'Dummy.png',
+Country					VARCHAR(100)		DEFAULT NULL
+)
+GO
+SELECT * FROM [User]
+GO
+
+
+--3) Gig Table--------------
+DROP TABLE IF EXISTS Gig
+CREATE TABLE Gig(
+GigID					INT					IDENTITY(1, 1) PRIMARY KEY,
+Title					varchar(100)		NOT NULL,
+[Description]			VARCHAR(1200)		NOT NULL ,
+Amount					INT					NOT NULL CHECK(Amount >= 0),
+CategoryID				INT			 	    NOT NULL CONSTRAINT GIG_FK_CATEGORY FOREIGN KEY REFERENCES Category(CategoryID) ON DELETE NO ACTION ON UPDATE NO ACTION,
+PostedDate				DATE				NOT NULL
+)
+
+
+create Table Gig_user
+(
+GigUserID				INT					IDENTITY(1, 1) PRIMARY KEY,
+UserID					INT					NOT NULL CONSTRAINT GIG_FK_USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE CASCADE ON UPDATE CASCADE,
+GigID					INT					Not NUll CONSTRAINT IMAGE_FK_GIG FOREIGN KEY REFERENCES Gig(GigID) ON DELETE CASCADE ON UPDATE CASCADE,
+)
+
+
+--5) GigImages Table
+DROP TABLE IF EXISTS GigImages
+GO
+CREATE TABLE GigImages(
+GigUserID			int NOT NULL CONSTRAINT GIGIMAGES_FK_GIGUSER FOREIGN KEY REFERENCES Gig_user(GigUserID) ON DELETE CASCADE ON UPDATE CASCADE,
+Image1				varchar(100) NOT NULL,
+Image2				varchar(100) NULL,
+Image3				varchar(100) NULL,
+)
+GO
+SELECT * FROM GigImages
+GO
+
+
+
+--11) Job
+DROP TABLE IF EXISTS Job
+GO
+CREATE TABLE Job(
+JobId					INT					IDENTITY(1, 1) PRIMARY KEY,
+Title					VARCHAR(100)		NOT NULL,
+[Description]			VARCHAR(1200)		NOT NULL,
+Amount					INT					NOT NULL CHECK(Amount >= 0),		
+CategoryID				INT			 	    CONSTRAINT JOB_FK_CATEGORY FOREIGN KEY REFERENCES Category(CategoryID) ON DELETE CASCADE ON UPDATE CASCADE, 
+PostedDate				DATETIME			NOT NULL,
+Duration				INT					NOT NULL
+)
+GO
+
+-- Job User
+DROP TABLE IF EXISTS Job_User
+GO 
+CREATE TABLE Job_User(
+JobUserID				INT					IDENTITY(1, 1) PRIMARY KEY,
+JobId					INT					NOT NULL CONSTRAINT JOBUSER_FK_JOB FOREIGN KEY REFERENCES Job(JobID) ON DELETE no action ON UPDATE  no action,
+UserID					INT					NOT NULL CONSTRAINT JOBUSER_FK_USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE CASCADE ON UPDATE CASCADE,
+)
+GO
+
+
+--6) Rating Table--------------
+DROP TABLE IF EXISTS Review
+GO
+CREATE TABLE Review(
+ReviewID				INT					IDENTITY(1, 1) PRIMARY KEY,
+Stars					DECIMAL(2, 1)		NOT NULL CHECK(stars BETWEEN 1.0 AND 5.0),
+ReviewMsg				VARCHAR(200)		NULL,
+FromUserID				INT					NOT NULL CONSTRAINT REVVIEW_FK_USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE CASCADE ON UPDATE CASCADE, 
+[PostedDate]			DATETIME			NOT NULL
+)
+GO
+SELECT * FROM Review
+GO
+-- Helper Table for Review
+DROP TABLE IF EXISTS User_Review
+GO
+CREATE TABLE User_Review(
+User_ReviewID			INT					IDENTITY(1,1) PRIMARY KEY,
+ReviewID				INT					NOT NULL CONSTRAINT USER_REVVIEW_FK_REVIEW FOREIGN KEY REFERENCES Review(ReviewID) ON DELETE CASCADE ON UPDATE CASCADE,
+GigUserID				int					NOT NULL CONSTRAINT USER_REVVIEW_FK_GIGUSERID FOREIGN KEY REFERENCES Gig_user(GigUserID) ON DELETE NO ACTION ON UPDATE NO ACTION, 
+)
+GO
+SELECT * FROM User_Review
+GO
+
+
+
+
+--9) Order Table--------------
+DROP TABLE IF EXISTS [Order]
+GO
+Create Table [Order](
+OrderID					INT					IDENTITY(1, 1) PRIMARY KEY,
+[Description]			VARCHAR(1200)		NOT NULL,
+FromUserID				INT					DEFAULT NULL CONSTRAINT ORDER_FK_FROM_USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ToUserID				INT					DEFAULT NULL CONSTRAINT ORDER_FK_TO_USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE NO ACTION ON UPDATE NO ACTION,
+StartingDate			DATETIME			NOT NULL,
+EndingDate				DATETIME			NOT NULL,
+Amount					INT					NOT NULL check(Amount>=0),
+[Status]				VARCHAR(20)			NOT NULL CHECK([Status] IN ('Completed', 'Cancelled', 'Progressing'))
+)
+
+
+--13) Transaction part--------------
+DROP TABLE IF EXISTS [Transaction]
+CREATE TABLE [Transaction] (
+TransactionID			INT					IDENTITY(1, 1) PRIMARY KEY,
+UserID					INT					NOT NULL CONSTRAINT TRANSACTION_FK__USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE CASCADE ON UPDATE CASCADE,
+[IsWithDraw]			Bit					NOT NULL,
+Amount					INT					NOT NULL CHECK(Amount >= 0),
+TransactionDate			DATETIME			NOT NULL
+)
+
+
+-- to store card detail
+DROP TABLE IF EXISTS [Card_Detail]
+GO
+CREATE TABLE [Card_Detail](
+NameOnCard			VARCHAR(200) NOT NULL,
+AccountNumber		CHAR(20) NOT NULL CHECK (AccountNumber LIKE REPLICATE('[0-9]', 4) + '-' + REPLICATE('[0-9]', 4) + '-' + REPLICATE('[0-9]', 4) + '-' + REPLICATE('[0-9]', 4)) PRIMARY KEY,
+CVV					CHAR(3)	NOT NULL,
+Balance				INT	DEFAULT 0,
+ExpiryDate			DATE
+)
+GO
+
+-- to insert a new card detail
+DROP PROCEDURE  IF EXISTS Insert_Card_Detail
+GO
+CREATE PROCEDURE Insert_Card_Detail
+@NameOnCard			VARCHAR(200),
+@AccountNumber		CHAR(20),
+@CVV				CHAR(3),
+@Balance			INT	= 0,
+@ExpiryDate			DATETIME
+AS 
+BEGIN
+	INSERT INTO Card_Detail VALUES (@NameOnCard, @AccountNumber, @CVV, @Balance, @ExpiryDate)
+END
+GO
+
+-- to find count of match card details
+DROP PROCEDURE  IF EXISTS Card_Detail_Match_Count
+GO
+CREATE PROCEDURE Card_Detail_Match_Count
+@NameOnCard			VARCHAR(200),
+@AccountNumber		CHAR(20),
+@CVV				CHAR(3),
+@ExpiryDate			DATETIME
+AS 
+BEGIN
+	SELECT COUNT(*) FROM Card_Detail WHERE NameOnCard=@NameOnCard AND AccountNumber=@AccountNumber AND CVV=@CVV AND ExpiryDate=@ExpiryDate
+END
+GO

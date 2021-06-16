@@ -1,0 +1,117 @@
+E:\Download\WorKar\WorKar\bin\WorKar.dll.config
+E:\Download\WorKar\WorKar\bin\WorKar.dll
+E:\Download\WorKar\WorKar\bin\WorKar.pdb
+E:\Download\WorKar\WorKar\obj\Debug\WorKarr.csproj.CoreCompileInputs.cache
+E:\Download\WorKar\WorKar\obj\Debug\WorKar.dll
+E:\Download\WorKar\WorKar\obj\Debug\WorKar.pdb
+E:\Download\WorKar\WorKar\obj\Debug\WorKarr.csprojAssemblyReference.cache
+E:\Programming\WorKar\WorKar\bin\WorKar.dll.config
+E:\Programming\WorKar\WorKar\bin\WorKar.dll
+E:\Programming\WorKar\WorKar\bin\WorKar.pdb
+E:\Programming\WorKar\WorKar\bin\EntityFramework.dll
+E:\Programming\WorKar\WorKar\bin\EntityFramework.SqlServer.dll
+E:\Programming\WorKar\WorKar\bin\Microsoft.Threading.Tasks.dll
+E:\Programming\WorKar\WorKar\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+E:\Programming\WorKar\WorKar\bin\Microsoft.Threading.Tasks.Extensions.dll
+E:\Programming\WorKar\WorKar\bin\Microsoft.Web.Infrastructure.dll
+E:\Programming\WorKar\WorKar\bin\Newtonsoft.Json.dll
+E:\Programming\WorKar\WorKar\bin\StarkbankEcdsa.dll
+E:\Programming\WorKar\WorKar\bin\System.IO.dll
+E:\Programming\WorKar\WorKar\bin\System.Net.Http.dll
+E:\Programming\WorKar\WorKar\bin\System.Net.Http.Extensions.dll
+E:\Programming\WorKar\WorKar\bin\System.Net.Http.Primitives.dll
+E:\Programming\WorKar\WorKar\bin\System.Net.Http.WebRequest.dll
+E:\Programming\WorKar\WorKar\bin\System.Runtime.dll
+E:\Programming\WorKar\WorKar\bin\System.Threading.Tasks.dll
+E:\Programming\WorKar\WorKar\bin\EntityFramework.xml
+E:\Programming\WorKar\WorKar\bin\EntityFramework.SqlServer.xml
+E:\Programming\WorKar\WorKar\bin\Microsoft.Threading.Tasks.xml
+E:\Programming\WorKar\WorKar\bin\Microsoft.Threading.Tasks.Extensions.xml
+E:\Programming\WorKar\WorKar\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+E:\Programming\WorKar\WorKar\bin\Newtonsoft.Json.xml
+E:\Programming\WorKar\WorKar\bin\System.IO.xml
+E:\Programming\WorKar\WorKar\bin\System.Net.Http.xml
+E:\Programming\WorKar\WorKar\bin\System.Net.Http.Extensions.xml
+E:\Programming\WorKar\WorKar\bin\System.Net.Http.Primitives.xml
+E:\Programming\WorKar\WorKar\bin\System.Net.Http.WebRequest.xml
+E:\Programming\WorKar\WorKar\bin\System.Runtime.xml
+E:\Programming\WorKar\WorKar\bin\System.Threading.Tasks.xml
+E:\Programming\WorKar\WorKar\obj\Debug\WorKarr.csproj.App.config
+E:\Programming\WorKar\WorKar\obj\Debug\WorKarr.csprojAssemblyReference.cache
+E:\Programming\WorKar\WorKar\obj\Debug\WorKarr.csproj.CoreCompileInputs.cache
+E:\Programming\WorKar\WorKar\obj\Debug\WorKarr.csproj.CopyComplete
+E:\Programming\WorKar\WorKar\obj\Debug\WorKar.dll
+E:\Programming\WorKar\WorKar\obj\Debug\WorKar.pdb
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\WorKar.dll.config
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\WorKar.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\WorKar.pdb
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\EntityFramework.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\EntityFramework.SqlServer.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\Newtonsoft.Json.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\StarkbankEcdsa.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.IO.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Net.Http.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Net.Http.Extensions.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Net.Http.Primitives.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Net.Http.WebRequest.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Runtime.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Threading.Tasks.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\EntityFramework.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\EntityFramework.SqlServer.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\Newtonsoft.Json.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.IO.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Net.Http.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Net.Http.Extensions.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Net.Http.Primitives.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Net.Http.WebRequest.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Runtime.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\bin\System.Threading.Tasks.xml
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\obj\Debug\WorKarr.csproj.App.config
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\obj\Debug\WorKarr.csproj.CoreCompileInputs.cache
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\obj\Debug\WorKarr.csproj.CopyComplete
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\obj\Debug\WorKar.dll
+C:\Users\Shmoon Lodhi\Downloads\WorKarr-main\WorKar\obj\Debug\WorKar.pdb
+F:\WorKarr-main\WorKar\bin\WorKar.dll.config
+F:\WorKarr-main\WorKar\bin\WorKar.dll
+F:\WorKarr-main\WorKar\bin\WorKar.pdb
+F:\WorKarr-main\WorKar\bin\EntityFramework.dll
+F:\WorKarr-main\WorKar\bin\EntityFramework.SqlServer.dll
+F:\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.dll
+F:\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+F:\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.Extensions.dll
+F:\WorKarr-main\WorKar\bin\Microsoft.Web.Infrastructure.dll
+F:\WorKarr-main\WorKar\bin\Newtonsoft.Json.dll
+F:\WorKarr-main\WorKar\bin\StarkbankEcdsa.dll
+F:\WorKarr-main\WorKar\bin\System.IO.dll
+F:\WorKarr-main\WorKar\bin\System.Net.Http.dll
+F:\WorKarr-main\WorKar\bin\System.Net.Http.Extensions.dll
+F:\WorKarr-main\WorKar\bin\System.Net.Http.Primitives.dll
+F:\WorKarr-main\WorKar\bin\System.Net.Http.WebRequest.dll
+F:\WorKarr-main\WorKar\bin\System.Runtime.dll
+F:\WorKarr-main\WorKar\bin\System.Threading.Tasks.dll
+F:\WorKarr-main\WorKar\bin\EntityFramework.xml
+F:\WorKarr-main\WorKar\bin\EntityFramework.SqlServer.xml
+F:\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.xml
+F:\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.Extensions.xml
+F:\WorKarr-main\WorKar\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+F:\WorKarr-main\WorKar\bin\Newtonsoft.Json.xml
+F:\WorKarr-main\WorKar\bin\System.IO.xml
+F:\WorKarr-main\WorKar\bin\System.Net.Http.xml
+F:\WorKarr-main\WorKar\bin\System.Net.Http.Extensions.xml
+F:\WorKarr-main\WorKar\bin\System.Net.Http.Primitives.xml
+F:\WorKarr-main\WorKar\bin\System.Net.Http.WebRequest.xml
+F:\WorKarr-main\WorKar\bin\System.Runtime.xml
+F:\WorKarr-main\WorKar\bin\System.Threading.Tasks.xml
+F:\WorKarr-main\WorKar\obj\Debug\WorKarr.csproj.App.config
+F:\WorKarr-main\WorKar\obj\Debug\WorKarr.csproj.CoreCompileInputs.cache
+F:\WorKarr-main\WorKar\obj\Debug\WorKarr.csproj.CopyComplete
+F:\WorKarr-main\WorKar\obj\Debug\WorKar.dll
+F:\WorKarr-main\WorKar\obj\Debug\WorKar.pdb
+F:\WorKarr-main\WorKar\obj\Debug\WorKarr.csprojAssemblyReference.cache

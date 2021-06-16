@@ -1,0 +1,90 @@
+﻿
+body {
+    color: white;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+}
+
+.glass {
+    width: 100%;
+    height: 100vh;
+    background: none;
+    background-color: #012e4d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+    display: block;
+    padding: 0 50px;
+}
+
+p, li {
+    font-size: 1vw;
+    font-weight: initial;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 20px 0px;
+    font-weight: normal;
+}
+
+
+
+h1, h2, h3 {
+    color: #aad8d3;
+    font-size: 2vw;
+    font-weight: 600;
+}
+
+
+main-content{
+    width: 100%;
+}
+
+.box-row {
+    width: 100%;
+    padding: 0px 0px 50px;
+}
+
+
+li{
+    margin-left: 50px;
+}
+
+
+.glass::-webkit-scrollbar {
+    width: 10px;
+    transition: all 1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    background-color: white;
+}
+
+
+.glass::-webkit-scrollbar-thumb {
+    height: 100px;
+    background: darkgray;
+    outline: none;
+    border: none;
+}
+
+b {
+    color: #aad8d3;
+}
+
+a{
+    font-weight: normal;
+    color: #aad8d3;
+    text-decoration: underline;
+}
+
+.logo_container:hover {
+    cursor: pointer;
+}

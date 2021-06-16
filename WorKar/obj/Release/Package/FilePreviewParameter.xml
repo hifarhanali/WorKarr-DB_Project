@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="WorKarr" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^E:\\Download\\WorKar\\WorKar\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^E:\\Download\\WorKar\\WorKar\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+</parameters>

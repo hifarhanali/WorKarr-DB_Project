@@ -1,0 +1,93 @@
+﻿.header {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 12vh;
+    z-index: 200000;
+    background-color: #012e4d;
+    padding: 0 2vw;
+    width: Calc(100% - 4vw);
+}
+
+.workarr_logo_img {
+    float: left;
+    width: 12vw;
+    height: auto;
+}
+.workarr_logo_img:hover{
+    cursor: pointer;
+}
+
+nav {
+    float: right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+    nav ul {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        list-style-type: none;
+        align-content: center;
+        justify-content: center;
+    }
+
+
+        nav ul li, nav ul li.active-page {
+            padding: 9px 18px;
+            font-size: 12pt;
+            font-weight: 400 !important;
+            transition: all 0.2s;
+            -webkit-transition: all 0.2s;
+            -moz-transition: all 0.2s;
+            -ms-transition: all 0.2s;
+            -o-transition: all 0.2s;
+            margin: 0 1vw;
+            text-transform: uppercase;
+            outline: none;
+        }
+
+            nav ul li a {
+                color: white;
+            }
+
+            nav ul li:hover, .active-page {
+                cursor: pointer;
+                transform: scale(1);
+                background-color: rgb(0, 96, 121);
+                border-radius: 40px;
+                -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+                box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+                -webkit-border-radius: 40px;
+                -moz-border-radius: 40px;
+                -ms-border-radius: 40px;
+                -o-border-radius: 40px;
+                -webkit-transform: scale(1);
+                -moz-transform: scale(1);
+                -ms-transform: scale(1);
+                -o-transform: scale(1);
+            }
+
+.active-page {
+    background-color: white;
+}
+
+    .active-page a {
+        color: #012e4d;
+    }
+
+                nav ul li:hover a {
+                    color: white;
+                }
+
+a {
+    text-decoration: none;
+}

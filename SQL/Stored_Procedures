@@ -1,0 +1,680 @@
+USE WorKarr_db
+GO
+
+DROP PROCEDURE IF EXISTS Insert_User
+GO
+CREATE PROCEDURE Insert_User
+@fName varchar(30),
+@lName varchar(30),
+@gender varchar(10) = NULL,
+@email varchar(60),
+@password varchar(50),
+@username varchar(50),
+@numoforders INT = 0,
+@rating DECIMAL(2, 1) = 0,
+@earnings INT = 0,
+@description VARCHAR(600) = NULL,
+@availability BIT = 1,
+@categoryID INT = NULL,
+@guid varchar(50),
+@isValidEmail bit = 0,
+@Photo varchar(200)= 'Dummy.png',
+@Country VARCHAR(100) = NULL
+AS
+BEGIN
+INSERT INTO [User]
+VALUES (@fName, @lName, @gender, @email, @password, @username, @numoforders, @rating, @earnings, @description, @availability, @categoryID, @guid, @isValidEmail, @Photo, @Country);
+END
+
+
+EXEC Insert_User
+@fName = 'Saqib',
+@lName = 'Ali',
+@email = 'pysaqib@gmail.com',
+@Password = '56483i&J67DK2',
+@Username = 'SaqibAli2',
+@guid = '900-290393'
+GO
+
+
+-- return count of users that match with the given credentials
+DROP PROCEDURE IF EXISTS Match_Users_Count
+GO
+CREATE PROCEDURE Match_Users_Count
+@Username varchar(30),
+@Password varchar(30),
+@Count INT OUTPUT
+AS
+BEGIN
+SELECT @Count=COUNT(*) FROM [User] WHERE [User].Username=@Username AND [User].Password=@Password
+END
+GO
+
+
+-- get detail of a specific user
+DROP PROCEDURE IF EXISTS Get_User_Detail
+GO
+CREATE PROCEDURE Get_User_Detail
+@Username VARCHAR(50)
+AS
+BEGIN
+	SELECT FName UserFName, LName UserLName, [Description] UserDescription, (SELECT Category.Name FROM Category WHERE Category.CategoryID=[User].CategoryID) UserCategory, Photo UserPhoto FROM [User] WHERE Username = @Username
+END
+GO
+EXEC Get_User_Detail
+@Username = 'FaisalQuraishi19'
+GO
+
+
+-- get detail of a specific gig of a user
+DROP PROCEDURE IF EXISTS Get_Gig_Detail
+GO
+CREATE PROCEDURE Get_Gig_Detail
+@Username VARCHAR(50) = NULL,
+@GigID INT
+AS
+BEGIN
+	DECLARE @UserID INT = 0;
+	SELECT @UserID = [dbo].[User].UserID FROM [dbo].[User] WHERE ([dbo].[User].Username = @Username)
+	
+	SELECT Title, Gig.[Description], Amount, (SELECT Category.[Name] FROM Category WHERE Category.CategoryID=Gig.CategoryID) AS Category,
+	PostedDate, Duration, Specification1, Specification2, Specification3, [dbo].[GigImages].Image1, [dbo].[GigImages].Image2, [dbo].[GigImages].Image3
+	FROM Gig JOIN Gig_user ON [dbo].[Gig_user].GigID = [dbo].[Gig].GigID
+	JOIN [dbo].[GigImages] ON [dbo].[GigImages].GigUserID = [dbo].[Gig_user].GigUserID
+	JOIN Category ON Category.CategoryID = Gig.CategoryID
+	JOIN [dbo].[User] ON [dbo].[User].UserID = [dbo].[Gig_user].UserID
+	WHERE (@UserID = 0 OR [dbo].[User].UserID = @UserID) AND Gig.GigID = @GigID
+END
+GO
+EXEC Get_Gig_Detail
+@GigID = 67
+GO
+SELECT * FROM GIG
+GO
+
+
+-- get gigs detail of a specific user
+DROP PROCEDURE IF EXISTS Get_Gigs_Detail
+GO
+CREATE PROCEDURE Get_Gigs_Detail
+@Username VARCHAR(50)
+AS
+BEGIN
+		SELECT [User].Photo UserPhoto, Gig.GigID, Title, Gig.[Description], Amount, Category.[Name] AS Category, PostedDate, [dbo].[GigImages].Image1
+		FROM Gig JOIN Gig_user ON [dbo].[Gig_user].GigID = [dbo].[Gig].GigID
+		JOIN [dbo].[GigImages] ON [dbo].[GigImages].GigUserID = [dbo].[Gig_user].GigUserID
+		JOIN Category ON Category.CategoryID = Gig.CategoryID
+		JOIN [dbo].[User] ON [dbo].[User].UserID = [dbo].[Gig_user].UserID
+		WHERE [dbo].[User].UserID = (SELECT [dbo].[User].UserID FROM [dbo].[User] WHERE [dbo].[User].Username = @Username)
+		ORDER BY Gig.PostedDate DESC
+END
+GO
+EXEC Get_Gigs_Detail
+@Username = 'FaisalQuraishi19'
+GO
+
+-- get detail of a specific job of a user
+DROP PROCEDURE IF EXISTS Get_Job_Detail
+GO
+CREATE PROCEDURE Get_Job_Detail
+@Username VARCHAR(50) = NULL,
+@JobID INT
+AS
+BEGIN
+	DECLARE @UserID INT = 0;
+	SELECT @UserID = [dbo].[User].UserID FROM [dbo].[User] WHERE ([dbo].[User].Username = @Username)
+	
+	SELECT Title, Job.[Description], Amount, (SELECT Category.[Name] FROM Category WHERE Category.CategoryID=Job.CategoryID) AS Category,
+	PostedDate, Duration
+	FROM Job JOIN Job_User ON [dbo].[Job_User].JobID = [dbo].[Job].JobID
+	JOIN Category ON Category.CategoryID = Job.CategoryID
+	JOIN [dbo].[User] ON [dbo].[User].UserID = [dbo].[Job_User].UserID
+	WHERE (@UserID = 0 OR [dbo].[User].UserID = @UserID) AND Job.JobID = @JobID
+END
+GO
+EXEC Get_Job_Detail
+@JobID = 1
+GO
+SELECT * FROM GIG
+GO
+
+
+-- get jobs detail of a specific user
+DROP PROCEDURE IF EXISTS Get_Jobs_Detail
+GO
+CREATE PROCEDURE Get_Jobs_Detail
+@Username VARCHAR(50)
+AS
+BEGIN
+		SELECT [User].Photo UserPhoto, Job.JobID, Title, Job.[Description], Amount, Category.[Name] AS Category, PostedDate, Duration
+		FROM Job JOIN Job_User ON [dbo].[Job_User].JobID = [dbo].[Job].JobID
+		JOIN Category ON Category.CategoryID = Job.CategoryID
+		JOIN [dbo].[User] ON [dbo].[User].UserID = [dbo].[Job_User].UserID
+		WHERE [dbo].[User].UserID = (SELECT [dbo].[User].UserID FROM [dbo].[User] WHERE [dbo].[User].Username = @Username)
+		ORDER BY Job.PostedDate DESC
+END
+GO
+EXEC Get_Jobs_Detail
+@Username = 'FaisalQuraishi19'
+GO
+
+
+
+
+-- get filtered gigs detail
+DROP PROCEDURE IF EXISTS Get_Filtered_Gigs_Detail
+GO
+CREATE PROCEDURE Get_Filtered_Gigs_Detail
+@SortBy Varchar(5) = NULL,
+@CategoryID INT = NULL,
+@Country VARCHAR(50) = NULL,
+@Duration INT = NULL,
+@MinPrice INT = NULL,
+@MaxPrice INT = NULL,
+@searchText Varchar(500) = NULL
+AS
+BEGIN
+		DECLARE @result TABLE (UserPhoto VARCHAR(200) NULL, GigID INT, Title VARCHAR(100), [Description] VARCHAR(1200), Amount INT, Category VARCHAR(50), PostedDate DATETIME, Image1 VARCHAR(100));
+
+		-- store result in a variable
+		INSERT INTO @result
+		SELECT [User].Photo UserPhoto, Gig.GigID, Title, Gig.[Description], Amount, Category.[Name] AS Category, PostedDate, [dbo].[GigImages].Image1
+		FROM Gig JOIN Gig_user ON [dbo].[Gig_user].GigID = [dbo].[Gig].GigID
+		JOIN [dbo].[GigImages] ON [dbo].[GigImages].GigUserID = [dbo].[Gig_user].GigUserID
+		JOIN Category ON Category.CategoryID = Gig.CategoryID
+		JOIN [dbo].[User] ON [dbo].[User].UserID = [dbo].[Gig_user].UserID
+		WHERE	(@CategoryID IS NULL OR @CategoryID = Gig.CategoryID) AND
+				(@Country IS NULL OR @Country = [User].Country) AND
+				(@Duration IS NULL OR @Duration >= Gig.Duration) AND
+				(@MinPrice IS NULL OR @MinPrice <= Gig.Amount) AND
+				(@MaxPrice IS NULL OR @MaxPrice >= Gig.Amount) AND
+				(@searchText IS NULL OR (LOWER(Gig.Title) LIKE '%' + LOWER(@searchText) + '%' OR LOWER(@searchText) LIKE '%' + LOWER(Gig.Title) + '%') OR
+				(LOWER(Gig.[Description]) LIKE '%' + LOWER(@searchText) + '%' OR LOWER(Gig.[Description]) LIKE '%' + LOWER(@searchText) + '%'))
+		IF @SortBY IS NOT NULL
+		BEGIN
+			IF @SortBy = 'Price'
+			BEGIN
+				SELECT * FROM @result ORDER BY Amount
+			END
+			ELSE IF @SortBy = 'Date'
+			BEGIN
+				SELECT * FROM @result ORDER BY PostedDate DESC				
+			END
+			ELSE
+			BEGIN
+				SELECT R.*, SUM(Stars)/COUNT(*) Rating FROM @result R
+				JOIN Gig_user ON Gig_user.GigID = R.GigID
+				LEFT JOIN User_Review ON User_Review.GigUserID = Gig_user.GigUserID
+				LEFT JOIN Review ON Review.ReviewID = User_Review.ReviewID
+				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1] 
+				ORDER BY Rating DESC
+			END
+		END
+		ELSE
+		BEGIN
+			SELECT * FROM @result
+		END
+END
+GO
+EXEC Get_Filtered_Gigs_Detail
+@CategoryID=3,
+@Country='Pakistan',
+@searchText='I will do c++ java python tasks and projects'
+GO
+
+
+
+-- get filtered jobs detail
+DROP PROCEDURE IF EXISTS Get_Filtered_Jobs_Detail
+GO
+CREATE PROCEDURE Get_Filtered_Jobs_Detail
+@SortBy Varchar(5) = NULL,
+@CategoryID INT = NULL,
+@Country VARCHAR(50) = NULL,
+@Duration INT = NULL,
+@MinPrice INT = NULL,
+@MaxPrice INT = NULL,
+@searchText Varchar(500) = NULL
+AS
+BEGIN
+		DECLARE @result TABLE (UserPhoto VARCHAR(200) NULL, JobID INT, Title VARCHAR(100), [Description] VARCHAR(1200), Amount INT, Category VARCHAR(50), PostedDate DATETIME);
+
+		-- store result in a variable
+		INSERT INTO @result
+		SELECT [User].Photo UserPhoto, Job.JobID, Title, Job.[Description], Amount, Category.[Name] AS Category, PostedDate
+		FROM Job JOIN Job_user ON [dbo].[Job_user].JobID = [dbo].[Job].JobID
+		JOIN Category ON Category.CategoryID = Job.CategoryID
+		JOIN [dbo].[User] ON [dbo].[User].UserID = [dbo].[Job_user].UserID
+		WHERE	(@CategoryID IS NULL OR @CategoryID = Job.CategoryID) AND
+				(@Country IS NULL OR @Country = [User].Country) AND
+				(@Duration IS NULL OR @Duration >= Job.Duration) AND
+				(@MinPrice IS NULL OR @MinPrice <= Job.Amount) AND
+				(@MaxPrice IS NULL OR @MaxPrice >= Job.Amount) AND
+				(@searchText IS NULL OR (LOWER(Job.Title) LIKE '%' + LOWER(@searchText) + '%' OR LOWER(@searchText) LIKE '%' + LOWER(Job.Title) + '%') OR
+				(LOWER(Job.[Description]) LIKE '%' + LOWER(@searchText) + '%' OR LOWER(Job.[Description]) LIKE '%' + LOWER(@searchText) + '%'))
+		IF @SortBY IS NOT NULL
+		BEGIN
+			IF @SortBy = 'Price'
+			BEGIN
+				SELECT * FROM @result ORDER BY Amount
+			END
+			ELSE IF @SortBy = 'Date'
+			BEGIN
+				SELECT * FROM @result ORDER BY PostedDate DESC				
+			END
+		END
+		ELSE
+		BEGIN
+			SELECT * FROM @result
+		END
+END
+GO
+EXEC Get_Filtered_Jobs_Detail
+@searchText=NULL
+GO
+
+
+
+-- get review detail of specific gig of a user
+DROP PROCEDURE IF EXISTS Get_Reviews_Detail
+GO
+CREATE PROCEDURE Get_Reviews_Detail
+@GigID INT
+AS
+BEGIN
+	SELECT Stars, ReviewMsg, PostedDate, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID = Review.FromUserID) UserFullName,
+	(SELECT Username FROM [User] WHERE [User].UserID = Review.FromUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID = Review.FromUserID) UserPhoto
+	FROM Review JOIN User_Review ON User_Review.ReviewID = Review.ReviewID
+	JOIN Gig_user ON Gig_user.GigUserID = User_Review.GigUserID WHERE Gig_user.GigID = @GigID
+	ORDER BY PostedDate DESC
+END
+GO
+EXEC Get_Reviews_Detail
+@GigID = 3
+GO
+
+
+SELECT * FROM [User]
+
+-- to insert a new gig and return gigID
+DROP PROCEDURE IF EXISTS Insert_Gig
+GO
+CREATE PROCEDURE Insert_Gig
+@Title Varchar(100),
+@Description VARCHAR(1200),
+@Amount INT,
+@CategoryID INT,
+@PostedDate DateTime,
+@Specification1 VARCHAR(30),
+@Specification2 VARCHAR(30),
+@Specification3 VARCHAR(30),
+@Duration INT
+AS
+BEGIN
+	INSERT INTO Gig Output inserted.GigID VALUES (@Title, @Description, @Amount, @CategoryID, @PostedDate, @Specification1, @Specification2, @Specification3, @Duration);
+END
+GO
+
+SELECT * FROM [Order]
+
+
+-- to insert a new gig_user return giguserID
+DROP PROCEDURE IF EXISTS Insert_GigUser
+GO
+CREATE PROCEDURE Insert_GigUser
+@GigID INT,
+@UserID INT
+AS
+BEGIN
+	INSERT INTO Gig_user Output inserted.GigUserID VALUES (@UserID, @GigID);
+END
+GO
+
+
+
+-- to save/upload/insert images path
+DROP PROCEDURE IF EXISTS Insert_Gig_Images
+GO
+CREATE PROCEDURE Insert_Gig_Images
+@GigUserID INT,
+@Image1 Varchar(100),
+@Image2 Varchar(100) = NULL,
+@Image3 Varchar(100) = NULL
+AS
+BEGIN
+	INSERT INTO [dbo].[GigImages] VALUES (@GigUserID, @Image1, @Image2, @Image3)
+END
+
+
+-- to insert a new job and return jobID
+DROP PROCEDURE IF EXISTS Insert_Job
+GO
+CREATE PROCEDURE Insert_Job
+@Title Varchar(100),
+@Description VARCHAR(1200),
+@Amount INT,
+@CategoryID INT,
+@PostedDate DateTime,
+@Duration INT
+AS
+BEGIN
+	INSERT INTO Job Output inserted.JobId VALUES (@Title, @Description, @Amount, @CategoryID, @PostedDate, @Duration);
+END
+GO
+
+
+-- to insert a new job_user
+DROP PROCEDURE IF EXISTS Insert_JobUser
+GO
+CREATE PROCEDURE Insert_JobUser
+@JobID INT,
+@UserID INT
+AS
+BEGIN
+	INSERT INTO Job_user VALUES (@JobID, @UserID);
+END
+GO
+
+
+
+-- to update Gig Detail
+DROP PROCEDURE IF EXISTS Update_Gig_Detail
+GO
+CREATE PROCEDURE Update_Gig_Detail
+@GigID int,
+@Title Varchar(100),
+@Description Varchar(1200),
+@Amount int,
+@CategoryID INT,
+@Specification1 VARCHAR(30),
+@Specification2 VARCHAR(30),
+@Specification3 VARCHAR(30),
+@Duration INT,
+@Image1 VARCHAR(100) = NULL,
+@Image2 VARCHAR(100) = NULL,
+@Image3 VARCHAR(100) = NULL
+AS
+BEGIN
+	DECLARE @GigUserID int = 0;
+	SELECT @GigUserID=GigUserID FROM Gig_user WHERE GigID=@GigID;
+
+	-- update images
+	if @Image1 IS NOT NULL
+	BEGIN
+		UPDATE GigImages SET Image1=@Image1 WHERE GigUserID = @GigUserID;
+	END
+	if @Image2 IS NOT NULL
+	BEGIN
+		UPDATE GigImages SET Image2=@Image2 WHERE GigUserID = @GigUserID;
+	END
+	if @Image3 IS NOT NULL
+	BEGIN
+		UPDATE GigImages SET Image3=@Image3 WHERE GigUserID = @GigUserID;
+	END
+
+	-- update gig detail
+	UPDATE Gig SET Title=@Title, [Description]=@Description, Amount=@Amount, CategoryID=@CategoryID,
+	Specification1=@Specification1, Specification2=@Specification2, Specification3=@Specification3, Duration=@Duration WHERE GigID = @GigID 
+END
+GO
+
+EXEC Update_Gig_Detail
+@GigID = 3,
+@Title = 'I will do remarkable responsive web development in react js, nodejs, html5, css3, json',
+@Description = 'I hope my Gig finds you in a good health. I am a well reputed Software Engineer. Besides, I have colossal experience of developing frontends of web applications using numerous technologies. I profoundly believe in customers satisfaction. Thus, it is ensured that the work will be of High Quality and meet all industrial standards. You need not to worry if you want a responsive and easily accessible website to be developed from scratch. I will be obliged to make finest applications for you providing following services.',
+@Amount = 4000,
+@CategoryID = 2,
+@Duration = 14,
+@Specification1 = 'Efficient Code',
+@Specification2 = 'Efficient Code',
+@Specification3 = 'Efficient Code',
+@Image1 = 'images/gig_images/2/gig_dummy.png'
+GO
+
+
+-- to update a Job Detail
+DROP PROCEDURE IF EXISTS Update_Job_Detail
+GO
+CREATE PROCEDURE Update_Job_Detail
+@JobID int,
+@Title Varchar(100),
+@Description Varchar(1200),
+@Amount int,
+@CategoryID INT,
+@Duration INT
+AS
+BEGIN
+	DECLARE @JobUserID int = 0;
+	SELECT @JobUserID=JobUserID FROM Job_User WHERE JobID=@JobID;
+
+	-- update Job detail
+	UPDATE Job SET Title=@Title, [Description]=@Description, Amount=@Amount, CategoryID=@CategoryID,
+	Duration=@Duration WHERE JobID = @JobID 
+END
+GO
+EXEC Update_Job_Detail
+@JobID = 3,
+@Title = 'I will do remarkable responsive web development in react js, nodejs, html5, css3, json',
+@Description = 'I hope my Gig finds you in a good health. I am a well reputed Software Engineer. Besides, I have colossal experience of developing frontends of web applications using numerous technologies. I profoundly believe in customers satisfaction. Thus, it is ensured that the work will be of High Quality and meet all industrial standards. You need not to worry if you want a responsive and easily accessible website to be developed from scratch. I will be obliged to make finest applications for you providing following services.',
+@Amount = 4000,
+@CategoryID = 2,
+@Duration = 14
+GO
+
+
+
+SELECT * FROM JOB_User
+
+-- to update a user detail
+DROP PROCEDURE IF EXISTS Update_User_Detail
+GO
+CREATE PROCEDURE Update_User_Detail
+@Username Varchar(50),
+@FName Varchar(30),
+@LName Varchar(30),
+@Gender Varchar(10) = 'Others',
+@Password VARCHAR(50) = NULL,
+@Description VARCHAR(600) = NULL,
+@Availability Bit,
+@CategoryID int,
+@Photo VARCHAR(100) = NULL
+AS
+BEGIN
+	Update [User] SET FName = @FName, LName = @LName, Gender = @Gender, [Description] = @Description, [Availability] = @Availability, CategoryID=@CategoryID WHERE Username=@Username;
+	IF @Photo IS NOT NULL
+	BEGIN
+		Update [User] SET Photo=@Photo WHERE Username=@Username
+	END
+	IF @Password IS NOT NULL
+	BEGIN
+		Update [User] SET Password=@Password WHERE Username=@Username
+	END
+END
+GO
+EXEC Update_User_Detail
+@Username = 'FaisalQuraishi19',
+@FName = 'Farhan',
+@LName = 'Ali',
+@Gender = 'Male',
+@Password = NULL,
+@Description = 'HElllo MY name is Farhan Ali',
+@Availability = 1,
+@CategoryID = 2,
+@Photo = NULL
+GO
+
+ 
+
+-- to get total credit of a user
+DROP PROCEDURE IF EXISTS Get_Total_Credit
+GO
+CREATE PROCEDURE Get_Total_Credit
+@Username VARCHAR(50)
+AS
+BEGIN
+	SELECT SUM(Amount) AS TotalCredit From [Transaction] WHERE IsWithDraw=0 AND UserID=(Select UserID FROM [User] WHERE Username=@Username) GROUP BY IsWithDraw
+END
+GO
+EXEC Get_Total_Credit
+@Username = 'FaisalQuraishi19'
+GO
+
+
+
+-- to get total debit of a user
+DROP PROCEDURE IF EXISTS Get_Total_Debit
+GO
+CREATE PROCEDURE Get_Total_Debit
+@Username VARCHAR(50)
+AS
+BEGIN
+	SELECT SUM(Amount) AS TotalDebit From [Transaction] WHERE IsWithDraw=1 AND UserID=(Select UserID FROM [User] WHERE Username=@Username) GROUP BY IsWithDraw
+END
+GO
+EXEC Get_Total_Debit
+@Username = 'FaisalQuraishi19'
+GO
+
+
+
+
+-- to get order history of a user
+DROP PROCEDURE IF EXISTS Get_Order_History
+GO
+CREATE PROCEDURE Get_Order_History
+@Username VARCHAR(50),
+@Status varchar(20) = NULL
+AS
+BEGIN
+	Declare @UserID INT = (SELECT UserID From [User] WHERE Username=@Username);
+	(SELECT [Order].*, (SELECT Username FROM [User] WHERE [User].UserID=[Order].ToUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID=[Order].ToUserID) UserPhoto, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID=[Order].ToUserID) UserFullname  FROM [Order]
+	WHERE FromUserID = (@UserID) AND (@Status IS NULL OR [Order].[Status]= @Status)
+	UNION
+	SELECT [Order].*, (SELECT Username FROM [User] WHERE [User].UserID=[Order].FromUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID=[Order].FromUserID) UserPhoto, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID=[Order].FromUserID) UserFullname  FROM [Order]
+	WHERE ToUserID = (@UserID) AND (@Status IS NULL OR [Order].[Status]= @Status))
+	ORDER BY StartingDate DESC
+END
+GO
+EXEC Get_Order_History
+@Username = 'FaisalQuraishi19'
+GO
+
+
+
+-- to get orders detail of a user
+DROP PROCEDURE IF EXISTS Get_Orders_Detail
+GO
+CREATE PROCEDURE Get_Orders_Detail
+@Username VARCHAR(50),
+@Status varchar(20) = NULL,
+@IsPostedOrders BIT = 1
+AS
+BEGIN
+	Declare @UserID INT = (SELECT UserID From [User] WHERE Username=@Username);
+	-- posted orders i.e fromUserName = @Username
+	IF @IsPostedOrders = 1
+	BEGIN
+		SELECT [Order].*, (SELECT Username FROM [User] WHERE [User].UserID=[Order].ToUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID=[Order].ToUserID) UserPhoto, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID=[Order].ToUserID) UserFullname  FROM [Order]
+		WHERE FromUserID = (@UserID) AND (@Status IS NULL OR [Order].[Status]= @Status)				
+	END
+	-- recieved orders i.e toUserName = @Username
+	ELSE
+	BEGIN
+		SELECT [Order].*, (SELECT Username FROM [User] WHERE [User].UserID=[Order].FromUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID=[Order].FromUserID) UserPhoto, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID=[Order].FromUserID) UserFullname  FROM [Order]
+		WHERE ToUserID = (@UserID) AND (@Status IS NULL OR [Order].[Status]= @Status)
+	END
+END
+GO
+EXEC Get_Orders_Detail
+@Username = 'FaisalQuraishi19',
+@IsPostedOrders = 1,
+@Status='Progressing'
+
+
+-- to get detail of a specific
+DROP PROCEDURE IF EXISTS Get_Order_Detail
+GO
+CREATE PROCEDURE Get_Order_Detail
+@OrderID INT
+AS
+BEGIN
+	SELECT [Order].*, (SELECT Username FROM [User] WHERE [User].UserID=[Order].FromUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID=[Order].FromUserID) UserPhoto, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID=[Order].FromUserID) UserFullname  FROM [Order]
+	WHERE OrderID = @OrderID
+END
+GO
+EXEC Get_Order_Detail
+@OrderID=12
+
+
+-- to insert a new order detail
+DROP PROCEDURE IF EXISTS Insert_Order_Detail
+GO
+CREATE PROCEDURE Insert_Order_Detail
+@Description VARCHAR(1200),
+@FromUserName VARCHAR(50),
+@GigID INT,
+@StartingDate DATETIME,
+@EndingDate DATETIME, 
+@Amount INT,
+@Status VARCHAR(20) = 'Progressing',
+@ReturnValue BIT OUTPUT
+AS
+BEGIN
+	DECLARE @FromUserID INT = 0, @ToUserID INT = 0;
+	SELECT @FromUserID = (SELECT UserID FROM [User] WHERE Username=@FromUsername);
+	SELECT @ToUserID = (SELECT UserID FROM [Gig_user] WHERE GigId = @GigID);
+	
+	SET @ReturnValue = 0
+
+	IF @ToUserID <> @FromUserID
+	BEGIN
+		IF @ToUserID <> 0 AND @FromUserID <> 0
+		BEGIN
+			INSERT INTO [Order] VALUES (@Description, @FromUserID, @ToUserID, @StartingDate, @EndingDate, @Amount, @Status);
+			SET @ReturnValue = 1
+		END
+	END
+
+END
+GO
+DECLARE @myReturnValue BIT
+EXEC Insert_Order_Detail 
+@Description = 'Nice',
+@FromUserName = 'FaisalQuraishi19',
+@GigID = 66,
+@StartingDate = '2021-09-15',
+@EndingDate = '2021-12-16',
+@Amount = 400,
+@ReturnValue = @myReturnValue Output
+SELECT @myReturnValue
+GO
+
+
+
+-- to insert a new review and return ReviewID
+DROP PROCEDURE IF EXISTS Insert_Review
+GO
+CREATE PROCEDURE Insert_Review
+@stars INT,
+@ReviewMsg VARCHAR(200),
+@FromUserID INT,
+@PostedDate DATETIME
+AS
+BEGIN
+	INSERT INTO Review Output inserted.ReviewID VALUES (@stars, @ReviewMsg, @FromUserID, @PostedDate);
+END
+GO
+
+
+
+-- to insert a new user_review
+DROP PROCEDURE IF EXISTS Insert_User_Review
+GO
+CREATE PROCEDURE Insert_User_Review
+@ReviewID INT,
+@GigUserID INT
+AS
+BEGIN
+	INSERT INTO User_Review VALUES (@ReviewID, @GigUserID);
+END
+GO

@@ -1,0 +1,395 @@
+﻿
+body {
+    color: #012e4d;
+    text-rendering: optimizeLegibility;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body main {
+    height: 100%;
+}
+
+body main .glass {
+    width: 100%;
+    height: 100vh;
+}
+
+body main .glass .sidepanel {
+    width: 30%;
+    background-color: #012e4d;
+    color: white;
+    border: none;
+    overflow: hidden;
+}
+
+body main .glass .sidepanel .profile-head-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+body main .glass .sidepanel .profile-head-wrap img {
+    width: 20%;
+    border-radius: 50%;
+    border: 3px solid rgba(0, 80, 172, 0.76);
+}
+
+body main .glass .sidepanel .profile-head-wrap div {
+    padding-left: 20px;
+    width: 60%;
+}
+
+
+body main .glass .sidepanel .profile-head-wrap p {
+    font-size: 1.7vw;
+}
+
+#hdUserName{
+    font-size: 1.7vw;
+    font-size: 1vw;
+    color: gray;
+}
+
+body main .glass .sidepanel .profile-head-wrap i {
+    text-align: right;
+    width: 15%;
+    font-size: 1rem;
+}
+
+body main .glass .sidepanel .search-container {
+    background-color: rgba(0, 61, 102, 0.452);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    width: 100%;
+    height: 6vh;
+    margin: auto inherit;
+    position: relative;
+}
+
+body main .glass .sidepanel .search-container i {
+    font-size: 16px;
+    margin: 10px 10px 10px 20px;
+}
+
+body main .glass .sidepanel .search-container input {
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    width: 100%;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}
+
+body main .glass .sidepanel .contacts {
+    width: 100%;
+    height: 75vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#contacts-container li[active="active"] {
+    background: #32465a;
+    transition: background-color 0.2s ease-in, border-color 0.4s ease-in;
+}
+
+.contact:active {
+    background: #32465a;
+    transition: background-color 0.2s ease-in, border-color 0.4s ease-in;
+}
+
+body main .glass .sidepanel .contacts ul {
+    list-style-type: none;
+}
+
+body main .glass .sidepanel .contacts .contact {
+    width: 100%;
+    cursor: pointer;
+}
+
+body main .glass .sidepanel .contacts .contact .wrap {
+    padding: 10px 15px 10px 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+body main .glass .sidepanel .contacts .contact .wrap img {
+    width: 50px;
+    height: 50px;
+    height: auto;
+    border-radius: 50%;
+    border: 3px solid rgba(233, 233, 233, 0.76);
+}
+
+body main .glass .sidepanel .contacts .contact .wrap p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 15px;
+    display: block;
+    overflow: hidden;
+    width: 80%;
+}
+
+body main .glass .sidepanel .contacts .contact .wrap p:first-child {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+body main .glass .sidepanel .contacts .contact .wrap p:last-child {
+    width: 22px 0px;
+    font-size: 14px;
+}
+
+body main .glass .sidepanel .contacts .contact .wrap:hover {
+    background: #32465a;
+}
+
+
+body main .glass .sidepanel .contacts::-webkit-scrollbar {
+    width: 8px;
+    background: transparent;
+}
+
+body main .glass .sidepanel .contacts::-webkit-scrollbar-thumb {
+    background-color: #3a4d5f;
+}
+
+body main .glass .content {
+    width: 70%;
+    position: relative;
+}
+
+body main .glass .content .contact-profile {
+    width: 100%;
+    height: 10vh;
+    background-color: #e8ebeb;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+body main .glass .content .contact-profile img {
+    margin-left: 15px;
+    width: 50px;
+}
+
+body main .glass .content .contact-profile p {
+    margin-left: 20px;
+}
+
+body main .glass .content .messages {
+    height: auto;
+    min-height: calc(100% - 140px);
+    max-height: calc(100% - 140px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+body main .glass .content .messages::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+}
+
+body main .glass .content .messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+body main .glass .content .messages ul li {
+    display: inline-block;
+    clear: both;
+    float: left;
+    margin: 15px 15px 5px 15px;
+    width: calc(100% - 25px);
+    font-size: 0.9em;
+}
+
+body main .glass .content .messages ul li img {
+    width: 40px;
+    height: 40px;
+}
+
+body main .glass .content .messages ul li p {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 10px;
+    max-width: 205px;
+    line-height: 130%;
+}
+
+
+body main .glass .content .messages ul:nth-last-child(1) {
+    margin-bottom: 20px;
+}
+
+    body main .glass .content .messages ul li.sent img {
+        margin: 6px 8px 0 0;
+        float: left;
+    }
+
+
+    body main .glass .content .messages ul li.sent div {
+        border-radius: 5px;
+        background: #435f7a;
+        color: #f5f5f5;
+        float: left;
+    }
+
+
+    body main .glass .content .messages ul li.replies img {
+        float: right;
+        margin: 6px 0 0 8px;
+    }
+
+    body main .glass .content .messages ul li.replies div {
+        border-radius: 5px;
+        float: right;
+        color: #435f7a;
+        background: #f5f5f5;
+    }
+
+#msg_timeID {
+    font-size: 10px;
+}
+
+body main .glass .content .messages ul li.replies ul li img {
+    width: 22px;
+    border-radius: 50%;
+    float: left;
+}
+
+.message-input {
+    background-color: transparent;
+    position: absolute;
+    bottom: 2%;
+    left: 5%;
+    height: 6vh;
+    width: 90%;
+    z-index: 99;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    display: none;
+}
+
+.message-input .wrapper {
+    height: 100%;
+    width: 95%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 0 2%;
+}
+
+
+.message-input .wrapper input {
+    padding: 0px 20px;
+    height: 80%;
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.message-input .wrapper i {
+    cursor: pointer;
+}
+
+.message-input .wrapper .fa-paperclip {
+    font-size: 16px;
+    text-align: center;
+    background-color: transparent;
+    margin: 0 20px 0px 5px;
+    color: gray;
+}
+
+.message-input button {
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    margin-left: 10px;
+    width: 36px;
+    height: 35px;
+    cursor: pointer;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.message-input button i {
+    color: gray;
+    font-size: 16px;
+    text-align: center;
+    margin: 0px auto;
+}
+
+i {
+    cursor: pointer;
+}
+
+
+
+img:hover{
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+
+
+
+
+.emojionearea{
+    background: none;
+    border: none;
+    outline: none;
+}
+.emojionearea,
+.emojionearea:hover,
+.emojionearea:focus,
+.emojionearea div:hover,
+.emojionearea div:focus
+{
+    box-shadow: none !important;
+    transform: none !important;
+    border: none;
+    outline: none;
+}

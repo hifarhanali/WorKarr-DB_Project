@@ -1,0 +1,106 @@
+﻿
+.side-bar ul a p {
+    margin-top: 20px;
+}
+
+
+.right-section {
+    height: 100vh;
+    padding: 15px 15px 40px;
+    overflow-y: scroll;
+}
+
+    .right-section::-webkit-scrollbar {
+        width: 7px;
+        transition: all 1s;
+        -webkit-transition: all 1s;
+        -moz-transition: all 1s;
+        -ms-transition: all 1s;
+        -o-transition: all 1s;
+    }
+
+    .right-section::-webkit-scrollbar-thumb {
+        height: 20px;
+        background: #9b9b9bcc;
+        outline: none;
+        border: none;
+    }
+
+
+
+
+.h6, h6 {
+    font-size: .91rem;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, .7);
+    border-radius: 30px;
+}
+
+.list-group-item {
+    background-color: rgba(255, 255, 255, .5);
+}
+
+.logo {
+    background: transparent;
+}
+
+
+.gigImages-display-containers{
+    margin-bottom: 5px;
+}
+
+.gigImages-display-containers, .images-container {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+    .gigImages-display-containers img {
+        width: 30%;
+        box-shadow: 0px 1px 5px gray;
+        height: 180px;
+    }
+
+    .gigImages-display-containers img:hover{
+        cursor: pointer;
+        filter: brightness(70%);
+    }
+
+    .images-container label
+    {
+        border-radius: 2px;
+        padding: 10px;
+        width: 30%;
+        text-align: center;
+    }
+
+    .images-container i {
+        margin-right: 10px;
+    }
+
+
+
+button:hover {
+    opacity: 0.8;
+}
+
+.specifications-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.specifications-container div{
+    width: 30%;
+}
+
+.specifications-container div input{
+    width: 100%;
+}
+
+span{
+    color: red;
+    font-size: 14px;
+}
