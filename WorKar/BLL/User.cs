@@ -14,6 +14,7 @@ namespace WorKar.BLL
         private string password;
         private string username;
         private string guid;
+        private string country;
         public bool availability { get; set; }
         public int categoryID { get; set; }
         public string description { get; set; }
@@ -54,6 +55,11 @@ namespace WorKar.BLL
         {
             get { return guid; }
             set { guid = value; }
+        }
+        public string User_Country
+        {
+            get { return country; }
+            set { country = value; }
         }
 
     }

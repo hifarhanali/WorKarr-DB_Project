@@ -204,7 +204,7 @@
                             </div>
 
                             <div class="comment-area">
-                                <textarea class="form-control" resize="none" id="review_msg" placeholder="what is your view?" rows="7" runat="server"></textarea>
+                                <textarea class="form-control" resize="none" maxlength="200" id="review_msg" placeholder="what is your view?" rows="7" runat="server"></textarea>
                             </div>
 
                             <div>
@@ -464,17 +464,12 @@
                                             <p>@<%# Eval("Username") %></p>
                                         </div>
                                         <div class="stars-container">
-
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
+                                            <%# ShowStars(Eval("Stars")) %>
                                         </div>
                                     </div>
                                     <div class="review-message">
                                         <p><%# Eval("ReviewMsg") %></p>
-                                        <span id="review_time"><%# Eval("PostedDate") %></span>
+                                        <span style="color: initial;" id="review_time"><%# Eval("PostedDate") %></span>
                                     </div>
                                 </div>
                             </div>

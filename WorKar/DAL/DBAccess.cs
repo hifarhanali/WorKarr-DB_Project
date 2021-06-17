@@ -550,6 +550,7 @@ namespace WorKar.DAL
                 cmd.Parameters.AddWithValue("@Description", user.description);
                 cmd.Parameters.AddWithValue("@Availability", user.availability);
                 cmd.Parameters.AddWithValue("@CategoryID", user.categoryID);
+                cmd.Parameters.AddWithValue("@Country", user.User_Country);
                 if (String.IsNullOrEmpty(user.User_Password) == false)
                 {
                     cmd.Parameters.AddWithValue("@password", user.User_Password);
@@ -794,6 +795,35 @@ namespace WorKar.DAL
                 if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
         }
+
+
+        // to insert new gig and return GigID
+        public void Insert_User_Gig_View(string storedProcedureName, int HostUserID, int visitUserID, DateTime visitedDate, int GigID)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand(storedProcedureName, con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // set parameters
+                cmd.Parameters.AddWithValue("@HostUserID", HostUserID);
+                cmd.Parameters.AddWithValue("@VisitUserID", visitUserID);
+                cmd.Parameters.AddWithValue("@VisitedDate", visitedDate);
+                cmd.Parameters.AddWithValue("@GigID", GigID);
+  
+                con.Open();
+                cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
+            }
+        }
+
 
     }
 }

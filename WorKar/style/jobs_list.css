@@ -516,3 +516,9 @@ a {
     color: inherit;
     outline: none;
 }
+
+
+.gig_rating_display p, .gig_rating_display p i{
+    font-size: 18px !important;
+    color: rgb(255, 216, 0);
+}

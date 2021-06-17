@@ -96,11 +96,11 @@
                 var gigs = xml.find("Table1");
 
                 $("#divGigs").empty();              // to clear previous data
-
-
-                for (var i = 0; i < gigs.length; ++i) {
+                for (var i = 0; i < gigs.length; ++i)
+                {
                     var template;
                     if (isSearchForGig) {
+                        let tempRating = gigs[i].getElementsByTagName("GigRating")[0].childNodes[0].nodeValue;
                         var gig =
                         {
                             GigID: gigs[i].getElementsByTagName("GigID")[0].childNodes[0].nodeValue,
@@ -110,7 +110,8 @@
                             PostedDate: gigs[i].getElementsByTagName("PostedDate")[0].childNodes[0].nodeValue,
                             Description: gigs[i].getElementsByTagName("Description")[0].childNodes[0].nodeValue,
                             Amount: gigs[i].getElementsByTagName("Amount")[0].childNodes[0].nodeValue,
-                            Category: gigs[i].getElementsByTagName("Category")[0].childNodes[0].nodeValue
+                            Category: gigs[i].getElementsByTagName("Category")[0].childNodes[0].nodeValue,
+                            Rating: tempRating == 0 ? "Not Rated" : tempRating
                         };
 
                         template = get_gig_template(gig);
@@ -198,8 +199,11 @@
                                  <p>" + gig.Description + "</p> \
                               </div> \
                         </a> \
-                        <div class=\"bottom-sec job-category\"> \
+                        <div class=\"bottom-sec job-category\" style=\"display:flex; justify-content: space-between;\"> \
                             <div class=\"category\">" + gig.Category + "</div> \
+                            <div class=\"gig_rating_display\"> \
+                                <p>"+ (gig.Rating == "Not Rated" ? "<i class=\"far fa-star\"></i> " : "<i class=\"fas fa-star\"></i> ") + gig.Rating + "</p> \
+                            </div> \
                         </div> \
                         </div> \
                 </div>";
@@ -224,6 +228,8 @@
 
                     </asp:DropDownList>
                 </div>
+
+                <!--Countries drop down list-->
                 <div class="countries-ddl-container dropdown-style">
                     <select id="countryId" onchange="showGigs()" name="countryId">
                         <option value="none">Country</option>

@@ -19,7 +19,6 @@ namespace WorKar
 {
     public partial class WebForm8 : System.Web.UI.Page
     {
-        private static int PORT = 587;      // for email 
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -68,6 +67,26 @@ namespace WorKar
             {
                 selectedListItem.Selected = true;
             }
+
+            // to select country
+            string countryName = user_info["country"].ToString();
+            if (String.IsNullOrEmpty(countryName))
+            {
+                countryId.Items.FindByValue("none").Selected = true;
+            }
+            else
+            {
+                selectedListItem = countryId.Items.FindByValue(countryName);
+                if (selectedListItem != null)
+                {
+                    selectedListItem.Selected = true;
+                }
+                else
+                {
+                    countryId.Items.FindByValue("none").Selected = true;
+                }
+            }
+
 
             // select gender
             if (!DBNull.Value.Equals(user_info["Gender"]))
@@ -152,6 +171,7 @@ namespace WorKar
             user.User_LastName = edit_lastname.Value.ToString().Trim();
             user.availability = Convert.ToBoolean(flexSwitchCheckDefault.Checked);
             user.categoryID = (int)Convert.ToInt32(ddlCategories.SelectedValue.ToString().Trim());
+            user.User_Country = countryId.Items[countryId.SelectedIndex].Value.ToString().Trim();
             user.description = edit_description.Value;
             user.User_Username = Session["username"].ToString();
             if (Male_radioBtn.Checked == true)
@@ -195,6 +215,7 @@ namespace WorKar
         }
 
 
+        // send user email to our website email
         [System.Web.Services.WebMethod]
         public static bool Send_Contact_Message(string fromEmail, string contactPassword, string fromName ,string contactMessage)
         {
@@ -209,7 +230,7 @@ namespace WorKar
 
                 string subject = "WorKarr Contact Email";
                 message.BodyEncoding = Encoding.UTF8;
-                var client = new SmtpClient("smtp.gmail.com", PORT)
+                var client = new SmtpClient(smtpSection.Network.Host, smtpSection.Network.Port)
                 {
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(fromEmail, contactPassword),
@@ -224,7 +245,6 @@ namespace WorKar
             {
                 return false;
             }
-
         }
 
     }

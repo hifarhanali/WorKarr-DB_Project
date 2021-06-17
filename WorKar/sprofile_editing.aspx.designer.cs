@@ -96,13 +96,13 @@ namespace WorKar
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator_LName;
 
         /// <summary>
-        /// edit_email control.
+        /// countryId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText edit_email;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect countryId;
 
         /// <summary>
         /// Male_radioBtn control.
@@ -139,6 +139,15 @@ namespace WorKar
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText edit_username;
+
+        /// <summary>
+        /// edit_email control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText edit_email;
 
         /// <summary>
         /// edit_description control.

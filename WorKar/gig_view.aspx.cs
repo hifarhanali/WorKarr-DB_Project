@@ -14,7 +14,7 @@ namespace WorKar
     public partial class gig_view : System.Web.UI.Page
     {
         private static int GigID = 0;
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["username"] == null)
@@ -23,16 +23,33 @@ namespace WorKar
             }
             else
             {
-                if(Request.QueryString["GigID"] == null)
+                if (!IsPostBack)
                 {
-                    Response.Redirect("~/smy_gigs.aspx");
+                    if (Request.QueryString["GigID"] == null)
+                    {
+                        Response.Redirect("~/smy_gigs.aspx");
+                    }
+                    GigID = (int)Convert.ToInt32(Request.QueryString["GigID"]);            // gig id
+
+                    Update_User_Gig_Views();            // to update user gig views
+                    Bind_Gig_Detail();                  // load gig detail
+                    Bind_User_Detail();                 // load gig user detail
+                    Bind_Reviews_Detail();              // load reviews of gig
                 }
-                
-                GigID = (int)Convert.ToInt32(Request.QueryString["GigID"]);            // gig id
-                Bind_Gig_Detail();
-                Bind_User_Detail();
-                Bind_Reviews_Detail();
             }
+        }
+
+        // to update user gig views
+        private void Update_User_Gig_Views()
+        {
+            DBAccess db_user_gig_view = new DBAccess();
+            int hostUserID = (int)Convert.ToInt32(db_user_gig_view.Get_Execute_Scalar("SELECT UserID FROM Gig_user WHERE GigID=" + GigID));
+            int visitUserID = (int)Convert.ToInt32(db_user_gig_view.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + Session["username"].ToString() + "'"));
+
+            // if a user views his gig, it will not be counted
+            if (visitUserID == hostUserID) return;
+
+            db_user_gig_view.Insert_User_Gig_View("Insert_User_Gig_View", hostUserID, visitUserID, DateTime.Now, GigID);
         }
 
         // to bind specific gig of a user
@@ -84,6 +101,39 @@ namespace WorKar
             rptrReview_DetailID.DataBind();
         }
 
+        // to show stars
+        public string ShowStars(object stars)
+        {
+            string starsHtml = "";
+            Double rating = 0;
+            int starsCount = 0;
+            if (!String.IsNullOrEmpty(stars.ToString()))
+            {
+                rating = Convert.ToDouble(stars.ToString().Trim());
+                starsCount = (int)Convert.ToDouble(stars.ToString().Trim());
+            }
+
+            for (int i = 0; i < starsCount; ++i)
+            {
+                starsHtml += "<i class=\"fas fa-star\"></i>\n";
+            }
+
+            if ((rating - (Double)starsCount) >= 0.5)
+            {
+                starsHtml += "<i class=\"fas fa-star-half-alt\"></i>\n";
+                ++starsCount;
+            }
+
+            for (int i = starsCount; i < 5; ++i)
+            {
+                starsHtml += "<i class=\"far fa-star\"></i>\n";
+            }
+
+
+
+            return starsHtml;
+        }
+
         [System.Web.Services.WebMethod]
         public static int Is_Review_Sent(string numOfStars, string reviewMessage)
         {
@@ -101,7 +151,7 @@ namespace WorKar
             userOrderCount = Convert.ToInt32(db_review.Get_Execute_Scalar("SELECT COUNT(*) FROM [Order] WHERE FromUserID = " + userID));
 
             // if user has placed order
-            if(userOrderCount != 0)
+            if (userOrderCount != 0)
             {
                 int GigUserID = (int)Convert.ToInt32(db_review.Get_Execute_Scalar("SELECT GigUserID FROM Gig_user WHERE GigID=" + GigID));
 
@@ -117,20 +167,20 @@ namespace WorKar
                 int reviewID = db_review.Insert_Review("Insert_Review", (int)Convert.ToInt32(numOfStars), reviewMessage, userID, DateTime.Now);
                 db_review.Insert_User_Review("Insert_User_Review", reviewID, GigUserID);
                 return 1;
-            }            
+            }
             return 2;
         }
 
         [System.Web.Services.WebMethod]
         public static int Is_Correct_Card_Details(string nameOnCard, string accountNum, string expiryDate, string cvs, string orderDescription, string duration, string amount)
         {
-            DAL.DBAccess db_card_detail_count = new DBAccess(); 
-            if(db_card_detail_count.Card_Detail_Match_Count("Card_Detail_Match_Count", nameOnCard, accountNum, expiryDate, cvs) > 0)
+            DAL.DBAccess db_card_detail_count = new DBAccess();
+            if (db_card_detail_count.Card_Detail_Match_Count("Card_Detail_Match_Count", nameOnCard, accountNum, expiryDate, cvs) > 0)
             {
                 int balance = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT balance FROM Card_Detail WHERE AccountNumber='" + accountNum + "'"));
 
                 // not sufficient balance
-                if(balance < (int)Convert.ToInt32(amount))
+                if (balance < (int)Convert.ToInt32(amount))
                 {
                     return 3;
                 }
@@ -138,7 +188,7 @@ namespace WorKar
                 // decrease balance in credit card
                 db_card_detail_count.Execute_Non_Query("UPDATE Card_Detail SET Balance=Balance-" + (int)Convert.ToInt32(amount) + " WHERE  AccountNumber='" + accountNum + "'");
 
-                if(GigID != 0)
+                if (GigID != 0)
                 {
                     int days = (int)Convert.ToInt32(duration.Trim());
                     DateTime startingDate = DateTime.Now;

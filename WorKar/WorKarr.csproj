@@ -161,7 +161,6 @@
     <Content Include="job_view.aspx" />
     <Content Include="stransaction.aspx" />
     <Content Include="smy_gigs.aspx" />
-    <Content Include="sjobs_list.aspx" />
     <Content Include="sprofile_editing.aspx" />
     <Content Include="sgig_creation.aspx" />
     <Content Include="smy_jobs.aspx" />
@@ -423,13 +422,6 @@
     </Compile>
     <Compile Include="smy_gigs.aspx.designer.cs">
       <DependentUpon>smy_gigs.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="sjobs_list.aspx.cs">
-      <DependentUpon>sjobs_list.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="sjobs_list.aspx.designer.cs">
-      <DependentUpon>sjobs_list.aspx</DependentUpon>
     </Compile>
     <Compile Include="Terms_Conditions.aspx.cs">
       <DependentUpon>Terms_Conditions.aspx</DependentUpon>
