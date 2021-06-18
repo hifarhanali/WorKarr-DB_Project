@@ -89,6 +89,11 @@
                             <i class="fal fa-credit-card"></i>
                             <p>Payment</p>
                         </li></asp:LinkButton>
+                        <asp:LinkButton ID="hyperlink_logoutID" OnClick="hyperlink_logoutID_Click" runat="server"><li>
+                            <i class="far fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </li></asp:LinkButton>
+
                     </ul>
                 </div>
             </div>

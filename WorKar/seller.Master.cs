@@ -75,5 +75,14 @@ namespace WorKar
         {
             Response.Redirect("sorders_list.aspx");
         }
+
+        protected void hyperlink_logoutID_Click(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Session.RemoveAll();
+            Response.Cookies.Clear();
+            Response.Cache.SetNoStore();
+            Response.Redirect("Home.aspx");
+        }
     }
 }

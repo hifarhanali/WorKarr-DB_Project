@@ -261,8 +261,6 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="script\buyer_bar_chart.js" />
-    <Content Include="script\buyer_pie_chart.js" />
     <Content Include="script\left_right.js" />
     <Content Include="signup.aspx" />
     <Content Include="style\buyer_dashboard.css" />
