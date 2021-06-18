@@ -421,8 +421,7 @@
                             <div class="user-bio">
                                 <img src="/<%#Eval(" UserPhoto ") %>" style="width: 80px; height: 80px; border-radius: 50%;" alt="profile-avatar" />
                                 <h5>
-                                    <%# Eval(
-"UserFName") + " " + Eval("UserLName") %>
+                                    <%# Eval("UserFName") + " " + Eval("UserLName") %>
                                 </h5>
                                 <p>
                                     <%#Eval("UserCategory") %>
@@ -473,8 +472,13 @@
                                     </div>
                                 </div>
                             </div>
-
                         </ItemTemplate>
+                        <FooterTemplate>
+                            <div style="text-align: center;">
+                                <asp:Label ID="No_Review_Error" runat="server"
+                                    Visible='<%# rptrReview_DetailID.Items.Count == 0 %>' Text="No User Review" />
+                            </div>
+                        </FooterTemplate>
                     </asp:Repeater>
                 </div>
             </section>
