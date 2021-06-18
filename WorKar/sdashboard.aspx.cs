@@ -14,7 +14,31 @@ namespace WorKar
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["username"] == null)
+            {
+                Response.Redirect("login.aspx");
+            }
+            else
+            {
+                if (!IsPostBack)
+                {
+                    Load_user_Summary();
+                    Bind_Order_Detail();
+                }
+            }
+        }
 
+
+        // load user summary report
+        private void Load_user_Summary()
+        {
+            DAL.DBAccess db_user_summary = new DBAccess();
+
+            // get user id 
+            int UserID = (int)Convert.ToInt32(db_user_summary.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
+
+            rptr_user_summary.DataSource = db_user_summary.Get_User_Summary("Get_User_Summary", UserID);
+            rptr_user_summary.DataBind();
         }
 
 
@@ -25,8 +49,8 @@ namespace WorKar
             DataSet set = new DataSet();
             DAL.DBAccess db_user_views_summary = new DBAccess();
 
-           // get user id 
-           int UserID = (int)Convert.ToInt32(db_user_views_summary.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
+            // get user id 
+            int UserID = (int)Convert.ToInt32(db_user_views_summary.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
 
             // get user views week days summary 
             DataTable table = db_user_views_summary.Get_User_View_Week_Days_Summary("Get_User_View_Week_Days_Summary", UserID);
@@ -40,5 +64,32 @@ namespace WorKar
             return set.GetXml();
         }
 
+
+        // to handle null values
+        public string Handle_SQL_NULL(object myObject)
+        {
+            if (DBNull.Value.Equals(myObject))
+            {
+                return "0";
+            }
+            return myObject.ToString();
+        }
+
+        // load Order history
+        private void Bind_Order_Detail()
+        {
+            DAL.DBAccess db_order_detail = new DAL.DBAccess();
+            DataTable orders = db_order_detail.Get_Order_History("Get_Order_History", Session["username"].ToString());
+            rptrOrder_detail.DataSource = orders;
+            rptrOrder_detail.DataBind();
+        }
+
+
+
+        public string Get_Date(object myValue)
+        {
+            char[] seprator = { ' ' };
+            return myValue.ToString().Split(seprator)[0];
+        }
     }
 }
