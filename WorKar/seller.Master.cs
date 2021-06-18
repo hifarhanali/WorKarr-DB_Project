@@ -82,7 +82,7 @@ namespace WorKar
             Session.RemoveAll();
             Response.Cookies.Clear();
             Response.Cache.SetNoStore();
-            Response.Redirect("Home.aspx");
+            Response.Redirect("~/login.aspx");
         }
     }
 }
