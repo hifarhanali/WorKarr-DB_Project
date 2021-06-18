@@ -135,9 +135,9 @@ BEGIN
 END
 GO
 EXEC Get_Job_Detail
-@JobID = 1
+@JobID = 3
 GO
-SELECT * FROM GIG
+SELECT * FROM Job
 GO
 
 
@@ -277,11 +277,11 @@ CREATE PROCEDURE Get_Filtered_Jobs_Detail
 @searchText Varchar(500) = NULL
 AS
 BEGIN
-		DECLARE @result TABLE (UserPhoto VARCHAR(200) NULL, JobID INT, Title VARCHAR(100), [Description] VARCHAR(1200), Amount INT, Category VARCHAR(50), PostedDate DATETIME);
+		DECLARE @result TABLE (UserPhoto VARCHAR(200) NULL, JobID INT, Title VARCHAR(100), [Description] VARCHAR(1200), Amount INT, Category VARCHAR(50), PostedDate DATETIME, Duration INT);
 
 		-- store result in a variable
 		INSERT INTO @result
-		SELECT [User].Photo UserPhoto, Job.JobID, Title, Job.[Description], Amount, Category.[Name] AS Category, PostedDate
+		SELECT [User].Photo UserPhoto, Job.JobID, Title, Job.[Description], Amount, Category.[Name] AS Category, PostedDate, Job.Duration
 		FROM Job JOIN Job_user ON [dbo].[Job_user].JobID = [dbo].[Job].JobID
 		JOIN Category ON Category.CategoryID = Job.CategoryID
 		JOIN [dbo].[User] ON [dbo].[User].UserID = [dbo].[Job_user].UserID
@@ -673,19 +673,15 @@ DROP PROCEDURE IF EXISTS Insert_Order_Detail
 GO
 CREATE PROCEDURE Insert_Order_Detail
 @Description VARCHAR(1200),
-@FromUserName VARCHAR(50),
-@GigID INT,
+@FromUserID INT,
+@ToUserID INT,
 @StartingDate DATETIME,
 @EndingDate DATETIME, 
 @Amount INT,
 @Status VARCHAR(20) = 'Progressing',
 @ReturnValue BIT OUTPUT
 AS
-BEGIN
-	DECLARE @FromUserID INT = 0, @ToUserID INT = 0;
-	SELECT @FromUserID = (SELECT UserID FROM [User] WHERE Username=@FromUsername);
-	SELECT @ToUserID = (SELECT UserID FROM [Gig_user] WHERE GigId = @GigID);
-	
+BEGIN	
 	SET @ReturnValue = 0
 
 	IF @ToUserID <> @FromUserID
@@ -702,15 +698,15 @@ GO
 DECLARE @myReturnValue BIT
 EXEC Insert_Order_Detail 
 @Description = 'Nice',
-@FromUserName = 'FaisalQuraishi19',
-@GigID = 66,
+@FromUserID = 19,
+@ToUserID = 17,
 @StartingDate = '2021-09-15',
 @EndingDate = '2021-12-16',
 @Amount = 400,
 @ReturnValue = @myReturnValue Output
 SELECT @myReturnValue
 GO
-
+ 
 
 
 -- to insert a new card detail
