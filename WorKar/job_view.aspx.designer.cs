@@ -24,6 +24,15 @@ namespace WorKar
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// get_job_msg_div control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl get_job_msg_div;
+
+        /// <summary>
         /// rptrJob_DetailID control.
         /// </summary>
         /// <remarks>

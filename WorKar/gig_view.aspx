@@ -349,9 +349,7 @@
                                         <i class="fas fa-clock"></i>
                                         <p>
                                             Delivery in
-                                              
                                             <strong id="duration_days"><%# Eval("Duration") %></strong> Days
-                                       
                                         </p>
                                     </div>
 

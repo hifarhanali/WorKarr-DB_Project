@@ -64,5 +64,30 @@ namespace WorKar
             rptrUser_DetailID.DataSource = user_detail;
             rptrUser_DetailID.DataBind();
         }
+
+        // to get job
+        [System.Web.Services.WebMethod]
+        public static bool Get_Job(string description, string duration, string amount)
+        {
+            if (JobID == 0) return false;
+
+            try
+            {
+                DBAccess db_get_job = new DBAccess();
+                int fromUserID = (int)Convert.ToInt32(db_get_job.Get_Execute_Scalar("SELECT UserID FROM Job_User WHERE JobID=" + JobID));
+                int toUserID = (int)Convert.ToInt32(db_get_job.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
+                int days = (int)Convert.ToInt32(duration.Trim());
+                DateTime startingDate = DateTime.Now;
+                DateTime endingDate = DateTime.Now.AddDays(days);
+
+
+                return db_get_job.Insert_Order_Detail("Insert_Order_Detail", toUserID, (int) Convert.ToInt32(amount), startingDate, endingDate, fromUserID, description);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }

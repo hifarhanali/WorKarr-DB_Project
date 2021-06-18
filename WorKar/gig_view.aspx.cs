@@ -190,11 +190,14 @@ namespace WorKar
 
                 if (GigID != 0)
                 {
+                    int toUserID = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT UserID FROM Gig_user WHERE GigID=" + GigID));
+                    int fromUserID = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
+
                     int days = (int)Convert.ToInt32(duration.Trim());
                     DateTime startingDate = DateTime.Now;
                     DateTime endingDate = DateTime.Now.AddDays(days);
 
-                    return (int)Convert.ToInt32(db_card_detail_count.Insert_Order_Detail("Insert_Order_Detail", GigID, (int)Convert.ToInt32(amount.Trim()), startingDate, endingDate, HttpContext.Current.Session["username"].ToString(), orderDescription));
+                    return (int)Convert.ToInt32(db_card_detail_count.Insert_Order_Detail("Insert_Order_Detail", toUserID, (int)Convert.ToInt32(amount.Trim()), startingDate, endingDate, fromUserID, orderDescription));
                 }
             }
             return 2;

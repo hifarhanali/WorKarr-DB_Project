@@ -712,7 +712,7 @@ namespace WorKar.DAL
         }
 
         // to insert detail of new order
-        public bool Insert_Order_Detail(string storedProcedureName, int GigID, int price, DateTime startingDate, DateTime endingDate, string fromUserName, string description)
+        public bool Insert_Order_Detail(string storedProcedureName, int ToUserID, int price, DateTime startingDate, DateTime endingDate, int fromUserID, string description)
         {
             bool returnValue = false;
             try
@@ -722,8 +722,8 @@ namespace WorKar.DAL
 
                 // set parameters
                 cmd.Parameters.AddWithValue("@Description", description);
-                cmd.Parameters.AddWithValue("@FromUserName", fromUserName);
-                cmd.Parameters.AddWithValue("@GigID", GigID);
+                cmd.Parameters.AddWithValue("@FromUserID", fromUserID);
+                cmd.Parameters.AddWithValue("@ToUserID", ToUserID);
                 cmd.Parameters.AddWithValue("@StartingDate", startingDate);
                 cmd.Parameters.AddWithValue("@EndingDate", endingDate);
                 cmd.Parameters.AddWithValue("@Amount", price);
