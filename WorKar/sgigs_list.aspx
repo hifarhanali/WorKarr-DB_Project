@@ -122,6 +122,7 @@
                             JobID: gigs[i].getElementsByTagName("JobID")[0].childNodes[0].nodeValue,
                             UserPhoto: gigs[i].getElementsByTagName("UserPhoto")[0].childNodes[0].nodeValue,
                             Title: gigs[i].getElementsByTagName("Title")[0].childNodes[0].nodeValue,
+                            Duration: gigs[i].getElementsByTagName("Duration")[0].childNodes[0].nodeValue,
                             PostedDate: gigs[i].getElementsByTagName("PostedDate")[0].childNodes[0].nodeValue,
                             Description: gigs[i].getElementsByTagName("Description")[0].childNodes[0].nodeValue,
                             Amount: gigs[i].getElementsByTagName("Amount")[0].childNodes[0].nodeValue,
@@ -148,6 +149,11 @@
             // return a job template
             function get_job_template(job)
             {
+                let date = job.PostedDate.split('T')[0].split('-');
+                let year = date[0];
+                let month = date[1];
+                let day = date[2];
+
                 return "<div class=\"job\" style=\"height:245px;\" id='" + job.JobID + "' > \
                     <a href=\"job_view.aspx?JobID=" + job.JobID + "\"> \
                                              <div class=\"div-content-sec\"> \
@@ -158,7 +164,7 @@
                                                      <div class=\"job-title\"> \
                                                          <h2>" + job.Title + "</h2> \
                                     <div class=\"posted-time\"> \
-                                       <p>" + job.PostedDate + "</p> \
+                                       <p>" + year + "/" + month + "/" + day + "</p> \
                                     </div> \
                                  </div> \
                                  <p>Rs. " + job.Amount + "</p> \
@@ -167,8 +173,9 @@
                                  <p>" + job.Description + "</p> \
                               </div> \
                         </a> \
-                        <div class=\"bottom-sec job-category\"> \
+                        <div class=\"bottom-sec job-category\" style=\"justify-content: space-between;\"> \
                             <div class=\"category\">" + job.Category + "</div> \
+                            <div style=\"font-weight: bold;\">" + job.Duration + " Days</div>\
                         </div> \
                         </div> \
                 </div>";
@@ -177,6 +184,11 @@
 
             // return a gig template
             function get_gig_template(gig) {
+                let date = gig.PostedDate.split('T')[0].split('-');
+                let year = date[0];
+                let month = date[1];
+                let day = date[2];
+
                 return "<div class=\"job\" id='" + gig.GigID + "' > \
                     <a href=\"gig_view.aspx?GigID=" + gig.GigID + "\"> \
                                              <div class='gig-img-container'> \
@@ -190,7 +202,7 @@
                                                      <div class=\"job-title\"> \
                                                          <h2>" + gig.Title + "</h2> \
                                     <div class=\"posted-time\"> \
-                                       <p>" + gig.PostedDate + "</p> \
+                                       <p>" + year + "/" + month + "/" + day + "</p> \
                                     </div> \
                                  </div> \
                                  <p>Rs. " + gig.Amount + "</p> \
