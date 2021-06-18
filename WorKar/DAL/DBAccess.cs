@@ -602,7 +602,7 @@ namespace WorKar.DAL
 
 
         // get order history of a user
-        public DataTable Get_Order_History(string storedProcedureName, string username, string status = null, int isPostedOrders = -1)
+        public DataTable Get_Order_History(string storedProcedureName, string username, string status = null, int isPostedOrders = -1, int TOTAL_ORDERS = -1)
         {
             DataTable table = new DataTable();
             try
@@ -621,6 +621,12 @@ namespace WorKar.DAL
                     {
                         cmd.Parameters.AddWithValue("@IsPostedOrders", Convert.ToBoolean(isPostedOrders));
                     }
+
+                    if (TOTAL_ORDERS != -1)
+                    {
+                        cmd.Parameters.AddWithValue("@TotalOrders", TOTAL_ORDERS);
+                    }
+
 
                     con.Open();
 

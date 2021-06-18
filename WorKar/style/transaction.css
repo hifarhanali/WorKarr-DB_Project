@@ -57,7 +57,7 @@
     }
 
 .order {
-    grid-template-columns: 2fr 1fr 1fr 1fr !important;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr !important;
 }
 
     .order .user-info-container img {
@@ -80,6 +80,25 @@
         display: flex;
         align-items: center;
     }
+
+    .order .order-type {
+        text-align: center !important;
+        padding: 10px !important;
+        width: 70%;
+        border-radius: 5px;
+        -webkit-box-shadow: 0px 0px 5px lightgray;
+        box-shadow: 0px 0px 5px lightgray;
+    }
+
+    .order .Send {
+        color: white !important;
+        background-color: green;
+    }
+    .order .Recieve {
+        background-color: yellow;
+    }
+
+
 
         .transaction .transaction-type span,
         .order .order-status-container span {

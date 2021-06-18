@@ -17,7 +17,6 @@
                     <asp:Repeater ID="rptrTransaction_detail" runat="server">
                         <HeaderTemplate>
                             <h2 class="heading-margin">Transaction History</h2>
-
                         </HeaderTemplate>
 
                         <ItemTemplate>
@@ -34,6 +33,12 @@
                                 </div>
                             </div>
                         </ItemTemplate>
+                        <FooterTemplate>
+                            <div style="text-align: center;">
+                            <asp:Label ID="No_Transaction_History_Error" runat="server"
+                                Visible='<%# rptrTransaction_detail.Items.Count == 0 %>' Text="No Transaction History" />
+                            </div>
+                        </FooterTemplate>
                     </asp:Repeater>
 
                     <asp:Repeater ID="rptrOrder_detail" runat="server">
@@ -46,6 +51,10 @@
                                     <img id="user_photo" src="<%# Eval("UserPhoto") %>" />
                                     <a href="#"><%# Eval("UserFullname") %></a>
                                 </div>
+                                <div class="order-type <%# Eval("OrderType") %>">
+                                    <%# Eval("OrderType") %>
+                                </div>
+
                                 <p>Rs. <%# Eval("Amount") %></p>
                                 <p><%# Get_Date(Eval("StartingDate")) %></p>
                                 <div class="order-status-container">
@@ -56,6 +65,10 @@
                             </div>
                         </ItemTemplate>
                         <FooterTemplate>
+                            <div style="text-align: center;">
+                                <asp:Label ID="No_Order_History_Error" runat="server"
+                                    Visible='<%# rptrOrder_detail.Items.Count == 0 %>' Text="No Order History" />
+                            </div>
                             <div style="height: 100px;"></div>
                         </FooterTemplate>
                     </asp:Repeater>

@@ -58,6 +58,7 @@ function drawBarChart(id, data, chartType) {
         data: {
             labels: labels,
             datasets: [{
+                label: 'Orders On Week Days',
                 data: data,
                 backgroundColor: [
                     'rgba(240, 255, 0, 0.6)',
@@ -81,16 +82,11 @@ function drawBarChart(id, data, chartType) {
             }]
         },
         options: {
-            legend: {
-                display: false
-            },
-            title: {
-                display: true
-            },
             scales: {
                 yAxes: [{
                     ticks: {
-                        min: 0
+                        beginAtZero: true,   // minimum value will be 0.
+                        suggestedMax: get_maximum(data) + 1
                     }
                 }]
             },

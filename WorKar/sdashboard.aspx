@@ -75,7 +75,7 @@
 
                     <!-- mid lower Container -->
                     <div class="mid-lower-container">
-                        <h3>Overview</h3>
+                        <h3>Profile Overview</h3>
                         <div class="chart-container">
                             <canvas id="line-chart"></canvas>
                         </div>
@@ -128,7 +128,7 @@
                     <div class="left-inner-container">
                         <!--chart/statistics-->
                         <div class="chart-outer-container">
-                            <h3>Spending Activity</h3>
+                            <h3>Orders Statistics</h3>
                             <div class="chart-container">
                                 <canvas id="bar-chart"></canvas>
                             </div>
@@ -141,7 +141,7 @@
                 <div class="most-bottom-container">
                     <asp:Repeater ID="rptrOrder_detail" runat="server">
                         <HeaderTemplate>
-                            <h2 class="heading-margin">Order History</h2>
+                            <h2 class="heading-margin">Recent Activities</h2>
                         </HeaderTemplate>
                         <ItemTemplate>
                             <div class="order">
@@ -149,6 +149,10 @@
                                     <img id="user_photo" src="<%# Eval("UserPhoto") %>" />
                                     <a href="#"><%# Eval("UserFullname") %></a>
                                 </div>
+                                <div class="order-type <%# Eval("OrderType") %>">
+                                    <%# Eval("OrderType") %>
+                                </div>
+
                                 <p>Rs. <%# Eval("Amount") %></p>
                                 <p><%# Get_Date(Eval("StartingDate")) %></p>
                                 <div class="order-status-container">
@@ -159,6 +163,10 @@
                             </div>
                         </ItemTemplate>
                         <FooterTemplate>
+                            <div style="text-align: center;">
+                                <asp:Label ID="No_Order_History_Error" runat="server"
+                                    Visible='<%# rptrOrder_detail.Items.Count == 0 %>' Text="No Order History" />
+                            </div>
                             <div style="height: 100px;"></div>
                         </FooterTemplate>
                     </asp:Repeater>

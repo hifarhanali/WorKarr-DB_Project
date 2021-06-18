@@ -22,8 +22,8 @@ namespace WorKar
             {
                 if (!IsPostBack)
                 {
-                    Load_user_Summary();
-                    Bind_Order_Detail();
+                    Load_user_Summary();                // load user summary
+                    Bind_Order_Detail();                // load recent activities
                 }
             }
         }
@@ -79,7 +79,10 @@ namespace WorKar
         private void Bind_Order_Detail()
         {
             DAL.DBAccess db_order_detail = new DAL.DBAccess();
-            DataTable orders = db_order_detail.Get_Order_History("Get_Order_History", Session["username"].ToString());
+
+            const int TOTAL_ORDERS = 5;         // load history of only for orders
+
+            DataTable orders = db_order_detail.Get_Order_History("Get_Order_History", Session["username"].ToString(), null, -1, TOTAL_ORDERS);
             rptrOrder_detail.DataSource = orders;
             rptrOrder_detail.DataBind();
         }
