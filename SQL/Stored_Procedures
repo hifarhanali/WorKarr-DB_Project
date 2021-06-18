@@ -10,9 +10,6 @@ CREATE PROCEDURE Insert_User
 @email varchar(60),
 @password varchar(50),
 @username varchar(50),
-@numoforders INT = 0,
-@rating DECIMAL(2, 1) = 0,
-@earnings INT = 0,
 @description VARCHAR(600) = NULL,
 @availability BIT = 1,
 @categoryID INT = NULL,
@@ -23,7 +20,7 @@ CREATE PROCEDURE Insert_User
 AS
 BEGIN
 INSERT INTO [User]
-VALUES (@fName, @lName, @gender, @email, @password, @username, @numoforders, @rating, @earnings, @description, @availability, @categoryID, @guid, @isValidEmail, @Photo, @Country);
+VALUES (@fName, @lName, @gender, @email, @password, @username, @description, @availability, @categoryID, @guid, @isValidEmail, @Photo, @Country);
 END
 
 
@@ -678,3 +675,31 @@ BEGIN
 	INSERT INTO User_Review VALUES (@ReviewID, @GigUserID);
 END
 GO
+
+
+
+
+-- to get user summary 
+
+DROP PROCEDURE IF EXISTS Get_User_Summary
+GO
+CREATE PROCEDURE Get_User_Summary
+@UserID INT
+AS
+BEGIN
+	SELECT U.userID, MONTH(GETDATE()) CurrMonth,
+	(SELECT SUM(O.Amount) FROM [dbo].[Order] O WHERE O.ToUserID = @UserID AND O.[Status] = 'Completed') Earnings,
+	(SELECT SUM(O.Amount) FROM [dbo].[Order] O WHERE O.ToUserID = @UserID AND O.[Status] = 'Completed' AND MONTH(O.StartingDate) =  MONTH(GETDATE()) AND YEAR(O.StartingDate) =  YEAR(GETDATE())) CurrentMonthIncome,
+	(SELECT SUM(O.Amount)/COUNT(*) FROM [dbo].[Order] O  WHERE O.ToUserID = @UserID AND O.[Status] = 'Completed') AvgSellingPrice,
+	(SELECT COUNT(*) FROM [dbo].[Order] O WHERE O.ToUserID = @UserID AND O.Status = 'Progressing') ActiveOrders,
+	(SELECT COUNT(*) FROM [dbo].[Order] O WHERE O.ToUserID = @UserID) TotalOrders,
+	(SELECT COUNT(*) FROM [dbo].[Order] O WHERE O.ToUserID = @UserID AND O.Status = 'Completed') CompletedOrders,
+	(SELECT COUNT(*) FROM [dbo].[Order] O WHERE O.ToUserID = @UserID AND O.Status = 'Cancelled') CancelledOrders	
+	FROM [dbo].[User] U
+	WHERE U.UserID = @UserID
+END
+GO
+EXEC Get_User_Summary
+@USerID = 19
+
+
