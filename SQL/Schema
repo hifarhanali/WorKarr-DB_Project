@@ -40,9 +40,6 @@ Email					VARCHAR(60)			Not NULL UNIQUE CHECK (Email LIKE '_%@_%._%'),
 [Password]				VARCHAR(50)			NOT NULL, CHECK(len([Password])>= 8),
 Username				VARCHAR(50)			NOT NULL UNIQUE,
 ---seller stuff 
-NumOrders				INT					DEFAULT 0,
-Rating					DECIMAL(2, 1)		DEFAULT 0	CHECK (Rating BETWEEN 0 AND 5),
-Earnings				INT					NOT NULL	CHECK(Earnings >= 0) DEFAULT 0,
 [Description]			VARCHAR(600)		NULL	Default NULL,
 [Availability]			BIT					NOT NULL DEFAULT 1,
 CategoryID				INT			 	    CONSTRAINT USER_FK_CATEGORY FOREIGN KEY REFERENCES Category(CategoryID) ON DELETE NO ACTION ON UPDATE CASCADE,
@@ -182,31 +179,20 @@ ExpiryDate			DATE
 )
 GO
 
--- to insert a new card detail
-DROP PROCEDURE  IF EXISTS Insert_Card_Detail
+
+-- to store views of a user gig
+DROP TABLE IF EXISTS User_Gig_View
 GO
-CREATE PROCEDURE Insert_Card_Detail
-@NameOnCard			VARCHAR(200),
-@AccountNumber		CHAR(20),
-@CVV				CHAR(3),
-@Balance			INT	= 0,
-@ExpiryDate			DATETIME
-AS 
-BEGIN
-	INSERT INTO Card_Detail VALUES (@NameOnCard, @AccountNumber, @CVV, @Balance, @ExpiryDate)
-END
+CREATE TABLE User_Gig_View(
+ViewID				INT			IDENTITY(1,1) PRIMARY KEY,
+HostUserID			INT			NOT NULL CONSTRAINT HOST_USERGIGVIEW_FK__USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE NO ACTION ON UPDATE NO ACTION,
+VisitUserID			INT			NOT NULL CONSTRAINT VISIT_USERGIGVIEW_FK__USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE NO ACTION ON UPDATE NO ACTION,
+VisitedDate			DATETIME	NOT NULL,
+GigID				INT			Not NUll CONSTRAINT USERGIGVIEW_FK_GIG FOREIGN KEY REFERENCES Gig(GigID) ON DELETE CASCADE ON UPDATE CASCADE
+)
 GO
 
--- to find count of match card details
-DROP PROCEDURE  IF EXISTS Card_Detail_Match_Count
-GO
-CREATE PROCEDURE Card_Detail_Match_Count
-@NameOnCard			VARCHAR(200),
-@AccountNumber		CHAR(20),
-@CVV				CHAR(3),
-@ExpiryDate			DATETIME
-AS 
-BEGIN
-	SELECT COUNT(*) FROM Card_Detail WHERE NameOnCard=@NameOnCard AND AccountNumber=@AccountNumber AND CVV=@CVV AND ExpiryDate=@ExpiryDate
-END
+
+SELECT * FROM [User]
+SELECT * FROM User_Gig_View
 GO

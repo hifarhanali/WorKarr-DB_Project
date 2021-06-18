@@ -1,6 +1,8 @@
 USE WorKarr_db
 GO
 
+
+-- to insert a new user detail 
 DROP PROCEDURE IF EXISTS Insert_User
 GO
 CREATE PROCEDURE Insert_User
@@ -10,6 +12,9 @@ CREATE PROCEDURE Insert_User
 @email varchar(60),
 @password varchar(50),
 @username varchar(50),
+@numoforders INT = 0,
+@rating DECIMAL(2, 1) = 0,
+@earnings INT = 0,
 @description VARCHAR(600) = NULL,
 @availability BIT = 1,
 @categoryID INT = NULL,
@@ -20,7 +25,7 @@ CREATE PROCEDURE Insert_User
 AS
 BEGIN
 INSERT INTO [User]
-VALUES (@fName, @lName, @gender, @email, @password, @username, @description, @availability, @categoryID, @guid, @isValidEmail, @Photo, @Country);
+VALUES (@fName, @lName, @gender, @email, @password, @username, @numoforders, @rating, @earnings, @description, @availability, @categoryID, @guid, @isValidEmail, @Photo, @Country);
 END
 
 
@@ -175,7 +180,7 @@ BEGIN
 
 		-- store result in a variable
 		INSERT INTO @result
-		SELECT [User].Photo UserPhoto, Gig.GigID, Title, Gig.[Description], Amount, Category.[Name] AS Category, PostedDate, [dbo].[GigImages].Image1
+		SELECT [User].Photo UserPhoto, Gig.GigID, Title, Gig.[Description], Amount, Category.[Name] AS Category, Gig.PostedDate, [dbo].[GigImages].Image1
 		FROM Gig JOIN Gig_user ON [dbo].[Gig_user].GigID = [dbo].[Gig].GigID
 		JOIN [dbo].[GigImages] ON [dbo].[GigImages].GigUserID = [dbo].[Gig_user].GigUserID
 		JOIN Category ON Category.CategoryID = Gig.CategoryID
@@ -191,25 +196,63 @@ BEGIN
 		BEGIN
 			IF @SortBy = 'Price'
 			BEGIN
-				SELECT * FROM @result ORDER BY Amount
-			END
-			ELSE IF @SortBy = 'Date'
-			BEGIN
-				SELECT * FROM @result ORDER BY PostedDate DESC				
-			END
-			ELSE
-			BEGIN
-				SELECT R.*, SUM(Stars)/COUNT(*) Rating FROM @result R
-				JOIN Gig_user ON Gig_user.GigID = R.GigID
+				SELECT R.*, 
+				CASE
+					WHEN CAST(SUM(Stars)/COUNT(*) AS DECIMAL(2, 1)) IS NULL THEN 0
+					ELSE CAST(SUM(Stars)/COUNT(*) AS DECIMAL(2, 1))
+				END
+					GigRating
+				FROM @result R
+				LEFT JOIN Gig_user ON Gig_user.GigID = R.GigID
 				LEFT JOIN User_Review ON User_Review.GigUserID = Gig_user.GigUserID
 				LEFT JOIN Review ON Review.ReviewID = User_Review.ReviewID
 				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1] 
-				ORDER BY Rating DESC
+				ORDER BY R.Amount
+			END
+			ELSE IF @SortBy = 'Date'
+			BEGIN
+				SELECT R.*, 
+				CASE
+					WHEN CAST(SUM(Stars)/COUNT(*) AS DECIMAL(2, 1)) IS NULL THEN 0
+					ELSE CAST(SUM(Stars)/COUNT(*) AS DECIMAL(2, 1))
+				END
+					GigRating
+				FROM @result R
+				LEFT JOIN Gig_user ON Gig_user.GigID = R.GigID
+				LEFT JOIN User_Review ON User_Review.GigUserID = Gig_user.GigUserID
+				LEFT JOIN Review ON Review.ReviewID = User_Review.ReviewID
+				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1] 
+				ORDER BY R.PostedDate DESC				
+			END
+			ELSE
+			BEGIN
+				SELECT R.*, 
+				CASE
+					WHEN CAST(SUM(Stars)/COUNT(*) AS DECIMAL(2, 1)) IS NULL THEN 0
+					ELSE CAST(SUM(Stars)/COUNT(*) AS DECIMAL(2, 1))
+				END
+					GigRating
+				FROM @result R
+				LEFT JOIN Gig_user ON Gig_user.GigID = R.GigID
+				LEFT JOIN User_Review ON User_Review.GigUserID = Gig_user.GigUserID
+				LEFT JOIN Review ON Review.ReviewID = User_Review.ReviewID
+				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1] 
+				ORDER BY GigRating DESC
 			END
 		END
 		ELSE
 		BEGIN
-			SELECT * FROM @result
+				SELECT R.*, 
+				CASE
+					WHEN CAST(SUM(Stars)/COUNT(*) AS DECIMAL(2, 1)) IS NULL THEN 0
+					ELSE CAST(SUM(Stars)/COUNT(*) AS DECIMAL(2, 1))
+				END
+					GigRating
+				FROM @result R
+				JOIN Gig_user ON Gig_user.GigID = R.GigID
+				LEFT JOIN User_Review ON User_Review.GigUserID = Gig_user.GigUserID
+				LEFT JOIN Review ON Review.ReviewID = User_Review.ReviewID
+				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1] 
 		END
 END
 GO
@@ -258,6 +301,10 @@ BEGIN
 			ELSE IF @SortBy = 'Date'
 			BEGIN
 				SELECT * FROM @result ORDER BY PostedDate DESC				
+			END
+			ELSE
+			BEGIN
+				SELECT * FROM @result
 			END
 		END
 		ELSE
@@ -459,7 +506,6 @@ EXEC Update_Job_Detail
 GO
 
 
-
 SELECT * FROM JOB_User
 
 -- to update a user detail
@@ -474,10 +520,11 @@ CREATE PROCEDURE Update_User_Detail
 @Description VARCHAR(600) = NULL,
 @Availability Bit,
 @CategoryID int,
-@Photo VARCHAR(100) = NULL
+@Photo VARCHAR(100) = NULL,
+@Country VARCHAR(100) = NULL
 AS
 BEGIN
-	Update [User] SET FName = @FName, LName = @LName, Gender = @Gender, [Description] = @Description, [Availability] = @Availability, CategoryID=@CategoryID WHERE Username=@Username;
+	Update [User] SET FName = @FName, LName = @LName, Gender = @Gender, [Description] = @Description, [Availability] = @Availability, CategoryID=@CategoryID, Country=@Country WHERE Username=@Username;
 	IF @Photo IS NOT NULL
 	BEGIN
 		Update [User] SET Photo=@Photo WHERE Username=@Username
@@ -500,7 +547,7 @@ EXEC Update_User_Detail
 @Photo = NULL
 GO
 
- 
+
 
 -- to get total credit of a user
 DROP PROCEDURE IF EXISTS Get_Total_Credit
@@ -533,23 +580,39 @@ EXEC Get_Total_Debit
 GO
 
 
-
+-- function to get order history 
+DROP FUNCTION IF EXISTS Order_History_Function
+GO
+CREATE FUNCTION Order_History_Function(@UserID INT, @Status VARCHAR(20) = NULL)
+RETURNS TABLE
+As
+	RETURN ((SELECT [Order].*, 'Send' OrderType, (SELECT Username FROM [User] WHERE [User].UserID=[Order].ToUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID=[Order].ToUserID) UserPhoto, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID=[Order].ToUserID) UserFullname  FROM [Order]
+	WHERE FromUserID = (@UserID) AND (@Status IS NULL OR [Order].[Status]= @Status)
+	UNION
+	SELECT [Order].*, 'Recieve' OrderType,  (SELECT Username FROM [User] WHERE [User].UserID=[Order].FromUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID=[Order].FromUserID) UserPhoto, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID=[Order].FromUserID) UserFullname  FROM [Order]
+	WHERE ToUserID = (@UserID) AND (@Status IS NULL OR [Order].[Status]= @Status)))
+GO
 
 -- to get order history of a user
 DROP PROCEDURE IF EXISTS Get_Order_History
 GO
 CREATE PROCEDURE Get_Order_History
 @Username VARCHAR(50),
-@Status varchar(20) = NULL
+@Status varchar(20) = NULL,
+@TotalOrders INT = NULL
 AS
 BEGIN
 	Declare @UserID INT = (SELECT UserID From [User] WHERE Username=@Username);
-	(SELECT [Order].*, (SELECT Username FROM [User] WHERE [User].UserID=[Order].ToUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID=[Order].ToUserID) UserPhoto, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID=[Order].ToUserID) UserFullname  FROM [Order]
-	WHERE FromUserID = (@UserID) AND (@Status IS NULL OR [Order].[Status]= @Status)
-	UNION
-	SELECT [Order].*, (SELECT Username FROM [User] WHERE [User].UserID=[Order].FromUserID) Username, (SELECT Photo FROM [User] WHERE [User].UserID=[Order].FromUserID) UserPhoto, (SELECT FName + ' ' + LName FROM [User] WHERE [User].UserID=[Order].FromUserID) UserFullname  FROM [Order]
-	WHERE ToUserID = (@UserID) AND (@Status IS NULL OR [Order].[Status]= @Status))
-	ORDER BY StartingDate DESC
+
+	IF @TotalOrders IS NULL
+	BEGIN
+		SELECT * FROM dbo.Order_History_Function(@UserID, @Status) ORDER BY StartingDate DESC
+	END
+	ELSE
+	BEGIN
+		SELECT TOP (@TotalOrders) * FROM dbo.Order_History_Function(@UserID, @Status)
+		ORDER BY StartingDate DESC
+	END
 END
 GO
 EXEC Get_Order_History
@@ -557,6 +620,8 @@ EXEC Get_Order_History
 GO
 
 
+
+SELECT * FROM [User]
 
 -- to get orders detail of a user
 DROP PROCEDURE IF EXISTS Get_Orders_Detail
@@ -648,7 +713,37 @@ GO
 
 
 
--- to insert a new review and return ReviewID
+-- to insert a new card detail
+DROP PROCEDURE  IF EXISTS Insert_Card_Detail
+GO
+CREATE PROCEDURE Insert_Card_Detail
+@NameOnCard			VARCHAR(200),
+@AccountNumber		CHAR(20),
+@CVV				CHAR(3),
+@Balance			INT	= 0,
+@ExpiryDate			DATETIME
+AS 
+BEGIN
+	INSERT INTO Card_Detail VALUES (@NameOnCard, @AccountNumber, @CVV, @Balance, @ExpiryDate)
+END
+GO
+
+-- to find count of match card details
+DROP PROCEDURE  IF EXISTS Card_Detail_Match_Count
+GO
+CREATE PROCEDURE Card_Detail_Match_Count
+@NameOnCard			VARCHAR(200),
+@AccountNumber		CHAR(20),
+@CVV				CHAR(3),
+@ExpiryDate			DATETIME
+AS 
+BEGIN
+	SELECT COUNT(*) FROM Card_Detail WHERE NameOnCard=@NameOnCard AND AccountNumber=@AccountNumber AND CVV=@CVV AND ExpiryDate=@ExpiryDate
+END
+GO
+
+
+-- to insert a new review detail
 DROP PROCEDURE IF EXISTS Insert_Review
 GO
 CREATE PROCEDURE Insert_Review
@@ -663,8 +758,7 @@ END
 GO
 
 
-
--- to insert a new user_review
+-- to add User Review 
 DROP PROCEDURE IF EXISTS Insert_User_Review
 GO
 CREATE PROCEDURE Insert_User_Review
@@ -674,13 +768,91 @@ AS
 BEGIN
 	INSERT INTO User_Review VALUES (@ReviewID, @GigUserID);
 END
+
+
+
+
+-- to insert/update a new user gig view
+DROP PROCEDURE IF EXISTS Insert_User_Gig_View
+GO
+CREATE PROCEDURE Insert_User_Gig_View
+@HostUserID			INT,
+@VisitUserID		INT,
+@VisitedDate		DATETIME,
+@GigID				INT
+AS
+BEGIN
+	DECLARE @user_gig_view_count INT = 0;
+	(SELECT @user_gig_view_count=COUNT(*) FROM User_Gig_View WHERE HostUserID=@HostUserID AND VisitUserID=@VisitUserID AND GigID=@GigID);
+
+	IF @user_gig_view_count = 0
+	BEGIN
+		INSERT INTO User_Gig_View VALUES(@HostUserID, @VisitUserID, @VisitedDate, @GigID)
+	END
+	ELSE
+	BEGIN
+		UPDATE User_Gig_View SET VisitedDate=@VisitedDate WHERE HostUserID=@HostUserID AND VisitUserID=@VisitUserID AND GigID=@GigID;
+	END
+END
+GO
+
+
+-- to get user views week days summary detail
+DROP PROCEDURE IF EXISTS Get_User_View_Week_Days_Summary
+GO
+CREATE PROCEDURE Get_User_View_Week_Days_Summary
+@UserID INT
+AS
+BEGIN
+	SELECT User_Gig_View_Table.WeekDayName, SUM(User_Gig_View_Table.UserViewsCount) UserTotalViews
+	FROM (SELECT (SELECT (
+	DATENAME(dw, 
+	CAST(DATEPART(m, VisitedDate) AS VARCHAR) 
+	+ '/' 
+	+ CAST(DATEPART(d, VisitedDate) AS VARCHAR) 
+	+ '/' 
+	+ CAST(DATEPART(yy, VisitedDate) AS VARCHAR))
+	)) WeekDayName,
+	COUNT(*) UserViewsCount FROM User_Gig_View 
+	WHERE HostUserID = @UserID
+	GROUP BY VisitedDate) User_Gig_View_Table 
+	GROUP BY User_Gig_View_Table.WeekDayName 
+END
+GO
+EXEC Get_User_View_Week_Days_Summary
+@UserID = 19
+
+
+
+-- to get user orders week days summary detail
+DROP PROCEDURE IF EXISTS Get_User_Order_Week_Days_Summary
+GO
+CREATE PROCEDURE Get_User_Order_Week_Days_Summary
+@UserID INT
+AS
+BEGIN
+	SELECT User_Gig_Order_Table.WeekDayName, SUM(User_Gig_Order_Table.UserOrdersCount) UserTotalOrders
+	FROM (SELECT (SELECT (
+	DATENAME(dw, 
+	CAST(DATEPART(m, StartingDate) AS VARCHAR) 
+	+ '/' 
+	+ CAST(DATEPART(d, StartingDate) AS VARCHAR) 
+	+ '/' 
+	+ CAST(DATEPART(yy, StartingDate) AS VARCHAR))
+	)) WeekDayName,
+	COUNT(*) UserOrdersCount FROM [Order] 
+	WHERE ToUserID = @UserID
+	GROUP BY StartingDate) User_Gig_Order_Table 
+	GROUP BY User_Gig_Order_Table.WeekDayName 
+END
+GO
+EXEC Get_User_Order_Week_Days_Summary
+@UserID = 19
 GO
 
 
 
-
 -- to get user summary 
-
 DROP PROCEDURE IF EXISTS Get_User_Summary
 GO
 CREATE PROCEDURE Get_User_Summary
