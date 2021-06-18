@@ -7,10 +7,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
+
     <!--AJAX API-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+
+    <!--My Style Sheets-->
     <link href="style/seller_dashboard.css" rel="stylesheet" runat="server" />
+    <link href="style/transaction.css" rel="stylesheet" runat="server"/>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="right-section">
@@ -136,7 +141,7 @@
                 <div class="most-bottom-container">
                     <asp:Repeater ID="rptrOrder_detail" runat="server">
                         <HeaderTemplate>
-                            <h3>Recent Activities</h3>
+                            <h2 class="heading-margin">Order History</h2>
                         </HeaderTemplate>
                         <ItemTemplate>
                             <div class="order">
@@ -157,7 +162,6 @@
                             <div style="height: 100px;"></div>
                         </FooterTemplate>
                     </asp:Repeater>
-
                 </div>
             </div>
         </div>
