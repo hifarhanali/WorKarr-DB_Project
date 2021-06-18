@@ -30,18 +30,18 @@ namespace WorKar.DAL
             int returnValue = 0;
             try
             {
-                    SqlCommand cmd = new SqlCommand(StoredProcedureName.Trim(), con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Username", username.Trim());
-                    cmd.Parameters.AddWithValue("@Password", password.Trim());
+                SqlCommand cmd = new SqlCommand(StoredProcedureName.Trim(), con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Username", username.Trim());
+                cmd.Parameters.AddWithValue("@Password", password.Trim());
 
-                    var outputParameter = cmd.Parameters.Add("@Count", SqlDbType.Int);
-                    outputParameter.Direction = ParameterDirection.Output;
+                var outputParameter = cmd.Parameters.Add("@Count", SqlDbType.Int);
+                outputParameter.Direction = ParameterDirection.Output;
 
-                    con.Open();
-                    cmd.ExecuteScalar();
-                    var count = outputParameter.Value;
-                    returnValue = (int) Convert.ToInt32(count);
+                con.Open();
+                cmd.ExecuteScalar();
+                var count = outputParameter.Value;
+                returnValue = (int)Convert.ToInt32(count);
             }
             catch (Exception ex)
             {
@@ -60,9 +60,9 @@ namespace WorKar.DAL
             string result = "";
             try
             {
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    con.Open();
-                    result = cmd.ExecuteScalar().ToString().Trim();
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                result = cmd.ExecuteScalar().ToString().Trim();
             }
             catch (Exception ex)
             {
@@ -80,18 +80,18 @@ namespace WorKar.DAL
         {
             try
             {
-                    SqlCommand cmd = new SqlCommand(storedProcedureName, con);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand(storedProcedureName, con);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@fName", user.User_FirstName);
-                    cmd.Parameters.AddWithValue("@lName", user.User_LastName);
-                    cmd.Parameters.AddWithValue("@email", user.User_Email);
-                    cmd.Parameters.AddWithValue("@password", user.User_Password);
-                    cmd.Parameters.AddWithValue("@username", user.User_Username);
-                    cmd.Parameters.AddWithValue("@guid", user.User_Guid);
-                    con.Open();
+                cmd.Parameters.AddWithValue("@fName", user.User_FirstName);
+                cmd.Parameters.AddWithValue("@lName", user.User_LastName);
+                cmd.Parameters.AddWithValue("@email", user.User_Email);
+                cmd.Parameters.AddWithValue("@password", user.User_Password);
+                cmd.Parameters.AddWithValue("@username", user.User_Username);
+                cmd.Parameters.AddWithValue("@guid", user.User_Guid);
+                con.Open();
 
-                    cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
 
             }
             catch (Exception ex)
@@ -109,10 +109,10 @@ namespace WorKar.DAL
         {
             try
             {
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+
             }
             catch (Exception ex)
             {
@@ -134,7 +134,7 @@ namespace WorKar.DAL
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@username", username);
-                    if(GigID != -1)
+                    if (GigID != -1)
                     {
                         cmd.Parameters.AddWithValue("@GigID", GigID);
                     }
@@ -221,7 +221,7 @@ namespace WorKar.DAL
                     }
                     if (!String.IsNullOrEmpty(duration))
                     {
-                        cmd.Parameters.AddWithValue("@Duration", (int) Convert.ToInt32(duration));
+                        cmd.Parameters.AddWithValue("@Duration", (int)Convert.ToInt32(duration));
                     }
                     if (!String.IsNullOrEmpty(seachBoxText))
                     {
@@ -332,7 +332,7 @@ namespace WorKar.DAL
 
                 cmd.Parameters.AddWithValue("@GigUserID", GigUserID);
                 // set parameters
-                foreach (KeyValuePair<string,string> image in images)
+                foreach (KeyValuePair<string, string> image in images)
                 {
                     cmd.Parameters.AddWithValue("@" + image.Key, image.Value);
                 }
@@ -472,27 +472,27 @@ namespace WorKar.DAL
         {
             try
             {
-                    SqlCommand cmd = new SqlCommand(storedProcedureName, con);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand(storedProcedureName, con);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Add parameters
-                    cmd.Parameters.AddWithValue("@GigID", GigID);
-                    cmd.Parameters.AddWithValue("@Title", gig.title);
-                    cmd.Parameters.AddWithValue("@Description", gig.description);
-                    cmd.Parameters.AddWithValue("@Amount", gig.amount);
-                    cmd.Parameters.AddWithValue("@CategoryID", gig.categoryID);
-                    cmd.Parameters.AddWithValue("@Specification1", gig.specifications[0]);
-                    cmd.Parameters.AddWithValue("@Specification2", gig.specifications[1]);
-                    cmd.Parameters.AddWithValue("@Specification3", gig.specifications[2]);
-                    cmd.Parameters.AddWithValue("@Duration", gig.duration);
+                // Add parameters
+                cmd.Parameters.AddWithValue("@GigID", GigID);
+                cmd.Parameters.AddWithValue("@Title", gig.title);
+                cmd.Parameters.AddWithValue("@Description", gig.description);
+                cmd.Parameters.AddWithValue("@Amount", gig.amount);
+                cmd.Parameters.AddWithValue("@CategoryID", gig.categoryID);
+                cmd.Parameters.AddWithValue("@Specification1", gig.specifications[0]);
+                cmd.Parameters.AddWithValue("@Specification2", gig.specifications[1]);
+                cmd.Parameters.AddWithValue("@Specification3", gig.specifications[2]);
+                cmd.Parameters.AddWithValue("@Duration", gig.duration);
 
-                    // add images as parameter
-                    foreach (KeyValuePair<string, string> image in images)
-                    {
-                        cmd.Parameters.AddWithValue("@" + image.Key, image.Value);
-                    }
-                    con.Open();
-                    cmd.ExecuteNonQuery();
+                // add images as parameter
+                foreach (KeyValuePair<string, string> image in images)
+                {
+                    cmd.Parameters.AddWithValue("@" + image.Key, image.Value);
+                }
+                con.Open();
+                cmd.ExecuteNonQuery();
 
             }
             catch (Exception ex)
@@ -588,7 +588,7 @@ namespace WorKar.DAL
                 con.Open();
                 totalAmount = (int)Convert.ToInt32(cmd.ExecuteScalar());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -617,7 +617,7 @@ namespace WorKar.DAL
                         cmd.Parameters.AddWithValue("@Status", status);
 
                     }
-                    if(isPostedOrders != -1)
+                    if (isPostedOrders != -1)
                     {
                         cmd.Parameters.AddWithValue("@IsPostedOrders", Convert.ToBoolean(isPostedOrders));
                     }
@@ -810,7 +810,7 @@ namespace WorKar.DAL
                 cmd.Parameters.AddWithValue("@VisitUserID", visitUserID);
                 cmd.Parameters.AddWithValue("@VisitedDate", visitedDate);
                 cmd.Parameters.AddWithValue("@GigID", GigID);
-  
+
                 con.Open();
                 cmd.ExecuteScalar();
             }
@@ -824,6 +824,41 @@ namespace WorKar.DAL
             }
         }
 
+        // to get user views week days summary detail
+        public DataTable Get_User_View_Week_Days_Summary(string storedProcedureName, int UserID)
+        {
+            DataTable table = new DataTable();
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(storedProcedureName, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserID", UserID);
+
+                    con.Open();
+
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(table);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return table;
+        }
+
+        // to get user orders week days summary detail
+        public DataTable Get_User_Order_Week_Days_Summary(string storedProcedureName, int UserID)
+        {
+            return this.Get_User_View_Week_Days_Summary(storedProcedureName, UserID);
+        }
 
     }
 }

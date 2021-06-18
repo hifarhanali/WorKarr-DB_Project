@@ -6,7 +6,10 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-        <link href="style/seller_dashboard.css" rel="stylesheet" runat="server" />
+    <!--AJAX API-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <link href="style/seller_dashboard.css" rel="stylesheet" runat="server" />
     </asp:Content>
     <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
         <div class="right-section">
