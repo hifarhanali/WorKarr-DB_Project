@@ -860,6 +860,13 @@ namespace WorKar.DAL
             return this.Get_User_View_Week_Days_Summary(storedProcedureName, UserID);
         }
 
+
+        // to get user summary
+        public DataTable Get_User_Summary(string storedProcedureName, int UserID)
+        {
+            return this.Get_User_View_Week_Days_Summary(storedProcedureName, UserID);
+        }
+
     }
 }
 
