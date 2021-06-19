@@ -116,7 +116,12 @@
                                         </p>
                                     </div>
                                 <div style="margin-top: 30px;">
-                                    <button>Contact Me</button>
+                                        <a href="chat.aspx?Username=<%#Eval("Username") %>" style="width: 50% !important; text-decoration: none !important;">
+                                            <button style="width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;"
+                                                type="button">
+                                                Contact</button>
+                                        </a>
+
                                 </div>
 
                                 </div>

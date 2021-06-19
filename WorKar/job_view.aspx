@@ -235,7 +235,12 @@
                                         </p>
                                     </div>
                                     <div class="button-container">
-                                        <button>Contact</button>
+                                        <a href="chat.aspx?Username=<%#Eval("Username") %>" style="width: 50% !important; text-decoration: none !important;">
+                                            <button style="width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;"
+                                                type="button">
+                                                Contact</button>
+                                        </a>
+
                                         <button id="get_jobID" onclick="return get_job();">Get Job</button>
                                     </div>
                                 </div>

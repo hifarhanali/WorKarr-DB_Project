@@ -427,7 +427,8 @@
                                 </div>
                                 <div class="button-container" id="review-contact-btn">
                                     <a href="chat.aspx?Username=<%#Eval("Username") %>" style="width: 50% !important; text-decoration: none !important;">
-                                        <button style="width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;"
+                                        <button id="contact-button"
+                                            style="width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;"
                                             type="button">
                                             Contact</button>
                                     </a>

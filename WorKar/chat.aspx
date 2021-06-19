@@ -27,7 +27,6 @@
     <script type="text/javascript">
         function load_messages(input) {
             let contactUsername = input.split('_')[1];
-            let contactUserPhoto = $("#photo_" + contactUsername).attr('src');
 
             $.ajax({
                 type: "POST",
@@ -40,6 +39,7 @@
                         var xmlDoc = $.parseXML(response.d);
                         var xml = $(xmlDoc);
                         var messages = xml.find("Table1");
+                        let contactUserPhoto = $("#photo_" + contactUsername).attr('src');
                         load_chat_window_header(contactUsername, contactUserPhoto);
                         make_messages_list(messages);
                         $("#message-input-containerID").css("display", "flex");
