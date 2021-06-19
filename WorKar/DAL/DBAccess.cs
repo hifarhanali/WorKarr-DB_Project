@@ -873,6 +873,81 @@ namespace WorKar.DAL
             return this.Get_User_View_Week_Days_Summary(storedProcedureName, UserID);
         }
 
+
+        // to save messages in ddatabase
+        public void Save_MessageDetail_List(string storedProcedureName, List<MessageDetail> messageDetailList)
+        {
+            try
+            {
+                con.Open();
+                // store message on database
+                foreach (MessageDetail message in messageDetailList)
+                {
+                    SqlCommand cmd = new SqlCommand(storedProcedureName, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FromUserName", message.FromUserName);
+                    cmd.Parameters.AddWithValue("@ToUserName", message.ToUserName);
+                    cmd.Parameters.AddWithValue("@message", message.Message.Trim());
+                    cmd.Parameters.AddWithValue("@AddedOn", message.AddedOn);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+        }
+
+
+        // to load messages from ddatabase
+        public List<MessageDetail> Load_MessageDetail_List(string storedProcedureName, string fromUserName)
+        {
+            List<MessageDetail> messageDetailList = new List<MessageDetail>();
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(storedProcedureName, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FromUserName", fromUserName);
+                    con.Open();
+                    var reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        messageDetailList.Add(new MessageDetail()
+                        {
+                            FromUserName = reader.GetString(reader.GetOrdinal("FromUserName")),
+                            ToUserName = reader.GetString(reader.GetOrdinal("ToUserName")),
+                            Message = reader.GetString(reader.GetOrdinal("Message")),
+                            AddedOn = reader.GetDateTime(reader.GetOrdinal("AddedOn")),
+                            isFromDB = true
+                        });
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return messageDetailList;
+        }
+
+
+        // to load contacts of a user
+        public DataTable Load_Contacts(string storedProcedureName, string username)
+        {
+            return this.Get_Jobs_Detail(storedProcedureName, username);
+        }
     }
 }
 

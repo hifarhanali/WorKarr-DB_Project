@@ -313,6 +313,7 @@
   <ItemGroup>
     <Compile Include="BLL\Gig.cs" />
     <Compile Include="BLL\Helper.cs" />
+    <Compile Include="BLL\MessageDetail.cs" />
     <Compile Include="BLL\User.cs" />
     <Compile Include="chat.aspx.cs">
       <DependentUpon>chat.aspx</DependentUpon>

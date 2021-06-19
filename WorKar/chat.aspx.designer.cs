@@ -24,30 +24,21 @@ namespace WorKar
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// hdname control.
+        /// rptrUser_DetailID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hdname;
+        protected global::System.Web.UI.WebControls.Repeater rptrUser_DetailID;
 
         /// <summary>
-        /// hdnCurrentUserName control.
+        /// rptrContacts_list control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnCurrentUserName;
-
-        /// <summary>
-        /// hdnCurrentUserID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnCurrentUserID;
+        protected global::System.Web.UI.WebControls.Repeater rptrContacts_list;
     }
 }
