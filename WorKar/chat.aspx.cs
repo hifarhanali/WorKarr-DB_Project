@@ -10,6 +10,9 @@ namespace WorKar
 {
     public partial class chat : System.Web.UI.Page
     {
+
+        static string toUserName = null;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["username"] == null)
@@ -20,6 +23,11 @@ namespace WorKar
             {
                 if (!IsPostBack)
                 {
+                    if(Request.QueryString["username"] != null)
+                    {
+                        toUserName = Request.QueryString["username"].ToString();
+                    }
+
                     Load_User_Detail();
                     Load_Contacts();            // load contatcs list
                 }
@@ -38,8 +46,40 @@ namespace WorKar
         // to load user contacts list
         private void Load_Contacts()
         {
+
             DAL.DBAccess db_load_contacts = new DAL.DBAccess();
-            rptrContacts_list.DataSource = db_load_contacts.Load_Contacts("Load_Contacts", Session["username"].ToString());
+            DataTable table = db_load_contacts.Load_Contacts("Load_Contacts", Session["username"].ToString());
+
+            string toUserPhoto = null;
+            if (toUserName != null)
+            {
+                if(toUserName != Session["username"].ToString())
+                {
+                    toUserPhoto = db_load_contacts.Get_Execute_Scalar("SELECT Photo FROM [User] WHERE Username='" + toUserName + "'");
+
+                    if (toUserPhoto != null)
+                    {
+                        DataRow topRow = table.NewRow();
+                        topRow["contactUserName"] = toUserName;
+                        topRow["contactUserPhoto"] = toUserPhoto;
+                        table.Rows.InsertAt(topRow, 0);
+                    }
+
+                }
+            }
+
+            // to delete duplicate contacts
+            for (int i = table.Rows.Count - 1; i > 0; i--)
+            {
+                DataRow dr = table.Rows[i];
+                if (dr["contactUserName"] != null && dr["contactUserName"].ToString() == toUserName)
+                {
+                    dr.Delete();
+                }
+            }
+            table.AcceptChanges();
+
+            rptrContacts_list.DataSource = table;
             rptrContacts_list.DataBind();
         }
 
@@ -47,6 +87,11 @@ namespace WorKar
         [System.Web.Services.WebMethod]
         public static string Load_Messages(string contactUserName)
         {
+            if (HttpContext.Current.Session["username"] == null || toUserName.Trim() == HttpContext.Current.Session["username"].ToString().Trim())
+            {
+                return "";
+            }
+
             DataTable table = new DataTable();
             DataSet set = new DataSet();
 
@@ -63,6 +108,11 @@ namespace WorKar
         {
             try
             {
+                if(HttpContext.Current.Session["username"] == null || toUserName.Trim() == HttpContext.Current.Session["username"].ToString().Trim())
+                {
+                    return "";
+                }
+
                 BLL.MessageDetail messageObject = new BLL.MessageDetail();
                 messageObject.AddedOn = DateTime.Now;
                 messageObject.FromUserName = HttpContext.Current.Session["username"].ToString();

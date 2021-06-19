@@ -7,29 +7,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Chat | WorKarr</title>
-        <link rel = "icon" href =
-        "images/logo_square.png" 
-        type = "image/x-icon" />
+    <link rel="icon" href="images/logo_square.png"
+        type="image/x-icon" />
 
     <!--Font Awsome link-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- Font awsome link -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <script src="https://kit.fontawesome.com/571b8d9aa3.js" crossorigin="anonymous"></script>
 
-    <!-- For emojis -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" />
-
     <!--My stylesheet-->
-    <link href="style/main_background.css" rel="stylesheet" runat="server"/>
-    <link href="style/glass_background.css" rel="stylesheet" runat="server"/>
-    <link href="style/circle.css" rel="stylesheet" runat="server"/>
-    <link href="style/chat.css" rel="stylesheet" runat="server"/>
-    
+    <link href="style/main_background.css" rel="stylesheet" runat="server" />
+    <link href="style/glass_background.css" rel="stylesheet" runat="server" />
+    <link href="style/chat.css" rel="stylesheet" runat="server" />
+
 
     <!--AJAX API-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
-        function load_messages(input)
-        {
+        function load_messages(input) {
             let contactUsername = input.split('_')[1];
             let contactUserPhoto = $("#photo_" + contactUsername).attr('src');
 
@@ -40,13 +36,15 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    var xmlDoc = $.parseXML(response.d);
-                    var xml = $(xmlDoc);
-                    var messages = xml.find("Table1");
-                    load_chat_window_header(contactUsername, contactUserPhoto);
-                    make_messages_list(messages);
-                    $("#message-input-containerID").css("display", "flex");
-                    $("#message_inputID").focus();
+                    if (response.d != "" && response.d.length > 0) {
+                        var xmlDoc = $.parseXML(response.d);
+                        var xml = $(xmlDoc);
+                        var messages = xml.find("Table1");
+                        load_chat_window_header(contactUsername, contactUserPhoto);
+                        make_messages_list(messages);
+                        $("#message-input-containerID").css("display", "flex");
+                        $("#message_inputID").focus();
+                    }
                 },
                 failure: function (response) {
                     alert("Failed");
@@ -79,8 +77,7 @@
 
         // this function will return message template
         // messageType --> sent/replies
-        function get_message_template(message)
-        {
+        function get_message_template(message) {
             var msg_code = " \
                 <li class=\"" + message.MsgType + "\"> \
                     <div> \
@@ -98,15 +95,12 @@
             var messageTemplate = get_message_template(message);
             // append messages to the messageList div
             $("#messagesListID").append(messageTemplate);
-            $("#messagesListID-container").animate({ scrollTop: 9999 }, 'slow');
         }
 
         // this function will attach messages in the message list container
-        function make_messages_list(messagesList)
-        {
+        function make_messages_list(messagesList) {
             $("#messagesListID").empty();
-            for (var i = 0; i < messagesList.length; i++)
-            {
+            for (var i = 0; i < messagesList.length; i++) {
                 var message =
                 {
                     Msg: messagesList[i].getElementsByTagName("Message")[0].childNodes[0].nodeValue,
@@ -119,8 +113,7 @@
             $("#messagesListID").css("display", "initial");
         }
 
-        function formatAMPM(date)
-        {
+        function formatAMPM(date) {
             var hours = date.getHours();
             var minutes = date.getMinutes();
             var ampm = hours >= 12 ? 'pm' : 'am';
@@ -151,8 +144,7 @@
 
 
         // to save provate msg in database
-        function send_private_message(toUsername, message)
-        {
+        function send_private_message(toUsername, message) {
             $.ajax({
                 type: "POST",
                 url: "chat.aspx/Send_Private_Message",
@@ -169,6 +161,7 @@
                         MsgTime: returnValue[1]
                     };
                     AddMessage(messageObject);
+                    $("#messagesListID-container").animate({ scrollTop: 9999 }, 'slow');
                 },
                 failure: function (response) {
                     alert("Failed to send message. Retry!");
@@ -178,10 +171,9 @@
         };
     </script>
 
-    <!--set interval-->
+    <!--set interval to reload messages after every 5 seconds-->
     <script type="text/javascript">
-        setInterval(function ()
-        {
+        setInterval(function () {
             let profile_header = $(".contact-profile");
             if (profile_header.length > 0) {
                 let contactUserName = profile_header.attr('id').split('_')[1];
@@ -192,71 +184,101 @@
         }, 5000);
     </script>
 
+    <script type="text/javascript">
+
+        // to get value of a parameter
+        function GetUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1);
+
+            var sURLVariables = sPageURL.split('&');
+
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        // to open chat window for the top user 
+        function open_top_contact_chat_window() {
+            let toUsername = null;
+            toUsername = GetUrlParameter("Username");
+
+            if (typeof toUsername != "undefined" && toUsername.length > 0)
+            {
+                this.load_messages("contact_" + toUsername);                    
+            }
+        }
+
+        window.onload = open_top_contact_chat_window();
+
+    </script>
+
 </head>
 <body>
-    <form id="form1" runat="server" style="width:100%;">
-       <main>
-        <section class="glass">
-            <div class="sidepanel">
-                <div class="wrap profile-head-wrap">
-                    <asp:Repeater ID="rptrUser_DetailID" runat="server">
-                        <ItemTemplate>
-                            <img id="profile-img" src='<%# Eval("UserPhoto") %>' alt="" />
-                            <div>
-                                <p id="currUserFirstName" runat="server"><%# Eval("UserFName") %></p>
-                                <span>@<span id="currUserName" runat="server"><%# Eval("Username") %></span></span>
-                            </div>
-                        </ItemTemplate>
-                    </asp:Repeater>
-                </div>
-
-                <div class="search-container">
-                    <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-                    <input type="text" placeholder="Search contacts..." />
-                </div>
-                <div class="contacts" id="contacts-container">
-                    <ul id="contactsListID">
-                        <!-- all contacts div -->
-                        <asp:Repeater ID="rptrContacts_list" runat="server">
+    <form id="form1" runat="server" style="width: 100%;">
+        <main>
+            <section class="glass">
+                <div class="sidepanel">
+                    <div class="wrap profile-head-wrap">
+                        <asp:Repeater ID="rptrUser_DetailID" runat="server">
                             <ItemTemplate>
-                                <li id="contact_<%# Eval("contactUserName") %>" class="contact" ondblclick="return load_messages(this.id);">
-                                    <div class="wrap">
-                                        <span class="contact-status"></span>
-                                        <img id="photo_<%# Eval("contactUserName") %>" src="<%# Eval("contactUserPhoto") %>" width="60px" />
-                                        <div class="meta">
-                                            <p class="name"><%# Eval("contactUserName") %> </p>
-<%--                                            <p class="preview"><%# Eval("contactUserName") %></p>--%>
-                                        </div>
-                                    </div>
-                                </li>
+                                <img id="profile-img" src='<%# Eval("UserPhoto") %>' alt="" />
+                                <div>
+                                    <p id="currUserFirstName" runat="server"><%# Eval("UserFName") %></p>
+                                    <span>@<span id="currUserName" runat="server"><%# Eval("Username") %></span></span>
+                                </div>
                             </ItemTemplate>
                         </asp:Repeater>
-                    </ul>
-                </div>
-            </div>
-            <div class="content" id="chat_windowID">
-
-                <div class="messages" id="messagesListID-container">
-                    <!-- messages container -->
-                    <ul id="messagesListID">
-                        <!--all messages-->
-                    </ul>
-                </div>
-
-                <div class="message-input" id="message-input-containerID">
-                    <div class="wrapper">
-                        <input id="message_inputID" type="text" placeholder="Write your message... " />
-                        <i class="fa fa-paperclip attachment " aria-hidden="true "></i>
                     </div>
-                    <button type="button" onclick="return send_msg_btn_click();" class="submit" id="send_msgID"><i class="fa fa-paper-plane " aria-hidden="true "></i></button>
+
+                    <div class="contacts-header-container">
+                        <i class="fal fa-users"></i>
+                        <h3>Contacts</h3>
+                    </div>
+                    <div class="contacts" id="contacts-container">
+                        <ul id="contactsListID">
+                            <!-- all contacts div -->
+                            <asp:Repeater ID="rptrContacts_list" runat="server">
+                                <ItemTemplate>
+                                    <li id="contact_<%# Eval("contactUserName") %>" class="contact" ondblclick="return load_messages(this.id);">
+                                        <div class="wrap">
+                                            <span class="contact-status"></span>
+                                            <img id="photo_<%# Eval("contactUserName") %>" src="<%# Eval("contactUserPhoto") %>" width="60px" />
+                                            <div class="meta">
+                                                <p class="name"><%# Eval("contactUserName") %> </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
+                <div class="content" id="chat_windowID">
+
+                    <div class="messages" id="messagesListID-container">
+                        <!-- messages container -->
+                        <ul id="messagesListID">
+                            <!--all messages-->
+                        </ul>
+                    </div>
+
+                    <div class="message-input" id="message-input-containerID">
+                        <div class="wrapper">
+                            <input id="message_inputID" type="text" maxlength="500" placeholder="Write your message... " />
+                        </div>
+                        <button type="button" onclick="return send_msg_btn_click();" class="submit" id="send_msgID"><i class="fa fa-paper-plane " aria-hidden="true "></i></button>
+                    </div>
+                </div>
+            </section>
+        </main>
     </form>
 
     <script type="text/javascript">
-        // add enter key event
+        // add enter key event to send message
         var input = document.getElementById("message_inputID");
         input.addEventListener("keyup", function (event) {
             if (event.keyCode === 13) {
@@ -264,6 +286,6 @@
                 document.getElementById("send_msgID").click();
             }
         });
-        </script>
+    </script>
 </body>
 </html>

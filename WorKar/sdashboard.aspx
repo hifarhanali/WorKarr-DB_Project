@@ -16,6 +16,12 @@
     <link href="style/seller_dashboard.css" rel="stylesheet" runat="server" />
     <link href="style/transaction.css" rel="stylesheet" runat="server"/>
 
+    <style runat="server">
+        .order .order-type {
+            width: 60% !important;
+        }
+    </style>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="right-section">

@@ -37,7 +37,7 @@
             }
     </style>
 
-        <!--AJAX API-->
+    <!--AJAX API-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
 
@@ -141,15 +141,19 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 </div>
-
+                           
                             </ItemTemplate>
                             <FooterTemplate>
+                                <div style="text-align: center;">
+                                    <asp:Label ID="No_Posted_Order_Error" runat="server"
+                                        Visible='<%# posted_orders_list.Items.Count == 0 %>' Text="No Posted Order" />
+                                </div>
                                 <div style="height: 50px;"></div>
                                 <div style="height: 50px;"></div>
                                 <div style="height: 50px;"></div>
                             </FooterTemplate>
+
                         </asp:Repeater>
 
                         <!--Job end-->
@@ -160,8 +164,8 @@
             </div>
 
 
-                        <div>
-                <h2 class="heading"  title="Active orders you have to complete">Recieved Orders</h2>
+            <div>
+                <h2 class="heading" title="Active orders you have to complete">Recieved Orders</h2>
                 <div class="list-view">
                     <div class="jobs-container" id="sortable">
                         <asp:Repeater ID="recieved_orders_list" runat="server">
@@ -209,12 +213,18 @@
 
                                 </div>
 
+                           
                             </ItemTemplate>
                             <FooterTemplate>
+                                <div style="text-align: center;">
+                                    <asp:Label ID="No_Posted_Order_Error" runat="server"
+                                        Visible='<%# recieved_orders_list.Items.Count == 0 %>' Text="No Recieved Order" />
+                                </div>
                                 <div style="height: 100px;"></div>
                                 <div style="height: 100px;"></div>
                                 <div style="height: 100px;"></div>
                             </FooterTemplate>
+
                         </asp:Repeater>
 
                         <!--Job end-->

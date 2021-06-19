@@ -378,13 +378,7 @@
                         </div>
                                 </div>
                             </div>
-
                         </div>
-
-
-                       
-
-
                         <div class="card2-container card-container">
                             <div class="left-section">
                                 <div class="description1 description">
@@ -432,9 +426,14 @@
                                     </p>
                                 </div>
                                 <div class="button-container" id="review-contact-btn">
-                                    <button class="button2">Contact</button>
+                                    <a href="chat.aspx?Username=<%#Eval("Username") %>" style="width: 50% !important; text-decoration: none !important;">
+                                        <button style="width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;"
+                                            type="button">
+                                            Contact</button>
+                                    </a>
+
                                     <!-- button trigger for review modal -->
-                                    <button type="button" class="button1" data-toggle="modal" data-target="#form">Review </button>
+                                    <button type="button" data-toggle="modal" data-target="#form" style="width: 45% !important;">Review </button>
 
                                 </div>
                             </div>

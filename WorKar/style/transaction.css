@@ -83,19 +83,19 @@
 
     .order .order-type {
         text-align: center !important;
-        padding: 10px !important;
-        width: 70%;
+        padding: 5px 2px !important;
+        width: 80%;
         border-radius: 5px;
-        -webkit-box-shadow: 0px 0px 5px lightgray;
-        box-shadow: 0px 0px 5px lightgray;
+        -webkit-box-shadow: 0px 0px 2px lightgray;
+        box-shadow: 0px 0px 2px lightgray;
+        color: white !important;
     }
 
     .order .Send {
-        color: white !important;
-        background-color: green;
+        background-color: darkcyan;
     }
     .order .Recieve {
-        background-color: yellow;
+        background-color: darkgoldenrod;
     }
 
 

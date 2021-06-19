@@ -33,7 +33,6 @@ body main .glass .sidepanel .profile-head-wrap {
     align-items: center;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
-    justify-content: space-between;
     padding: 20px;
 }
 
@@ -53,19 +52,13 @@ body main .glass .sidepanel .profile-head-wrap p {
     font-size: 1.7vw;
 }
 
-#hdUserName{
-    font-size: 1.7vw;
-    font-size: 1vw;
-    color: gray;
+body main .glass .sidepanel .profile-head-wrap span {
+    font-size: 1vw !important;
+    color: lightgray !important;
 }
 
-body main .glass .sidepanel .profile-head-wrap i {
-    text-align: right;
-    width: 15%;
-    font-size: 1rem;
-}
 
-body main .glass .sidepanel .search-container {
+body main .glass .sidepanel .contacts-header-container {
     background-color: rgba(0, 61, 102, 0.452);
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
@@ -73,24 +66,15 @@ body main .glass .sidepanel .search-container {
     height: 6vh;
     margin: auto inherit;
     position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0px 30px;
 }
 
-body main .glass .sidepanel .search-container i {
-    font-size: 16px;
-    margin: 10px 10px 10px 20px;
+body main .glass .sidepanel .contacts-header-container i{
+    margin-right: 15px;
 }
 
-body main .glass .sidepanel .search-container input {
-    position: absolute;
-    top: 25%;
-    left: 20%;
-    width: 100%;
-    background-color: transparent;
-    color: white;
-    font-size: 16px;
-    border: none;
-    outline: none;
-}
 
 body main .glass .sidepanel .contacts {
     width: 100%;
@@ -148,7 +132,7 @@ body main .glass .sidepanel .contacts .contact .wrap p {
     margin-left: 15px;
     display: block;
     overflow: hidden;
-    width: 80%;
+    width: 100%;
 }
 
 body main .glass .sidepanel .contacts .contact .wrap p:first-child {
@@ -157,8 +141,7 @@ body main .glass .sidepanel .contacts .contact .wrap p:first-child {
 }
 
 body main .glass .sidepanel .contacts .contact .wrap p:last-child {
-    width: 22px 0px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 body main .glass .sidepanel .contacts .contact .wrap:hover {
