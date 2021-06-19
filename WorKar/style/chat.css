@@ -224,8 +224,6 @@ body main .glass .content .messages::-webkit-scrollbar {
 
 body main .glass .content .messages::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.3);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
 }
 
 body main .glass .content .messages ul li {

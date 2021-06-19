@@ -46,6 +46,7 @@
                     load_chat_window_header(contactUsername, contactUserPhoto);
                     make_messages_list(messages);
                     $("#message-input-containerID").css("display", "flex");
+                    $("#message_inputID").focus();
                 },
                 failure: function (response) {
                     alert("Failed");
@@ -96,15 +97,16 @@
         function AddMessage(message) {
             var messageTemplate = get_message_template(message);
             // append messages to the messageList div
-            $("#messagesListID").append(messageTemplate);            
+            $("#messagesListID").append(messageTemplate);
+            $("#messagesListID-container").animate({ scrollTop: 9999 }, 'slow');
         }
 
         // this function will attach messages in the message list container
         function make_messages_list(messagesList)
         {
             $("#messagesListID").empty();
-            for (var i = 0; i < messagesList.length; i++) {
-
+            for (var i = 0; i < messagesList.length; i++)
+            {
                 var message =
                 {
                     Msg: messagesList[i].getElementsByTagName("Message")[0].childNodes[0].nodeValue,
@@ -138,14 +140,10 @@
             let message = $("#message_inputID").val();
             if (message.length > 0) {
                 let toUsername = $(".contact-profile").attr('id').split('_')[1];
-                var messageObject = {
-                    Msg: message,
-                    MsgType: "Send",
-                    MsgTime: new Date().toString()
-                };
-
-                AddMessage(messageObject);
                 send_private_message(toUsername, message);
+
+                $("#message_inputID").val("");
+                $("#message_inputID").focus();
             }
 
             return false;
@@ -161,6 +159,17 @@
                 data: '{"toUserName":"' + toUsername + '","message":"' + message + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                success: function (response) {
+
+                    let returnValue = response.d.toString().split("-");
+
+                    var messageObject = {
+                        Msg: returnValue[0],
+                        MsgType: "Send",
+                        MsgTime: returnValue[1]
+                    };
+                    AddMessage(messageObject);
+                },
                 failure: function (response) {
                     alert("Failed to send message. Retry!");
                 }
@@ -225,9 +234,9 @@
                     </ul>
                 </div>
             </div>
-            <div class="content" id="chat_windowID" stye="display: flex;">
+            <div class="content" id="chat_windowID">
 
-                <div class="messages">
+                <div class="messages" id="messagesListID-container">
                     <!-- messages container -->
                     <ul id="messagesListID">
                         <!--all messages-->

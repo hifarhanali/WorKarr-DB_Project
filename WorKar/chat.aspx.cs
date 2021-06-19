@@ -59,7 +59,7 @@ namespace WorKar
 
 
         [System.Web.Services.WebMethod]
-        public static bool Send_Private_Message(string toUserName, string message)
+        public static string Send_Private_Message(string toUserName, string message)
         {
             try
             {
@@ -71,11 +71,11 @@ namespace WorKar
 
                 DAL.DBAccess db_send_message = new DAL.DBAccess();
                 db_send_message.Insert_MessageDetail("Insert_MessageDetail", messageObject);
-                return true;
+                return message + "-" + messageObject.AddedOn.ToString();
             }
             catch
             {
-                return false;
+                return message;
             }
         }
     }
