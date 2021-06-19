@@ -49,7 +49,7 @@
                             <div class="order">
                                 <div class="user-info-container">
                                     <img id="user_photo" src="<%# Eval("UserPhoto") %>" />
-                                    <a href="#"><%# Eval("UserFullname") %></a>
+                                    <a href="chat.aspx?Username=<%# Eval("Username") %>"><%# Eval("UserFullname") %></a>
                                 </div>
                                 <div class="order-type <%# Eval("OrderType") %>">
                                     <%# Eval("OrderType") %>
@@ -84,7 +84,7 @@
                                     <i class="fas fa-dollar-sign"></i>
                                 </div>
                             </div>
-                            <h1>$ <span id="TotalCredit" runat="server"></span></h1>
+                            <h1>Rs. <span id="TotalCredit" runat="server"></span></h1>
                         </div>
                         <div class="box2-container box">
                             <div class="flex">
@@ -93,7 +93,7 @@
                                     <i class="fas fa-dollar-sign"></i>
                                 </div>
                             </div>
-                            <h1>$ <span id="TotalDebit" runat="server"></span></h1>
+                            <h1>Rs. <span id="TotalDebit" runat="server"></span></h1>
                         </div>
                         <div class="box3-container box">
                             <div class="flex">
@@ -102,7 +102,7 @@
                                     <i class="fas fa-dollar-sign"></i>
                                 </div>
                             </div>
-                            <h1>$1200</h1>
+                            <h1>Rs. 1200</h1>
                             <p>45% This Week</p>
                         </div>
                     </div>

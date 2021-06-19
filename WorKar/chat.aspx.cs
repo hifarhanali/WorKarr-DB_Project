@@ -87,7 +87,7 @@ namespace WorKar
         [System.Web.Services.WebMethod]
         public static string Load_Messages(string contactUserName)
         {
-            if (HttpContext.Current.Session["username"] == null || toUserName.Trim() == HttpContext.Current.Session["username"].ToString().Trim())
+            if (HttpContext.Current.Session["username"] == null || toUserName == HttpContext.Current.Session["username"].ToString().Trim())
             {
                 return "";
             }
@@ -106,13 +106,13 @@ namespace WorKar
         [System.Web.Services.WebMethod]
         public static string Send_Private_Message(string toUserName, string message)
         {
+            if (HttpContext.Current.Session["username"] == null || toUserName == HttpContext.Current.Session["username"].ToString().Trim())
+            {
+                return "";
+            }
+
             try
             {
-                if(HttpContext.Current.Session["username"] == null || toUserName.Trim() == HttpContext.Current.Session["username"].ToString().Trim())
-                {
-                    return "";
-                }
-
                 BLL.MessageDetail messageObject = new BLL.MessageDetail();
                 messageObject.AddedOn = DateTime.Now;
                 messageObject.FromUserName = HttpContext.Current.Session["username"].ToString();

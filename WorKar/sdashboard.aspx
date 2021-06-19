@@ -153,7 +153,8 @@
                             <div class="order">
                                 <div class="user-info-container">
                                     <img id="user_photo" src="<%# Eval("UserPhoto") %>" />
-                                    <a href="#"><%# Eval("UserFullname") %></a>
+                                    <a href="chat.aspx?Username=<%# Eval("Username") %>"><%# Eval("UserFullname") %>
+                                    </a>
                                 </div>
                                 <div class="order-type <%# Eval("OrderType") %>">
                                     <%# Eval("OrderType") %>
