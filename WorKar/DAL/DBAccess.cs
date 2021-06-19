@@ -905,9 +905,9 @@ namespace WorKar.DAL
 
 
         // to load messages from ddatabase
-        public List<MessageDetail> Load_MessageDetail_List(string storedProcedureName, string fromUserName)
+        public DataTable Load_Messages(string storedProcedureName, string fromUserName)
         {
-            List<MessageDetail> messageDetailList = new List<MessageDetail>();
+            DataTable table = new DataTable();
             try
             {
                 using (SqlCommand cmd = new SqlCommand(storedProcedureName, con))
@@ -915,21 +915,44 @@ namespace WorKar.DAL
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@FromUserName", fromUserName);
                     con.Open();
-                    var reader = cmd.ExecuteReader();
-
-                    while (reader.Read())
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
-                        messageDetailList.Add(new MessageDetail()
-                        {
-                            FromUserName = reader.GetString(reader.GetOrdinal("FromUserName")),
-                            ToUserName = reader.GetString(reader.GetOrdinal("ToUserName")),
-                            Message = reader.GetString(reader.GetOrdinal("Message")),
-                            AddedOn = reader.GetDateTime(reader.GetOrdinal("AddedOn")),
-                            isFromDB = true
-                        });
+                        sda.Fill(table);
                     }
-                    reader.Close();
                 }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return table;
+        }
+
+
+        // to load contacts of a user
+        public DataTable Load_Contacts(string storedProcedureName, string username)
+        {
+            return this.Get_Jobs_Detail(storedProcedureName, username);
+        }
+
+
+        // to save messages in ddatabase
+        public void Insert_MessageDetail(string storedProcedureName, MessageDetail message)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand(storedProcedureName.Trim(), con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FromUserName", message.FromUserName);
+                cmd.Parameters.AddWithValue("@ToUserName", message.ToUserName);
+                cmd.Parameters.AddWithValue("@Message", message.Message.Trim());
+                cmd.Parameters.AddWithValue("@AddedOn", message.AddedOn);
+                con.Open();
+                cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -939,15 +962,10 @@ namespace WorKar.DAL
             {
                 con.Close();
             }
-            return messageDetailList;
+
         }
 
 
-        // to load contacts of a user
-        public DataTable Load_Contacts(string storedProcedureName, string username)
-        {
-            return this.Get_Jobs_Detail(storedProcedureName, username);
-        }
     }
 }
 
