@@ -56,11 +56,10 @@
                     <h1 id="workarr_logo">WorKarr</h1>
                     <asp:LinkButton href="#" ID="btn_hamBurgerID" runat="server"><i class="far fa-bars"></i></asp:LinkButton>
                 </div>
-
                 <div class="user-bio">
-                    <asp:Image ID="display_user_photo" ImageUrl = '<%=ResolveUrl("~/icons/avatar.png") %>' runat="server" />
-                    <h2 id="h2_user_firstnameID" runat="server">Farhan</h2>
-                    <p>Web Developer</p>
+                    <asp:Image ID="display_user_photo" ImageUrl = '<%=ResolveUrl("~/images/user_images/no_image.png") %>' runat="server" />
+                    <h2 id="h2_user_firstnameID" runat="server"></h2>
+                    <p id="h2_user_username" runat="server"></p>
                 </div>
                 <!--Side bar menu-->
                 <div class="side-bar">

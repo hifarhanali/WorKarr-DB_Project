@@ -21,7 +21,7 @@ namespace WorKar
                     // display user photo
                     DAL.DBAccess db_user_photo = new DBAccess();
                     display_user_photo.ImageUrl = db_user_photo.Get_Execute_Scalar("SELECT Photo From [User] Where Username = '" + Session["username"].ToString() + "'");
-                    h2_user_username.InnerText = Session["username"].ToString();
+                    h2_user_username.InnerText = "@" + Session["username"].ToString();
                 }
                 else
                 {
