@@ -60,7 +60,7 @@ CREATE PROCEDURE Get_User_Detail
 @Username VARCHAR(50)
 AS
 BEGIN
-	SELECT FName UserFName, LName UserLName, [Description] UserDescription, (SELECT Category.Name FROM Category WHERE Category.CategoryID=[User].CategoryID) UserCategory, Photo UserPhoto FROM [User] WHERE Username = @Username
+	SELECT Username, FName UserFName, LName UserLName, [Description] UserDescription, (SELECT Category.Name FROM Category WHERE Category.CategoryID=[User].CategoryID) UserCategory, Photo UserPhoto FROM [User] WHERE Username = @Username
 END
 GO
 EXEC Get_User_Detail
@@ -871,3 +871,83 @@ EXEC Get_User_Summary
 @USerID = 19
 
 
+-- to insert detail of a new message
+DROP PROCEDURE IF EXISTS Insert_MessageDetail
+GO
+CREATE PROCEDURE Insert_MessageDetail
+@FromUserName	varchar(50),
+@ToUserName		varchar(50),
+@Message		nvarchar(500),
+@AddedOn		DATETIME
+AS	
+	Insert INTO Message_Detail VALUES (@FromUserName, @ToUserName, CONVERT(NVarchar(500), @Message), @AddedOn);
+GO
+
+
+-- load messages detail
+DROP PROCEDURE IF EXISTS Load_MessageDetail_List
+GO
+CREATE PROCEDURE Load_MessageDetail_List
+@FromUserName		varchar(50)
+AS
+SELECT Message_Detail.FromUserName, Message_Detail.ToUserName, Message_Detail.Message, Message_Detail.AddedOn FROM Message_Detail
+WHERE (Message_Detail.FromUserName=@FromUserName) OR (Message_Detail.ToUserName=@FromUserName)
+GO
+EXEC Load_MessageDetail_List
+@FromUserName = 'sajuthe'
+GO
+
+
+
+-- load messages detail
+DROP PROCEDURE IF EXISTS Load_Messages
+GO
+CREATE PROCEDURE Load_Messages
+@FromUserName		varchar(50)
+AS
+SELECT * FROM (SELECT Message_Detail.FromUserName, 'Recieve' MessageType, Message_Detail.ToUserName, Message_Detail.Message, Message_Detail.AddedOn FROM Message_Detail
+WHERE (Message_Detail.FromUserName=@FromUserName)
+UNION
+SELECT Message_Detail.FromUserName, 'Send' MessageType, Message_Detail.ToUserName, Message_Detail.Message, Message_Detail.AddedOn FROM Message_Detail
+WHERE (Message_Detail.ToUserName=@FromUserName)) messagesTable
+ORDER BY messagesTable.AddedOn
+GO
+EXEC Load_Messages
+@FromUserName = 'FarhanAli20'
+GO
+
+
+-- to get user contacts detail
+DROP FUNCTION IF EXISTS User_Contacts_Function
+GO
+CREATE FUNCTION User_Contacts_Function(@Username varchar(50))
+RETURNS TABLE
+AS
+	RETURN ((SELECT Message_Detail.FromUserName contactUserName, AddedOn FROM Message_Detail
+	WHERE Message_Detail.ToUserName = @Username)
+	UNION
+	(SELECT Message_Detail.ToUserName contactUserName, AddedOn FROM Message_Detail
+	WHERE Message_Detail.FromUserName = @Username)
+	)
+GO
+
+
+-- load all users to whom user send message or recieve from them
+DROP PROCEDURE IF EXISTS Load_Contacts
+GO
+CREATE PROCEDURE Load_Contacts
+@Username		varchar(50)
+AS
+DECLARE @orderContacts TABLE (contactUserName VARCHAR(50) NULL, contactUserPhoto VARCHAR(200) NULL);
+
+-- store result in a variable
+INSERT INTO @orderContacts
+SELECT [User].Username contactUserName, [User].Photo contactUserPhoto FROM [User]
+JOIN dbo.User_Contacts_Function(@Username) contacts ON contacts.contactUserName = [User].Username
+ORDER BY contacts.AddedOn DESC
+
+SELECT DISTINCT * FROM @orderContacts
+GO
+EXEC Load_Contacts
+@Username = 'FarhanAli20'
+GO
