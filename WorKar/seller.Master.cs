@@ -31,8 +31,6 @@ namespace WorKar
 
         protected void hyperlink_homeID_Click(object sender, EventArgs e)
         {
-            Session.Abandon();
-            Session.RemoveAll();
             Response.Redirect("~/Home.aspx");
         }
 
@@ -78,6 +76,9 @@ namespace WorKar
 
         protected void hyperlink_logoutID_Click(object sender, EventArgs e)
         {
+            //set user to offline mode
+            BLL.Helper.Set_User_To_Offline(Session["username"].ToString());
+
             Session.Abandon();
             Session.RemoveAll();
             Response.Cookies.Clear();

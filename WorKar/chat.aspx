@@ -35,6 +35,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
+ 
                     if (response.d != "" && response.d.length > 0) {
                         var xmlDoc = $.parseXML(response.d);
                         var xml = $(xmlDoc);
@@ -270,7 +271,7 @@
                         <div class="wrapper">
                             <input id="message_inputID" type="text" maxlength="500" placeholder="Write your message... " />
                         </div>
-                        <button type="button" onclick="return send_msg_btn_click();" class="submit" id="send_msgID"><i class="fa fa-paper-plane " aria-hidden="true "></i></button>
+                        <button type="button" onclick="return send_msg_btn_click();"  class="submit" id="send_msgID"><i class="fa fa-paper-plane"></i></button>
                     </div>
                 </div>
             </section>
@@ -278,14 +279,16 @@
     </form>
 
     <script type="text/javascript">
-        // add enter key event to send message
-        var input = document.getElementById("message_inputID");
-        input.addEventListener("keyup", function (event) {
-            if (event.keyCode === 13) {
+
+        // send message if enter key is pressed
+        $("#message_inputID").keypress(function (event)
+        {
+            if (event.keyCode == 13) {
                 event.preventDefault();
-                document.getElementById("send_msgID").click();
+                $("#send_msgID").click();
             }
         });
+
     </script>
 </body>
 </html>

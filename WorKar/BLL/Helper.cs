@@ -78,5 +78,44 @@ namespace WorKar.BLL
             return result;
         }
 
+
+
+        // set user to online mode
+        public static void Set_User_To_Online(string username)
+        {
+            DAL.DBAccess db_set_user_online = new DAL.DBAccess();
+            int UserID = 0;
+            UserID = (int)Convert.ToInt32(db_set_user_online.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + username + "'"));
+
+            // set user to online
+            if(UserID != 0)
+            {
+                string result = db_set_user_online.Get_Execute_Scalar("SELECT COUNT(*) FROM Online_Users WHERE UserID=" + UserID);
+                bool isUserAlreadExist = String.IsNullOrEmpty(result) || result.Trim() == "0" ? false : true;
+                if (!isUserAlreadExist)
+                {
+                    db_set_user_online.Execute_Non_Query("INSERT INTO Online_Users VALUES (" + UserID + ", 1)");
+                }
+                else
+                {
+                    db_set_user_online.Execute_Non_Query("UPDATE Online_Users SET openWindows = openWindows + 1 WHERE UserID=" + UserID);
+                }
+            }
+        }
+
+
+        // set user to offline mode
+        public static void Set_User_To_Offline(string username)
+        {
+            DAL.DBAccess db_set_user_offline = new DAL.DBAccess();
+            int UserID = 0;
+            UserID = (int)Convert.ToInt32(db_set_user_offline.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + username + "'"));
+
+            // set user to online
+            if (UserID != 0)
+            {
+                db_set_user_offline.Execute_Non_Query("UPDATE Online_Users SET openWindows = openWindows - 1 WHERE UserID=" + UserID);
+            }
+        }
     }
 }

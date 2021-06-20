@@ -15,8 +15,8 @@ namespace WorKar
         {
             if(!IsPostBack)
             {
-                print_email_error_msg("", "2px solid white", "none");
-                print_password_error_msg("", "2px solid white", "none");
+                Print_Email_Error_Message("", "2px solid white", "none");
+                Print_Password_Error_Message("", "2px solid white", "none");
 
                 // to display verify email error
                 if(Application["isDisplayError"] != null && Convert.ToBoolean(Application["isDisplayError"]) == true)
@@ -72,6 +72,9 @@ namespace WorKar
                     string firstname = login_dal.Get_Execute_Scalar(fName_query);
                     Session["username"] = textbox_emailID.Text.Trim();
                     Session["firstname"] = firstname.Trim();
+
+                    //set user to online mode
+                    Helper.Set_User_To_Online(Session["username"].ToString());
                     Response.Redirect("sdashboard.aspx");
                 }
                 else
@@ -93,21 +96,22 @@ namespace WorKar
                 // username is not correct
                 if (username_count == 0)
                 {
-                    print_email_error_msg("This username does not exist", "2px solid red", "block");
+                    Print_Email_Error_Message("This username does not exist", "2px solid red", "block");
                     email_containerID.Focus();
                 }
                 // password is not correct
                 else
                 {
-                    print_password_error_msg("Kindly enter correct password", "2px solid red", "block");
+                    Print_Email_Error_Message("Kindly enter correct password", "2px solid red", "block");
                     pass_containerID.Focus();
                 }
             }
 
         }
 
+
         // incorrect email
-        protected void print_password_error_msg(string msg, string border, string display)
+        protected void Print_Password_Error_Message(string msg, string border, string display)
         {
             label_pass_errorID.Text = msg;
             pass_containerID.Style.Add("border", border);
@@ -115,7 +119,7 @@ namespace WorKar
         }
 
         // incorrect email
-        protected void print_email_error_msg(string msg, string border, string display)
+        protected void Print_Email_Error_Message(string msg, string border, string display)
         {
             label_email_errorID.Text = msg;
             email_containerID.Style.Add("border", border);

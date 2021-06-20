@@ -87,7 +87,7 @@ namespace WorKar
         [System.Web.Services.WebMethod]
         public static string Load_Messages(string contactUserName)
         {
-            if (HttpContext.Current.Session["username"] == null || toUserName == HttpContext.Current.Session["username"].ToString().Trim())
+            if (HttpContext.Current.Session["username"] == null || contactUserName == HttpContext.Current.Session["username"].ToString().Trim())
             {
                 return "";
             }

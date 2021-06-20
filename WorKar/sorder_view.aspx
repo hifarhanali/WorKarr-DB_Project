@@ -29,27 +29,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
     <style runat="server">
-                .description {
+        .description {
             padding: 20px;
             height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    user-select: none;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -o-user-select: none;
+            user-select: none;
         }
 
-        
-::-webkit-scrollbar {
-    width: 8px;
-    background: transparent;
-}
 
-::-webkit-scrollbar-thumb {
-    background-color: #3a4d5f;
-}
+        ::-webkit-scrollbar {
+            width: 8px;
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #3a4d5f;
+        }
 
 
         .button-container {
@@ -106,29 +106,24 @@
                                         <%#Eval("UserCategory") %>
                                     </p>
                                     <br />
-
                                     <hr>
                                     <br />
-
                                     <div class="user-description">
                                         <p>
                                             <%#Eval("UserDescription") %>
                                         </p>
                                     </div>
-                                <div style="margin-top: 30px;">
+                                    <div style="margin-top: 30px;">
                                         <a href="chat.aspx?Username=<%#Eval("Username") %>" style="width: 50% !important; text-decoration: none !important;">
                                             <button style="width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;"
                                                 type="button">
                                                 Contact</button>
                                         </a>
-
-                                </div>
-
+                                    </div>
                                 </div>
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
-
 
                 </div>
             </section>

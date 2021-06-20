@@ -200,6 +200,8 @@ namespace WorKar
         // logout session
         protected void button_logoutID_Click(object sender, EventArgs e)
         {
+            //set user to offline mode
+            Helper.Set_User_To_Offline(Session["username"].ToString());
             Session.Abandon();
             Session.RemoveAll();
             Response.Cookies.Clear();
