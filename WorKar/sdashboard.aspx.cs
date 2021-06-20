@@ -22,6 +22,7 @@ namespace WorKar
             {
                 if (!IsPostBack)
                 {
+                    Bind_Earning_Detail();              // load earning details of the user
                     Load_user_Summary();                // load user summary
                     Bind_Order_Detail();                // load recent activities
                 }
@@ -40,6 +41,24 @@ namespace WorKar
             rptr_user_summary.DataSource = db_user_summary.Get_User_Summary("Get_User_Summary", UserID);
             rptr_user_summary.DataBind();
         }
+
+
+        // load total credit and total debit
+        private void Bind_Earning_Detail()
+        {
+            DAL.DBAccess db_earning_detail = new DAL.DBAccess();
+            TotalCredit.InnerText = db_earning_detail.Get_Total_Credit_Debit("Get_Total_Credit", Session["username"].ToString()).ToString();
+            TotalDebit.InnerText = db_earning_detail.Get_Total_Credit_Debit("Get_Total_Debit", Session["username"].ToString()).ToString();
+
+            int userID = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + Session["username"].ToString() + "'"));
+
+            int totalEarnings = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT SUM(Amount) FROM [Order] WHERE ToUserID=" + userID + " AND LOWER(Status)=LOWER('Completed')"));
+
+            int myNetBalance = totalEarnings + (int)Convert.ToInt32(TotalCredit.InnerText) + (int)Convert.ToInt32(TotalDebit.InnerText);
+
+            netBalance.InnerText = myNetBalance.ToString();
+        }
+
 
 
         // to get user views week days summary detail

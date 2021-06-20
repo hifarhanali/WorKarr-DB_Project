@@ -15,6 +15,33 @@ namespace WorKar
     {
 
         /// <summary>
+        /// TotalDebit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TotalDebit;
+
+        /// <summary>
+        /// TotalCredit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TotalCredit;
+
+        /// <summary>
+        /// netBalance control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl netBalance;
+
+        /// <summary>
         /// rptr_user_summary control.
         /// </summary>
         /// <remarks>

@@ -46,6 +46,14 @@ namespace WorKar
             DAL.DBAccess db_earning_detail = new DAL.DBAccess();
             TotalCredit.InnerText = db_earning_detail.Get_Total_Credit_Debit("Get_Total_Credit", Session["username"].ToString()).ToString();
             TotalDebit.InnerText = db_earning_detail.Get_Total_Credit_Debit("Get_Total_Debit", Session["username"].ToString()).ToString();
+
+            int userID = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + Session["username"].ToString() + "'"));
+
+            int totalEarnings = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT SUM(Amount) FROM [Order] WHERE ToUserID=" + userID + " AND LOWER(Status)=LOWER('Completed')"));
+
+            int myNetBalance = totalEarnings + (int)Convert.ToInt32(TotalCredit.InnerText) + (int)Convert.ToInt32(TotalDebit.InnerText);
+
+            netBalance.InnerText = myNetBalance.ToString();
         }
 
         // load transaction history

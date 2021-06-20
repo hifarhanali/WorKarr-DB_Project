@@ -1,16 +1,4 @@
 
-/*.slider {
-    min-height: 100vh;
-    background: -webkit-gradient(linear, right top, left bottom, from(rgba(165, 216, 250, 0.425)), to(rgba(137, 139, 250, 0.25)));
-    background: linear-gradient(to left bottom, rgba(165, 216, 250, 0.425), rgba(137, 139, 250, 0.25));
-    background-color: white;
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    z-index: -1;
-}*/
-
 body {
     color: white;
     overflow: hidden !important;

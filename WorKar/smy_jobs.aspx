@@ -48,12 +48,19 @@
                 data: '{ deleteJobID :' + input.id.toString() + '}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: OnSuccess
+                success: function (response) {
+                    // remove job card
+                    document.getElementById("card-" + response.d).remove();
+
+                    // display message
+                    let msg_block = $("#msg_block");
+                    msg_block.css("background-color", "rgba(0, 255, 0, 0.2)");
+                    msg_block.children('span').html("Job has been deleted successfully!");
+                    msg_block.children('span').css("color", "green");
+                    msg_block.css("display", "flex");
+                }
+
             });
-        }
-        function OnSuccess(response) {
-            // remove job card
-            document.getElementById("card-" + response.d).remove();
         }
     </script>
 

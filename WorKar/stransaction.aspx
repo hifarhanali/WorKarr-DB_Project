@@ -102,8 +102,7 @@
                                     <i class="fas fa-dollar-sign"></i>
                                 </div>
                             </div>
-                            <h1>Rs. 1200</h1>
-                            <p>45% This Week</p>
+                            <h1>Rs. <span id="netBalance" runat="server"></span></h1>
                         </div>
                     </div>
                     <div style="height: 200px;"></div>

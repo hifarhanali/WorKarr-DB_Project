@@ -43,17 +43,38 @@ namespace WorKar
             recieved_orders_list.DataBind();
         }
 
-        // delete an order
+        // cancelled an order
         [System.Web.Services.WebMethod]
         public static string cancel_order(string deleteOrderID)
         {
-            int OrderID = (int)Convert.ToInt32(deleteOrderID);
-            DAL.DBAccess deleteOrder = new DBAccess();
-            deleteOrder.Execute_Non_Query("DELETE FROM [Order] WHERE OrderID=" + OrderID);
-
-            return OrderID.ToString();
+            try
+            {
+                int OrderID = (int)Convert.ToInt32(deleteOrderID);
+                DAL.DBAccess deleteOrder = new DBAccess();
+                deleteOrder.Execute_Non_Query("Update [Order] SET [Status]='Cancelled' WHERE OrderID=" + OrderID);
+                return OrderID.ToString() + "_" + "Cancelled";
+            }
+            catch
+            {
+                return "0";
+            }
         }
 
+        [System.Web.Services.WebMethod]
+        public static string Complete_Order(string completeOrderID)
+        {
+            try
+            {
+                int OrderID = (int)Convert.ToInt32(completeOrderID);
+                DAL.DBAccess completeOrder = new DBAccess();
+                string status = completeOrder.Get_Execute_Scalar("EXEC Update_Order_Status @OrderID=" + OrderID);
+                return OrderID.ToString() + "_" + status;
+            }
+            catch
+            {
+                return "0";
+            }
+        }
 
         public string Get_Date(object myValue)
         {

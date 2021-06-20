@@ -269,6 +269,7 @@
     <Content Include="style\glass_background.css" />
     <Content Include="style\login_signup_home_responsive.css" />
     <Content Include="style\main_background.css" />
+    <Content Include="style\Message_Block.css" />
     <Content Include="style\navbar.css" />
     <Content Include="style\preloader.css" />
     <Content Include="style\profile_editing.css" />
