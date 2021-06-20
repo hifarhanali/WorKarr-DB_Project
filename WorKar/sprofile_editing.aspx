@@ -152,7 +152,7 @@
                             </button> \
                         </div> \
                         <div class="modal-body"> \
-                            <label class=" ml-auto font-weight-bold">Payment Details</label> \
+                            <label class=" ml-auto font-weight-bold">Contact Details</label> \
                             <div class="row"> \
                                 <div class="form-group"> \
                                     <label>Name</label> \

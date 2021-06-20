@@ -21,6 +21,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
 
+
+    <!--AJAX API-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
         // append contact modal on page load
         $(document).ready(function () {
@@ -30,13 +33,22 @@
             document.getElementById("form1").appendChild(myDiv);
         });
 
+        // to hide required field error msg
+        function reset_required_field_error(inp, error_msg_id) {
+            if (inp.value.length > 0) {
+                $("#" + error_msg_id).css("display", "none");
+            }
+        }
+
+
+
         // contatc modal template
         function modal_template() {
             return '<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"> \
                 <div class="modal-dialog modal-dialog-centered" role = "document" > \
                     <div class="modal-content"> \
                         <div class="modal-header"> \
-                            <h5 class="modal-title" id="exampleModalLongTitle">Contact US</h5> \
+                            <h5 class="modal-title" id="exampleModalLongTitle">Payment</h5> \
                             <button type="button" id="cross-btn" class="close" data-dismiss="modal" aria-label="Close"> \
                                 <span aria-hidden="true">&times;</span> \
                             </button> \
@@ -45,41 +57,137 @@
                             <label class=" ml-auto font-weight-bold">Payment Details</label> \
                             <div class="row"> \
                                 <div class="form-group"> \
-                                    <label>Name</label> \
-                                    <input id="contact_nameID" class="form-control" onfocusout="reset_required_field_error(this, \'RequiredField_Name_Error\')" placeholder="Farhan Ali"/> \
-                                    <span id="RequiredField_Name_Error" style="display:none;">Required*</span> \
+                                    <label>Name On Card</label> \
+                                    <input id="card_nameID" class="form-control" onfocusout="reset_required_field_error(this, \'RequiredField_CardName_Error\')" placeholder="Farhan Ali"/> \
+                                    <span id="RequiredField_CardName_Error" style="display:none; color: red;">Required*</span> \
                                 </div> \
                             </div> \
                             <div class="row"> \
                                 <div class="form-group"> \
-                                    <label>Email</label> \
-                                    <input id="contact_emailID" class="form-control" type="email" onfocusout="reset_required_field_error(this, \'RequiredField_Email_Error\')"  placeholder="example@gmail.com" /> \
-                                    <span id="RequiredField_Email_Error" style="display:none;">Required*</span> \
+                                    <label>Account Number</label> \
+                                    <input id="card_accountNumID" maxlength="20" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}" class="form-control" type="text" onfocusout="reset_required_field_error(this, \'RequiredField_CardAccountNum_Error\')"  placeholder="4444-4444-4444-4444" /> \
+                                    <span id="RequiredField_CardAccountNum_Error" style="display:none; color: red;">Required*</span> \
                                 </div> \
                             </div> \
                             <div class="row"> \
+                                <div class="col">\
                                 <div class="form-group"> \
-                                    <label>Password</label> \
-                                    <input id="contact_passwordID" class="form-control" type="password" onfocusout="reset_required_field_error(this, \'RequiredField_Password_Error\')"  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" /> \
-                                     <span id="RequiredField_Password_Error" style="display:none;">Required*</span> \
+                                    <label>Expiry Date</label> \
+                                    <input id="card_expDateID" class="form-control" type="date" onfocusout="reset_required_field_error(this, \'RequiredField_CardExpDate_Error\')" /> \
+                                     <span id="RequiredField_CardExpDate_Error" style="display:none; color: red;">Required*</span> \
+                                </div> \
                                 </div > \
-                            </div> \
-                            <div class="row"> \
-                                <div class="form-group"> \
-                                    <label>Message</label> \
-                                    <textarea class="form-control" placeholder="Type your message here . . . " id="contact_messageID" onfocusout="reset_required_field_error(this, \'RequiredField_Message_Error\')"  rows="5" style="resize: none"></textarea> \
-                                    <span id="RequiredField_Message_Error" style="display:none;">Required*</span> \
+                                <div class="col">\
+                                    <div class="form-group"> \
+                                    <label>CVV</label> \
+                                    <input id="card_cvvID" pattern="[0-9]{3}" class="form-control" type="text" placeholder="098"  onfocusout="reset_required_field_error(this, \'RequiredField_CardCvv_Error\')" />\
+                                    <span id="RequiredField_CardCvv_Error" style="display:none; color: red;">Required*</span> \
+                                </div > \
                                 </div > \
                             </div > \
-                            <span id="email_send_message" style="display:none;">Required*</span> \
+                            <div class="row"> \
+                                <div class="col">\
+                                    <label>Transaction Type</label> \
+                                    <select id="transactionType" class="form-control">\
+                                        <option value=0 checked="true">Withdraw</option>\
+                                        <option value=1>Deposit</option>\
+                                    </select>\
+                                </div > \
+                                <div class="col">\
+                                <div class="form-group"> \
+                                    <label>Amount In PKR</label> \
+                                    <input id="card_amountID" class="form-control" type="number" min=0 placeholder="500"  onfocusout="reset_required_field_error(this, \'RequiredField_CardAmount_Error\')" />\
+                                    <span id="RequiredField_CardAmount_Error" style="display:none; color: red;">Required*</span> \
+                                </div > \
+                                </div > \
+                            </div > \
+                            <span id="incorrect_card_error" style="display:none; color: red;"></span> \
                         </div> \
                         <div class="modal-footer"> \
                             <button type="button" class="button1" data-dismiss="modal">Close</button> \
-                            <button id="contact_send_btnID" onclick="return send_message();" class="button2">Send</button> \
+                            <button id="contact_send_btnID" onclick="return perform_transaction();" class="button2">Continue</button> \
                         </div> \
                     </div> \
                 </div> \
             </div>';
+        }
+
+        // send message of user to WorKarr
+        function perform_transaction() {
+
+            let nameOnCard = document.getElementById('card_nameID').value;
+            let accountNum = document.getElementById('card_accountNumID').value;            
+            let expDate = document.getElementById('card_expDateID').value;
+            let cvv = document.getElementById('card_cvvID').value;
+            let amount = document.getElementById('card_amountID').value;
+            let isWithdraw = $("#transactionType").find(":selected").val();
+
+            $("#RequiredField_CardName_Error").css("display", "none");
+            $("#RequiredField_CardAccountNum_Error").css("display", "none");
+            $("#RequiredField_CardExpDate_Error").css("display", "none");
+            $("#RequiredField_CardCvv_Error").css("display", "none");
+            $("#RequiredField_CardAmount_Error").css("display", "none");
+
+            // front-end checks
+            let isValidMessage = true;
+
+            if (nameOnCard.length <= 0) {
+                $("#RequiredField_CardName_Error").css("display", "block");
+                isValidMessage = false;
+            }
+            if (accountNum.length <= 0) {
+                $("#RequiredField_CardAccountNum_Error").css("display", "block");
+                isValidMessage = false;
+            }
+            if (cvv.length <= 0) {
+                $("#RequiredField_CardCvv_Error").css("display", "block");
+                isValidMessage = false;
+            }
+            if (expDate.length <= 0) {
+                $("#RequiredField_CardExpDate_Error").css("display", "block");
+                isValidMessage = false;
+            }
+            if (amount == "" || amount.length <= 0) {
+                $("#RequiredField_CardAmount_Error").css("display", "block");
+                isValidMessage = false;
+            }
+
+
+            if (!isValidMessage) return false;
+
+            let responseResult = false;
+            $.ajax({
+                type: "POST",
+                url: "stransaction.aspx/Perform_Transaction",
+                data: '{"nameOnCard":"' + nameOnCard + '","accountNum":"' + accountNum + '","expiryDate":"' + expDate + '","cvv":"' + cvv + '","amount":"' + amount + '","isWithdraw":"' + isWithdraw + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    // display msg accordingly
+                    let msg_span = document.getElementById('incorrect_card_error');
+
+                    msg_span.style.color = "red";
+                    if (response.d == 0) {
+                        msg_span.innerText = "Sorry! Your account does not have sufficient balance.";
+                    }
+                    else if (response.d == 1) {
+                        msg_span.style.color = "green";
+                        msg_span.innerText = "Transaction has been place successfully!";
+                        responseResult = true;
+                    }
+                    else if (response.d == 2) {
+                        msg_span.innerText = "Card details are not correct. Retry!";
+                    }
+                    msg_span.style.display = "block";
+
+                },
+                failure: function (response) {
+                    alert("Transaction Failed");
+                }
+            });
+
+            return responseResult;
         }
 
     </script>

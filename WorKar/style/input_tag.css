@@ -6,7 +6,7 @@
 
 input[type=submit],
 input[type=button],
-button{
+button {
     text-align: center;
     padding: 0.6rem 0.9rem;
     color: white;
@@ -28,7 +28,7 @@ button{
 
     input[type=submit]:hover,
     input[type=button]:hover,
-    button:hover{
+    button:hover {
         cursor: pointer;
         opacity: 1;
         color: #004675;

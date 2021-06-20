@@ -81,5 +81,37 @@ namespace WorKar
             char[] seprator = { ' ' };
             return myValue.ToString().Split(seprator)[0];
         }
+
+
+
+        [System.Web.Services.WebMethod]
+        public static int Perform_Transaction(string nameOnCard, string accountNum, string expiryDate, string cvv, string amount, string isWithdraw)
+        {
+            DAL.DBAccess db_card_detail_count = new DAL.DBAccess();
+
+            if (db_card_detail_count.Card_Detail_Match_Count("Card_Detail_Match_Count", nameOnCard, accountNum, expiryDate, cvv) > 0)
+            {
+
+                isWithdraw = isWithdraw.Trim();
+
+                if(isWithdraw == "1")
+                {
+                    int balance = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT balance FROM Card_Detail WHERE AccountNumber='" + accountNum + "'"));
+
+                    // not sufficient balance
+                    if (balance < (int)Convert.ToInt32(amount))
+                    {
+                        return 0;
+                    }
+                }
+                int UserID = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
+                DateTime transactionDateDate = DateTime.Now;
+
+                db_card_detail_count.Execute_Non_Query("EXEC Insert_Transaction_Detail @UserID=" + UserID + ",@IsWithDraw=" + isWithdraw + ",@Amount=" + amount + ",@TransactionDate=" + transactionDateDate.ToString());
+                return 1;
+            }
+            return 2;           // card details are not correct
+        }
+
     }
 }
