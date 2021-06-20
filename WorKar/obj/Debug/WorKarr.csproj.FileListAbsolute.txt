@@ -110,8 +110,8 @@ F:\WorKarr-main\WorKar\bin\System.Net.Http.WebRequest.xml
 F:\WorKarr-main\WorKar\bin\System.Runtime.xml
 F:\WorKarr-main\WorKar\bin\System.Threading.Tasks.xml
 F:\WorKarr-main\WorKar\obj\Debug\WorKarr.csproj.App.config
+F:\WorKarr-main\WorKar\obj\Debug\WorKarr.csprojAssemblyReference.cache
 F:\WorKarr-main\WorKar\obj\Debug\WorKarr.csproj.CoreCompileInputs.cache
 F:\WorKarr-main\WorKar\obj\Debug\WorKarr.csproj.CopyComplete
 F:\WorKarr-main\WorKar\obj\Debug\WorKar.dll
 F:\WorKarr-main\WorKar\obj\Debug\WorKar.pdb
-F:\WorKarr-main\WorKar\obj\Debug\WorKarr.csprojAssemblyReference.cache

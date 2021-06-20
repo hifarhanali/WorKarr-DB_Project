@@ -108,6 +108,12 @@ body main .glass .sidepanel .contacts .contact {
     cursor: pointer;
 }
 
+body main .glass .sidepanel .contacts .contact .wrap{
+    position: relative;
+}
+
+
+
 body main .glass .sidepanel .contacts .contact .wrap {
     padding: 10px 15px 10px 15px;
     display: -webkit-box;
@@ -118,19 +124,49 @@ body main .glass .sidepanel .contacts .contact .wrap {
     align-items: center;
 }
 
+    body main .glass .sidepanel .contacts .contact .wrap .contact-name-photo {
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
 body main .glass .sidepanel .contacts .contact .wrap img {
     width: 50px;
     height: 50px;
-    height: auto;
     border-radius: 50%;
     border: 3px solid rgba(233, 233, 233, 0.76);
 }
 
+.status-text{
+    font-size: 1rem;
+    color: gray !important;
+    font-style: italic;
+}
+
+.contact-status {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    margin-left: 5px !important;
+    display: inline-block;
+}
+
+.contact-status.offline{
+    background-color: gray !important;
+}
+
+.contact-status.online{
+    background-color: green !important;
+}
+
+
+
 body main .glass .sidepanel .contacts .contact .wrap p {
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
     margin-left: 15px;
+    white-space: nowrap;
     display: block;
     overflow: hidden;
     width: 100%;
@@ -181,6 +217,7 @@ body main .glass .content .contact-profile img {
     width: 50px;
     height: 50px;
 }
+
 
 body main .glass .content .contact-profile p {
     margin-left: 20px;
@@ -361,26 +398,6 @@ i {
 
 img:hover{
     cursor: pointer;
-    opacity: 0.7;
+    filter: breigness(80%);
 }
 
-
-
-
-
-.emojionearea{
-    background: none;
-    border: none;
-    outline: none;
-}
-.emojionearea,
-.emojionearea:hover,
-.emojionearea:focus,
-.emojionearea div:hover,
-.emojionearea div:focus
-{
-    box-shadow: none !important;
-    transform: none !important;
-    border: none;
-    outline: none;
-}

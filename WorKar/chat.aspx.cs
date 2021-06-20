@@ -23,7 +23,7 @@ namespace WorKar
             {
                 if (!IsPostBack)
                 {
-                    if(Request.QueryString["username"] != null)
+                    if (Request.QueryString["username"] != null)
                     {
                         toUserName = Request.QueryString["username"].ToString();
                     }
@@ -53,7 +53,7 @@ namespace WorKar
             string toUserPhoto = null;
             if (toUserName != null)
             {
-                if(toUserName != Session["username"].ToString())
+                if (toUserName != Session["username"].ToString())
                 {
                     toUserPhoto = db_load_contacts.Get_Execute_Scalar("SELECT Photo FROM [User] WHERE Username='" + toUserName + "'");
 
@@ -127,6 +127,42 @@ namespace WorKar
             {
                 return message;
             }
+        }
+
+
+
+        [System.Web.Services.WebMethod]
+        public static string Get_Updated_Contacts_Status(string[] contactsUsernames)
+        {
+            DataSet set = new DataSet();
+            DataTable table = new DataTable();
+
+            // add columns
+            DataColumn Username = new DataColumn("Username", typeof(string));
+            DataColumn UserStatus = new DataColumn("UserStatus", typeof(string));
+            table.Columns.Add(Username);
+            table.Columns.Add(UserStatus);
+
+            String[] myContactsUsernames = contactsUsernames;
+
+            DAL.DBAccess db_get_contacts_status = new DAL.DBAccess();
+
+            // get status of all users i.e offline/online
+            for (int i = 0; i < myContactsUsernames.Length; ++i)
+            {
+                string status = db_get_contacts_status.Get_Execute_Scalar("SELECT dbo.Get_User_Status('" + myContactsUsernames[i] + "')");
+
+                if (!String.IsNullOrEmpty(status))
+                {
+                    DataRow row = table.NewRow();
+                    row["Username"] = myContactsUsernames[i];
+                    row["UserStatus"] = status;
+                    table.Rows.Add(row);
+                }
+            }
+
+            set.Tables.Add(table);
+            return set.GetXml();
         }
     }
 }

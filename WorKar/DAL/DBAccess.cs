@@ -43,9 +43,9 @@ namespace WorKar.DAL
                 var count = outputParameter.Value;
                 returnValue = (int)Convert.ToInt32(count);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                return 0;
             }
             finally
             {

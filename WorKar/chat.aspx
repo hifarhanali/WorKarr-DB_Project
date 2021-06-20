@@ -172,9 +172,9 @@
         };
     </script>
 
-    <!--set interval to reload messages after every 5 seconds-->
+    <!--set interval to reload messages and update contacts statuses after every 5 seconds-->
     <script type="text/javascript">
-        setInterval(function () {
+        setTimeout(function () {
             let profile_header = $(".contact-profile");
             if (profile_header.length > 0) {
                 let contactUserName = profile_header.attr('id').split('_')[1];
@@ -182,7 +182,13 @@
 
                 load_messages(contact_tag_id);
             }
-        }, 5000);
+        }, 10000);
+
+        setTimeout(function () {
+            this.update_contacts_status();
+        }, 10000);
+
+
     </script>
 
     <script type="text/javascript">
@@ -217,6 +223,59 @@
 
     </script>
 
+    <script type="text/javascript">
+        function update_contacts_status() {
+            let contacts = document.getElementsByClassName("contact");
+            let contactsUsernames = new Array();
+
+            for (var i = 0; i < contacts.length; ++i) {
+                contactsUsernames.push(contacts[i].id.split('_')[1]);
+            }
+            get_updated_contacts_status(contactsUsernames);
+        }
+
+        function get_updated_contacts_status(usernames) {
+
+            if (usernames == "" || usernames.length <= 0) {
+                return;
+            }
+
+            // Make the ajax call
+            $.ajax({
+                type: "POST",
+                url: "chat.aspx/Get_Updated_Contacts_Status", // the method we are calling
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ contactsUsernames: usernames }),
+                dataType: "json",
+                success: function (response) {
+
+                    var xmlDoc = $.parseXML(response.d);
+                    var xml = $(xmlDoc);
+                    var contactsStatus = xml.find("Table1");
+
+                    // update status of users
+                    for (var i = 0; i < contactsStatus.length; ++i)
+                    {
+                        var username = contactsStatus[i].getElementsByTagName("Username")[0].childNodes[0].nodeValue;
+                        var status = contactsStatus[i].getElementsByTagName("UserStatus")[0].childNodes[0].nodeValue;
+                        set_updated_contacts_status(username, status);
+                    }
+                },
+                failure: function (response) {
+                    alert('Update Contacts Status Failed');
+                }
+            });
+        }
+
+
+        // to update status of contacts after ajax reques
+        function set_updated_contacts_status(username, status)
+        {
+            var tag_html = status + "<span class=\"contact-status " + status + "\"></span>";
+            $("#Status_" + username).html(tag_html);
+        }
+
+    </script>
 </head>
 <body>
     <form id="form1" runat="server" style="width: 100%;">
@@ -246,10 +305,15 @@
                                 <ItemTemplate>
                                     <li id="contact_<%# Eval("contactUserName") %>" class="contact" ondblclick="return load_messages(this.id);">
                                         <div class="wrap">
-                                            <span class="contact-status"></span>
-                                            <img id="photo_<%# Eval("contactUserName") %>" src="<%# Eval("contactUserPhoto") %>" width="60px" />
-                                            <div class="meta">
-                                                <p class="name"><%# Eval("contactUserName") %> </p>
+                                            <div class="contact-name-photo">
+                                                <img id="photo_<%# Eval("contactUserName") %>" src="<%# Eval("contactUserPhoto") %>" width="60px" />
+                                                <div class="meta">
+                                                    <p class="name"><%# Eval("contactUserName") %> </p>
+                                                    <p class="status-text" id="Status_<%# Eval("contactUserName") %>">
+                                                        <%# Eval("contactStatus") %>
+                                                        <span class="contact-status <%# Eval("contactStatus") %>"></span>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </li>

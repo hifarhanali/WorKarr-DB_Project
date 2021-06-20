@@ -111,6 +111,7 @@
                             Description: gigs[i].getElementsByTagName("Description")[0].childNodes[0].nodeValue,
                             Amount: gigs[i].getElementsByTagName("Amount")[0].childNodes[0].nodeValue,
                             Category: gigs[i].getElementsByTagName("Category")[0].childNodes[0].nodeValue,
+                            UserStatus: gigs[i].getElementsByTagName("UserStatus")[0].childNodes[0].nodeValue,
                             Rating: tempRating == 0 ? "Not Rated" : tempRating
                         };
 
@@ -198,27 +199,28 @@
                                                  <div class=\"top-sec\"> \
                                                      <div class=\"img-container\"> \
                                                          <img src=\"" + gig.UserPhoto + "\" alt=\"user-img\" onerror=\"this.src = 'images/gig_images/image_not_found.png'\" /> \
-                                                     </div> \
+                                                     <span class='user-status " + gig.UserStatus + "'></span>\
+                                                     </div > \
                                                      <div class=\"job-title\"> \
                                                          <h2>" + gig.Title + "</h2> \
-                                    <div class=\"posted-time\"> \
-                                       <p>" + year + "/" + month + "/" + day + "</p> \
+                                                        <div class=\"posted-time\"> \
+                                                            <p>" + year + "/" + month + "/" + day + "</p> \
+                                                        </div> \
+                                                    </div> \
+                                                <p>Rs. " + gig.Amount + "</p> \
+                                            </div> \
+                                        <div class=\"middle-sec job-description\"> \
+                                            <p>" + gig.Description + "</p> \
+                                        </div> \
+                                    </a> \
+                                    <div class=\"bottom-sec job-category\" style=\"display:flex; justify-content: space-between;\"> \
+                                        <div class=\"category\">" + gig.Category + "</div> \
+                                        <div class=\"gig_rating_display\"> \
+                                            <p>"+ (gig.Rating == "Not Rated" ? "<i class=\"far fa-star\"></i> " : "<i class=\"fas fa-star\"></i> ") + gig.Rating + "</p> \
+                                        </div> \
                                     </div> \
-                                 </div> \
-                                 <p>Rs. " + gig.Amount + "</p> \
-                              </div> \
-                              <div class=\"middle-sec job-description\"> \
-                                 <p>" + gig.Description + "</p> \
-                              </div> \
-                        </a> \
-                        <div class=\"bottom-sec job-category\" style=\"display:flex; justify-content: space-between;\"> \
-                            <div class=\"category\">" + gig.Category + "</div> \
-                            <div class=\"gig_rating_display\"> \
-                                <p>"+ (gig.Rating == "Not Rated" ? "<i class=\"far fa-star\"></i> " : "<i class=\"fas fa-star\"></i> ") + gig.Rating + "</p> \
-                            </div> \
-                        </div> \
-                        </div> \
-                </div>";
+                                </div> \
+                            </div>";
             }
 
         }
