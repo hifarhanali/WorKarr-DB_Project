@@ -29,6 +29,8 @@
     <!--AJAX API-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
+        const { type } = require("jquery");
+
         // to verify card details from the database
         function verify_card_detail() {
             var responseResult = false;
@@ -37,7 +39,7 @@
             let amount = document.getElementById("gig_amount").innerText;
 
             let orderDescription = document.getElementById("orderDescriptionID").value;
-            let nameOnCard = document.getElementById("<%=nameOnCardID.ClientID %>").value;
+            let nameOnCard = document.getElementById("<%= nameOnCardID.ClientID%>").value;
             let accountNum = document.getElementById("accountNumID").value;
             let expiryDate = document.getElementById("<%= expiryDateID.ClientID%>").value;
             let cvs = document.getElementById("cvvID").value;
@@ -55,19 +57,20 @@
                     // display msg accordingly
                     let msg_span = document.getElementById('incorrect_card_error');
 
+                    msg_span.style.color = "red";
                     if (response.d == 0) {
-                        msg_span.style.color = "red";
-                        msg_span.innerText = "Sorry! You cannot place order to yourself."
+                        msg_span.innerText = "Sorry! You cannot place order to yourself.";
                     }
-
                     else if (response.d == 1) {
                         msg_span.style.color = "green";
-                        msg_span.innerText = "Order has been placed successfully!"
+                        msg_span.innerText = "Order has been placed successfully!";
                         responseResult = true;
                     }
                     else if (response.d == 2) {
-                        msg_span.style.color = "red";
-                        msg_span.innerText = "Card details are not correct. Retry!"
+                        msg_span.innerText = "Card details are not correct. Retry!";
+                    }
+                    else if (response.d == 3) {
+                        msg_span.innerText = "Sorry! Your account does not have sufficient balance.";
                     }
                     msg_span.style.display = "block";
 
@@ -80,7 +83,7 @@
 
             return responseResult;
         }
-
+        //stop btn click event, if card details are not verified
         function is_valid_Card_details() {
 
             if (!Page_ClientValidate()) {
@@ -88,6 +91,73 @@
             }
 
             if (!verify_card_detail()) {
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+
+        // front end checks for user review and add review to the database
+        function is_review_sent() {
+            let reviewMessage = document.getElementById("<%=review_msg.ClientID%>").value;
+            let numOfStars = $('input[name="rating"]:checked').val();
+
+            let isStarsNotFilled = (typeof numOfStars == "undefined" || numOfStars == "");
+            let isReviewMessageEmpty = (typeof reviewMessage == "undefined" || reviewMessage == "" || reviewMessage.length <= 0);
+
+            if (isStarsNotFilled || isReviewMessageEmpty) {
+
+                if (isStarsNotFilled) {
+                    document.getElementById("review_error").innerText = "Please rate user!";
+                }
+                else if (isReviewMessageEmpty) {
+                    document.getElementById("review_error").innerText = "Review message is required!";
+                }
+                document.getElementById("review_error").style.display = "block";
+                return false;
+            }
+
+            let responseResult = false;
+
+            $.ajax({
+                type: "POST",
+                url: "gig_view.aspx/Is_Review_Sent",
+                data: '{"numOfStars":"' + numOfStars + '","reviewMessage":"' + reviewMessage + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // display msg accordingly
+                    let msg_span = document.getElementById('review_error');
+                    msg_span.style.color = "red";
+                    if (response.d == 1) {
+                        msg_span.style.color = "green";
+                        msg_span.innerText = "Review has been sent successfully!";
+                        responseResult = true;
+
+                    }
+
+                    else if (response.d == 2) {
+                        msg_span.innerText = "Review fails. You have not placed any order to this user. Retry!";
+                    }
+
+                    else if (response.d == 3) {
+                        msg_span.innerText = "Sorry, you cannot review yourself.";
+                    }
+                    else if (response.d == 4) {
+                        msg_span.innerText = "OOPS! You have already review to this gig.";
+                    }
+                    msg_span.style.display = "block";
+
+                },
+                failure: function (response) {
+                    alert("Failed");
+                }
+            });
+            return responseResult;
+        }
+
+        function verify_review() {
+            if (!is_review_sent()) {
                 event.preventDefault();
                 return false;
             }
@@ -111,8 +181,46 @@
     <div id="loading"></div>
     <form id="form1" runat="server" style="width: 100%;">
 
+        <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formTitle">Review</h5>
+                        <button type="button" id="review-cross-btn" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-        <!-- Modal -->
+                    <div class="card-body text-center">
+                        <img src=" https://i.imgur.com/d2dKtI7.png" height="100" width="100" />
+                        <div class="comment-box text-center">
+                            <h4>Add a comment</h4>
+                            <div class="rating">
+                                <input type="radio" name="rating" value="5" id="5" /><label for="5">☆</label>
+                                <input type="radio" name="rating" value="4" id="4" /><label for="4">☆</label>
+                                <input type="radio" name="rating" value="3" id="3" /><label for="3">☆</label>
+                                <input type="radio" name="rating" value="2" id="2" /><label for="2">☆</label>
+                                <input type="radio" name="rating" value="1" id="1" /><label for="1">☆</label>
+                            </div>
+
+                            <div class="comment-area">
+                                <textarea class="form-control" resize="none" maxlength="200" id="review_msg" placeholder="what is your view?" rows="7" runat="server"></textarea>
+                            </div>
+
+                            <div>
+                                <span id="review_error" style="display: none;"></span>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <asp:Button ID="btn_send_review" class="btn send px-5" OnClientClick="return verify_review();" runat="server" Text="Send Review" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Place Order Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -128,42 +236,42 @@
                             <textarea class="form-control" placeholder="Services you want . . . ." id="orderDescriptionID" maxlength="1200" rows="7" style="resize: none" runat="server"></textarea>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator_OrderDescription" Text="Required*" ValidationGroup="place_order" ControlToValidate="orderDescriptionID" runat="server" />
                         </div>
-                        <label class=" ml-auto font-weight-bold">Payment Details</label>
 
+                        <label class=" ml-auto font-weight-bold">Payment Details</label>
                         <div class="row">
                             <div class="col">
-                                    <div class="form-group">
-                                        <label>Name On Card</label>
-                                        <asp:TextBox MaxLength="200" pattern="[A-Za-z ]{8,200}" ID="nameOnCardID" class="form-control" placeholder="Farhan Ali" runat="server"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidato_NameOnCard" Text="Required*" ValidationGroup="place_order" ControlToValidate="nameOnCardID" runat="server" />
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>Account Number</label>
-                                        <input maxlength="20" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}" id="accountNumID" runat="server" class="form-control" type="text" placeholder="1111-2222-3333-4444">
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator_AccountNum" Text="Required*" ValidationGroup="place_order" ControlToValidate="accountNumID" runat="server" />
-                                    </div>
+                                <div class="form-group">
+                                    <label>Name On Card</label>
+                                    <asp:TextBox MaxLength="200" pattern="[A-Za-z ]{8,200}" ID="nameOnCardID" class="form-control" placeholder="Farhan Ali" runat="server"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidato_NameOnCard" Text="Required*" ValidationGroup="place_order" ControlToValidate="nameOnCardID" runat="server" />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>Expiry Date</label>
-                                        <asp:TextBox ID="expiryDateID" CssClass="form-control" TextMode="Date" runat="server"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator_ExpiryDate" Text="Required*" ValidationGroup="place_order" ControlToValidate="expiryDateID" runat="server" />
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>CVV/CSV</label>
-                                        <input id="cvvID" runat="server" pattern="[0-9]{3}" class="form-control" type="text" placeholder="098" />
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator_CVV" Text="Required*" ValidationGroup="place_order" ControlToValidate="cvvID" runat="server" />
-                                    </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Account Number</label>
+                                    <input maxlength="20" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}" id="accountNumID" runat="server" class="form-control" type="text" placeholder="1111-2222-3333-4444">
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator_AccountNum" Text="Required*" ValidationGroup="place_order" ControlToValidate="accountNumID" runat="server" />
                                 </div>
                             </div>
-                            <span id="incorrect_card_error" style="display: none"></span>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Expiry Date</label>
+                                    <asp:TextBox ID="expiryDateID" CssClass="form-control" TextMode="Date" runat="server"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator_ExpiryDate" Text="Required*" ValidationGroup="place_order" ControlToValidate="expiryDateID" runat="server" />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>CVV/CSV</label>
+                                    <input id="cvvID" runat="server" pattern="[0-9]{3}" class="form-control" type="text" placeholder="098" />
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator_CVV" Text="Required*" ValidationGroup="place_order" ControlToValidate="cvvID" runat="server" />
+                                </div>
+                            </div>
+                        </div>
+                        <span id="incorrect_card_error" style="display: none"></span>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="button1" data-dismiss="modal">Close</button>
                         <asp:Button ID="place_orderID" ValidationGroup="place_order" CausesValidation="true" OnClientClick="return is_valid_Card_details();" class="button2" runat="server" Text="Place Order" />
@@ -241,7 +349,7 @@
                                         <i class="fas fa-clock"></i>
                                         <p>
                                             Delivery in
-                                               <strong id="duration_days"><%# Eval("Duration") %></strong> Days
+                                            <strong id="duration_days"><%# Eval("Duration") %></strong> Days
                                         </p>
                                     </div>
 
@@ -270,10 +378,7 @@
                         </div>
                                 </div>
                             </div>
-
                         </div>
-
-
                         <div class="card2-container card-container">
                             <div class="left-section">
                                 <div class="description1 description">
@@ -308,8 +413,7 @@
                             <div class="user-bio">
                                 <img src="/<%#Eval(" UserPhoto ") %>" style="width: 80px; height: 80px; border-radius: 50%;" alt="profile-avatar" />
                                 <h5>
-                                    <%# Eval(
-"UserFName") + " " + Eval("UserLName") %>
+                                    <%# Eval("UserFName") + " " + Eval("UserLName") %>
                                 </h5>
                                 <p>
                                     <%#Eval("UserCategory") %>
@@ -321,8 +425,17 @@
                                         <%#Eval("UserDescription") %>
                                     </p>
                                 </div>
-                                <div class="button-container">
-                                    <button>Contact Me</button>
+                                <div class="button-container" id="review-contact-btn">
+                                    <a href="chat.aspx?Username=<%#Eval("Username") %>" style="width: 50% !important; text-decoration: none !important;">
+                                        <button id="contact-button"
+                                            style="width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;"
+                                            type="button">
+                                            Contact</button>
+                                    </a>
+
+                                    <!-- button trigger for review modal -->
+                                    <button type="button" data-toggle="modal" data-target="#form" style="width: 45% !important;">Review </button>
+
                                 </div>
                             </div>
                         </div>
@@ -348,22 +461,22 @@
                                             <p>@<%# Eval("Username") %></p>
                                         </div>
                                         <div class="stars-container">
-
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
+                                            <%# ShowStars(Eval("Stars")) %>
                                         </div>
                                     </div>
                                     <div class="review-message">
                                         <p><%# Eval("ReviewMsg") %></p>
-                                        <span id="review_time"><%# Eval("PostedDate") %></span>
+                                        <span style="color: initial;" id="review_time"><%# Eval("PostedDate") %></span>
                                     </div>
                                 </div>
                             </div>
-
                         </ItemTemplate>
+                        <FooterTemplate>
+                            <div style="text-align: center;">
+                                <asp:Label ID="No_Review_Error" runat="server"
+                                    Visible='<%# rptrReview_DetailID.Items.Count == 0 %>' Text="No User Review" />
+                            </div>
+                        </FooterTemplate>
                     </asp:Repeater>
                 </div>
             </section>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
   <parameter name="SQLDBConnection-Web.config Connection String" description="SQLDBConnection Connection String used in web.config by the application to access the database." defaultValue="Server=tcp:workarrdbserver.database.windows.net,1433;Initial Catalog=WorKarr_db;Persist Security Info=False;User ID=farhan_a1i;Password=()()WorKarr()()123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="E:\\Programming\\WorKar\\WorKar\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='SQLDBConnection']/@connectionString" />
+    <parameterEntry kind="XmlFile" scope="F:\\WorKarr-main\\WorKar\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='SQLDBConnection']/@connectionString" />
   </parameter>
 </parameters>

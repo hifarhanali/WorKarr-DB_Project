@@ -1,119 +1,139 @@
 ﻿
-    .right-section h2 {
-        font-size: 2vw !important;
-        color: #012e4d;
-    }
+.right-section h2 {
+    font-size: 2vw !important;
+    color: #012e4d;
+}
 
-    .right-section .heading-margin {
-        padding: 10px;
-    }
+.right-section .heading-margin {
+    padding: 10px;
+}
 
-    .right-section .transaction-list-container {
-        width: 100%;
-        height: 90vh;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        padding-bottom: 40px;
-        justify-content: space-between;
-    }
+.right-section .transaction-list-container {
+    width: 100%;
+    height: 90vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-bottom: 40px;
+    justify-content: space-between;
+}
 
-    .right-section .left-inner-section {
-        width: 75%;
-        margin-right: 10px;
-        border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        -ms-border-radius: 5px;
-        -o-border-radius: 5px;
-        background-color: transparent;
-    }
+.right-section .left-inner-section {
+    width: 75%;
+    margin-right: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    background-color: transparent;
+}
 
-        .right-section .left-inner-section .transaction,
-        .right-section .left-inner-section .order {
-            padding: 25px 20px;
-            width: 100%;
-            color: #012e4d;
-            display: -ms-grid;
-            display: grid;
-            grid-template-columns: 1fr 1fr 2fr 1fr;
-            gap: 20px;
-            -ms-flex-line-pack: center;
-            align-content: center;
-            align-items: center;
-            -webkit-box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.3);
-            box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.3);
-            background-color: white;
-            margin: 0px 0px 15px;
-        }
+    .transaction,
+    .order {
+        padding: 25px 20px !important;
+        width: 100% !important;
+        color: #012e4d !important;
+        display: -ms-grid !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 2fr 1fr !important;
+        gap: 20px !important;
+        -ms-flex-line-pack: center;
+        align-content: center;
+        align-items: center;
+        -webkit-box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.3);
+        box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.3);
+        background-color: white;
+        margin: 0px 0px 15px;
+    }
 
 .transaction .icon-container, .order .user-info-container {
-    display: flex;
-    align-items: center;
-}
-.transaction .icon-container i{
-    margin-right: 10px;
+    display: flex !important;
+    align-items: center !important;
 }
 
-.order{
-    grid-template-columns: 2fr 1fr 1fr 1fr !important;
-}
-
-.order .user-info-container img{
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-}
-    .order .user-info-container a {
-        text-decoration: none;
-        color: #012e4d;
+    .transaction .icon-container i {
+        margin-right: 10px !important;
     }
 
-        .order .user-info-container a:hover{
-            text-decoration: underline;
+.order {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr !important;
+}
+
+    .order .user-info-container img {
+        width: 30px !important;
+        height: 30px !important;
+        margin-right: 10px !important;
+    }
+
+    .order .user-info-container a {
+        text-decoration: none !important;
+        color: #012e4d !important;
+    }
+
+        .order .user-info-container a:hover {
+            text-decoration: underline !important;
         }
 
-.transaction .transaction-type,
-.order .order-status-container {
-    display: flex;
-    align-items: center;
-
-}
-
-.transaction .transaction-type span,
-.order .order-status-container span{
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.order .order-status-container span.Completed{
-    background-color: green;
-}
-
-
-.order .order-status-container span.Cancelled{
-    background-color: red;
-}
-
-.order .order-status-container span.Progressing{
-    background-color: yellow;
-}
-
-
-.transaction .transaction-type span.WithDraw {
-    background-color: red;
-}
-
-    .transaction .transaction-type span.Deposit {
-        background-color: green;
+    .transaction .transaction-type,
+    .order .order-status-container {
+        display: flex;
+        align-items: center;
     }
 
-            .transaction p,
-            .order p{
-                font-size: 0.9rem !important;
+    .order .order-type {
+        text-align: center !important;
+        padding: 5px 2px !important;
+        width: 80%;
+        border-radius: 5px;
+        -webkit-box-shadow: 0px 0px 2px lightgray;
+        box-shadow: 0px 0px 2px lightgray;
+        color: white !important;
+    }
+
+    .order .Send {
+        background-color: darkcyan;
+    }
+    .order .Recieve {
+        background-color: darkgoldenrod;
+    }
+
+
+
+        .transaction .transaction-type span,
+        .order .order-status-container span {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+            .order .order-status-container span.Completed {
+                background-color: green;
             }
+
+
+            .order .order-status-container span.Cancelled {
+                background-color: red;
+            }
+
+            .order .order-status-container span.Progressing {
+                background-color: yellow;
+            }
+
+
+            .transaction .transaction-type span.WithDraw {
+                background-color: red;
+            }
+
+            .transaction .transaction-type span.Deposit {
+                background-color: green;
+            }
+
+    .transaction p,
+    .order p {
+        font-size: 0.9rem !important;
+    }
 
 
 
@@ -181,7 +201,7 @@
             flex-basis: 70%;
         }
 
-    .box .icon{
+    .box .icon {
         width: 40px;
         height: 40px;
         border-radius: 50%;

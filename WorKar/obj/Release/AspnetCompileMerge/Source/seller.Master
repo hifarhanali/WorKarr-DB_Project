@@ -44,7 +44,7 @@
 <body>
     <div id="loading"></div>
     <form id="form1" runat="server" style="width: 100%;">
-<main>
+<main id="main">
     <section class="outer-glass glass">
 
 
@@ -89,6 +89,11 @@
                             <i class="fal fa-credit-card"></i>
                             <p>Payment</p>
                         </li></asp:LinkButton>
+                        <asp:LinkButton ID="hyperlink_logoutID" OnClick="hyperlink_logoutID_Click" runat="server"><li>
+                            <i class="far fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </li></asp:LinkButton>
+
                     </ul>
                 </div>
             </div>
@@ -102,6 +107,10 @@
                 </div>
                 <nav>
                     <ul>
+                        <div>
+                            <asp:LinkButton ID="hyperlink_ordersID" OnClick="hyperlink_ordersID_Click" runat="server"><i class="fas fa-th-large"></i></asp:LinkButton>
+                        </div>
+
                         <div>
                             <asp:LinkButton ID="hyperlink_chatID" OnClick="hyperlink_chatID_Click" runat="server"><i class="far fa-comment-dots"></i></asp:LinkButton>
                         </div>

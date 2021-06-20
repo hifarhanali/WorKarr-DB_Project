@@ -122,7 +122,7 @@ main .card-container .left-section {
         -ms-flex-pack: center;
         justify-content: center !important;
         height: 20%;
-        width: auto;    
+        width: auto;
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center !important;
@@ -144,7 +144,7 @@ main .card-container .left-section {
         overflow: hidden;
     }
 
-        main .card-container .left-section .img-container img{
+        main .card-container .left-section .img-container img {
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
             -o-object-position: center;
@@ -182,13 +182,12 @@ main .card-container .right-section {
         justify-content: space-evenly;
     }
 
-        main .card-container .right-section .package-container .package-description-container
-        {
-           max-height: 110px;
-           overflow: hidden;
+        main .card-container .right-section .package-container .package-description-container {
+            max-height: 110px;
+            overflow: hidden;
         }
 
-        main .card-container .right-section .package-container div{
+        main .card-container .right-section .package-container div {
             margin-top: 10px;
         }
 
@@ -207,7 +206,7 @@ main .card-container .right-section {
         justify-content: space-between;
     }
 
-    main .card-container .right-section .package-description-container p{
+    main .card-container .right-section .package-description-container p {
         text-align: justify;
         font-size: 0.9rem;
     }
@@ -231,16 +230,16 @@ main .card-container .right-section {
         list-style-type: none;
     }
 
-        main .card-container .right-section .package-features-container ul li{            
+        main .card-container .right-section .package-features-container ul li {
             display: flex;
             justify-content: space-between;
             vertical-align: central;
         }
 
-        main .card-container .right-section .package-features-container ul li i,
-        main .card-container .right-section .package-features-container ul li p{
-            font-size: 1rem;
-        }
+            main .card-container .right-section .package-features-container ul li i,
+            main .card-container .right-section .package-features-container ul li p {
+                font-size: 1rem;
+            }
 
 
         main .card-container .right-section .package-features-container ul .fa-check {
@@ -280,13 +279,12 @@ button {
     outline: none;
 }
 
-button:hover {
-    cursor: pointer;
-    opacity: 1;
-    color: #004675;
-    background-color: white;
-
-}
+    button:hover {
+        cursor: pointer;
+        opacity: 1;
+        color: #004675;
+        background-color: white;
+    }
 
 main .active-page-no {
     visibility: visible;
@@ -387,27 +385,27 @@ main .card2-container .right-section {
     height: 100%;
 }
 
-    main  .right-section .user-bio {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        margin: 5px;
-    }
+main .right-section .user-bio {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 5px;
+}
 
-.review-client-username h6
-{
+.review-client-username h6 {
     font-weight: 600;
 }
+
 .review-client-username p {
     font-size: 12px !important;
 }
@@ -418,67 +416,69 @@ main .right-section .user-bio hr {
     width: 90%;
 }
 
-        main  .right-section .user-bio h5 {
-            margin-top: 5px;
-            font-weight: 400;
-        }
+main .right-section .user-bio h5 {
+    margin-top: 5px;
+    font-weight: 400;
+}
 
-        main  .right-section .user-bio p {
-            font-size: 0.8rem;
-        }
+main .right-section .user-bio p {
+    font-size: 0.8rem;
+}
 
-        main  .right-section .user-bio .button-container {
-            margin-top: 15px;
-            width: 100%;
-        }
+main .right-section .user-bio .button-container {
+    margin-top: 15px;
+    width: 100%;
+}
 
-        main  .right-section .user-bio .user-description {
-            text-align: justify;
-            max-height: 200px;
-            overflow: hidden;
-        }
-            main  .right-section .user-bio .user-description p{
-                font-size: 13px;
-            }
+main .right-section .user-bio .user-description {
+    text-align: justify;
+    line-height: 1.4rem;
+    max-height: 14rem;
+    overflow: hidden;
+}
 
-            main .prev,
-            main .next {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                -webkit-transform: translateY(-50%);
-                -moz-transform: translateY(-50%);
-                -ms-transform: translateY(-50%);
-                -o-transform: translateY(-50%);
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                background-color: #eee;
-                color: #333;
-                border: none;
-                outline: none;
-                font-size: 20px;
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-pack: center;
-                -ms-flex-pack: center;
-                justify-content: center;
-                -webkit-box-align: center;
-                -ms-flex-align: center;
-                align-items: center;
-                cursor: pointer;
-                transition: all 0.3s;
-                -webkit-border-radius: 50%;
-                -moz-border-radius: 50%;
-                -ms-border-radius: 50%;
-                -o-border-radius: 50%;
-                -webkit-transition: all 0.3s;
-                -moz-transition: all 0.3s;
-                -ms-transition: all 0.3s;
-                -o-transition: all 0.3s;
-                z-index: 999;
-            }
+    main .right-section .user-bio .user-description p {
+        font-size: 13px;
+    }
+
+main .prev,
+main .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #eee;
+    color: #333;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    z-index: 999;
+}
 
 main .prev {
     left: 5%;
@@ -499,7 +499,8 @@ main .next {
     display: block !important;
     overflow-y: scroll;
 }
-    .review-section::-webkit-scrollbar{
+
+    .review-section::-webkit-scrollbar {
         display: none;
     }
 
@@ -543,25 +544,24 @@ main .next {
     width: 100%;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-
 }
 
-    .review {
-        margin: 10px 13px;
-        border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        -ms-border-radius: 5px;
-        -o-border-radius: 5px;
-        padding: 20px;
-        background-color: #ffffff;
-        -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        width: 80%;
-    }
+.review {
+    margin: 10px 13px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    padding: 20px;
+    background-color: #ffffff;
+    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 80%;
+}
 
     .review .top-sec {
         margin-bottom: 20px;
@@ -575,23 +575,22 @@ main .next {
 
         .review .top-sec .img-container {
             width: 15%;
-
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             margin-right: 10px;
-
         }
-            .review .top-sec .img-container img{
+
+            .review .top-sec .img-container img {
                 width: 60px;
                 height: 60px;
                 border-radius: 50%;
             }
 
-            .review .top-sec .review-client-username {
-                width: 65%;
-            }
+        .review .top-sec .review-client-username {
+            width: 65%;
+        }
 
         .review .top-sec .stars-container {
             text-align: right;
@@ -613,6 +612,7 @@ main .next {
 
     .review #review_time {
         font-size: 12px;
+        color: black;
     }
 
 
@@ -621,14 +621,79 @@ button {
 }
 
 
-#cross-btn{
+#cross-btn, #review-cross-btn {
     width: auto;
 }
 
-input[type=submit]{
+input[type=submit] {
     width: auto !important;
 }
- 
-span{
+
+span {
     color: red;
 }
+
+
+#review-contact-btn {
+    margin-top: 30px !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+#review-contact-btn button:first-child {
+    text-align:center;
+    width: 50% !important;
+}
+
+    #review-contact-btn button:last-child {
+        text-align: center;
+        width: 45% !important;
+        background-color: green;
+        border-color: green;
+    }
+
+#review-contact-btn button:last-child:hover {
+    color: green !important;
+    background-color: white;
+}
+/*
+    Rating Modal Style
+*/
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+
+.rating {
+    display: inline-flex;
+    margin-top: -10px;
+    flex-direction: row-reverse
+}
+
+    .rating > input {
+        display: none
+    }
+
+    .rating > label {
+        position: relative;
+        width: 28px;
+        font-size: 35px;
+        color: rgba(230, 214, 3, 1);
+        cursor: pointer
+    }
+
+        .rating > label::before {
+            content: "\2605";
+            position: absolute;
+            opacity: 0
+        }
+
+        .rating > label:hover:before,
+        .rating > label:hover ~ label:before {
+            opacity: 1 !important
+        }
+
+    .rating > input:checked ~ label:before {
+        opacity: 1
+    }
+
+    .rating:hover > input:checked ~ label:before {
+        opacity: 0.4
+    }

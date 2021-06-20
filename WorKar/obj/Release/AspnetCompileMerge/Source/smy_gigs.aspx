@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <meta charset="UTF-8" />
-    <title>Gigs - Orders | WorKarr</title>
+    <title>Gigs | WorKarr</title>
 
     <%-- My Stylesheet --%>
     <link href="style/jobs_list.css" rel="stylesheet" runat="server" />

@@ -96,11 +96,11 @@
                 var gigs = xml.find("Table1");
 
                 $("#divGigs").empty();              // to clear previous data
-
-
-                for (var i = 0; i < gigs.length; ++i) {
+                for (var i = 0; i < gigs.length; ++i)
+                {
                     var template;
                     if (isSearchForGig) {
+                        let tempRating = gigs[i].getElementsByTagName("GigRating")[0].childNodes[0].nodeValue;
                         var gig =
                         {
                             GigID: gigs[i].getElementsByTagName("GigID")[0].childNodes[0].nodeValue,
@@ -110,7 +110,9 @@
                             PostedDate: gigs[i].getElementsByTagName("PostedDate")[0].childNodes[0].nodeValue,
                             Description: gigs[i].getElementsByTagName("Description")[0].childNodes[0].nodeValue,
                             Amount: gigs[i].getElementsByTagName("Amount")[0].childNodes[0].nodeValue,
-                            Category: gigs[i].getElementsByTagName("Category")[0].childNodes[0].nodeValue
+                            Category: gigs[i].getElementsByTagName("Category")[0].childNodes[0].nodeValue,
+                            UserStatus: gigs[i].getElementsByTagName("UserStatus")[0].childNodes[0].nodeValue,
+                            Rating: tempRating == 0 ? "Not Rated" : tempRating
                         };
 
                         template = get_gig_template(gig);
@@ -121,6 +123,7 @@
                             JobID: gigs[i].getElementsByTagName("JobID")[0].childNodes[0].nodeValue,
                             UserPhoto: gigs[i].getElementsByTagName("UserPhoto")[0].childNodes[0].nodeValue,
                             Title: gigs[i].getElementsByTagName("Title")[0].childNodes[0].nodeValue,
+                            Duration: gigs[i].getElementsByTagName("Duration")[0].childNodes[0].nodeValue,
                             PostedDate: gigs[i].getElementsByTagName("PostedDate")[0].childNodes[0].nodeValue,
                             Description: gigs[i].getElementsByTagName("Description")[0].childNodes[0].nodeValue,
                             Amount: gigs[i].getElementsByTagName("Amount")[0].childNodes[0].nodeValue,
@@ -147,6 +150,11 @@
             // return a job template
             function get_job_template(job)
             {
+                let date = job.PostedDate.split('T')[0].split('-');
+                let year = date[0];
+                let month = date[1];
+                let day = date[2];
+
                 return "<div class=\"job\" style=\"height:245px;\" id='" + job.JobID + "' > \
                     <a href=\"job_view.aspx?JobID=" + job.JobID + "\"> \
                                              <div class=\"div-content-sec\"> \
@@ -157,7 +165,7 @@
                                                      <div class=\"job-title\"> \
                                                          <h2>" + job.Title + "</h2> \
                                     <div class=\"posted-time\"> \
-                                       <p>" + job.PostedDate + "</p> \
+                                       <p>" + year + "/" + month + "/" + day + "</p> \
                                     </div> \
                                  </div> \
                                  <p>Rs. " + job.Amount + "</p> \
@@ -166,8 +174,9 @@
                                  <p>" + job.Description + "</p> \
                               </div> \
                         </a> \
-                        <div class=\"bottom-sec job-category\"> \
+                        <div class=\"bottom-sec job-category\" style=\"justify-content: space-between;\"> \
                             <div class=\"category\">" + job.Category + "</div> \
+                            <div style=\"font-weight: bold;\">" + job.Duration + " Days</div>\
                         </div> \
                         </div> \
                 </div>";
@@ -176,6 +185,11 @@
 
             // return a gig template
             function get_gig_template(gig) {
+                let date = gig.PostedDate.split('T')[0].split('-');
+                let year = date[0];
+                let month = date[1];
+                let day = date[2];
+
                 return "<div class=\"job\" id='" + gig.GigID + "' > \
                     <a href=\"gig_view.aspx?GigID=" + gig.GigID + "\"> \
                                              <div class='gig-img-container'> \
@@ -185,29 +199,31 @@
                                                  <div class=\"top-sec\"> \
                                                      <div class=\"img-container\"> \
                                                          <img src=\"" + gig.UserPhoto + "\" alt=\"user-img\" onerror=\"this.src = 'images/gig_images/image_not_found.png'\" /> \
-                                                     </div> \
+                                                     <span class='user-status " + gig.UserStatus + "'></span>\
+                                                     </div > \
                                                      <div class=\"job-title\"> \
                                                          <h2>" + gig.Title + "</h2> \
-                                    <div class=\"posted-time\"> \
-                                       <p>" + gig.PostedDate + "</p> \
+                                                        <div class=\"posted-time\"> \
+                                                            <p>" + year + "/" + month + "/" + day + "</p> \
+                                                        </div> \
+                                                    </div> \
+                                                <p>Rs. " + gig.Amount + "</p> \
+                                            </div> \
+                                        <div class=\"middle-sec job-description\"> \
+                                            <p>" + gig.Description + "</p> \
+                                        </div> \
+                                    </a> \
+                                    <div class=\"bottom-sec job-category\" style=\"display:flex; justify-content: space-between;\"> \
+                                        <div class=\"category\">" + gig.Category + "</div> \
+                                        <div class=\"gig_rating_display\"> \
+                                            <p>"+ (gig.Rating == "Not Rated" ? "<i class=\"far fa-star\"></i> " : "<i class=\"fas fa-star\"></i> ") + gig.Rating + "</p> \
+                                        </div> \
                                     </div> \
-                                 </div> \
-                                 <p>Rs. " + gig.Amount + "</p> \
-                              </div> \
-                              <div class=\"middle-sec job-description\"> \
-                                 <p>" + gig.Description + "</p> \
-                              </div> \
-                        </a> \
-                        <div class=\"bottom-sec job-category\"> \
-                            <div class=\"category\">" + gig.Category + "</div> \
-                        </div> \
-                        </div> \
-                </div>";
+                                </div> \
+                            </div>";
             }
 
         }
-
-
     </script>
 
 
@@ -226,6 +242,8 @@
 
                     </asp:DropDownList>
                 </div>
+
+                <!--Countries drop down list-->
                 <div class="countries-ddl-container dropdown-style">
                     <select id="countryId" onchange="showGigs()" name="countryId">
                         <option value="none">Country</option>

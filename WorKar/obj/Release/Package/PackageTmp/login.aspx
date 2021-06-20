@@ -31,7 +31,7 @@
         <!--Jquery link -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-        <script>
+        <script> 
             // animation to hide error block
             $(document).ready(function () {
                 setTimeout(function () {

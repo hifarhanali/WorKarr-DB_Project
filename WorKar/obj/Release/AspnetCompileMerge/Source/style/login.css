@@ -285,7 +285,8 @@ a {
     color: red;
 }
 
-#not_verify_email_error {
+#not_verify_email_error
+{
     display: flex;
     flex-direction: column;
     justify-content: center;

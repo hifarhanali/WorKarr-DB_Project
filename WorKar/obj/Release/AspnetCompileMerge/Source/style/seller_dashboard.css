@@ -234,60 +234,6 @@ input {
 }
 
 
-.most-bottom-container {
-	width: 100%;
-	background-color: #ffffff;
-	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-	padding: 15px 0px;
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
-}
-.most-bottom-container h3{
-	padding: 0 20px 10px;
-}
-
-
-	.recent-activity-container {
-		width: 100%;
-	}
-
-.activity {
-	padding: 10px 25px;
-	width: 100%;
-	color: #012e4d;
-	display: -ms-grid;
-	display: grid;
-	grid-template-columns: repeat(6, 1.5fr);
-	-ms-flex-line-pack: center;
-	align-content: center;
-	align-items: center;
-}
-
-	.activity .icon {
-		height: 3vw;
-		width: 3vw;
-		background: rgb(1, 46, 77);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-
-		.activity .icon i {
-			color: white;
-		}
-
-	.activity:hover {
-		cursor: pointer;
-		background-color: lightgray;
-	}
-
-
 
 
 

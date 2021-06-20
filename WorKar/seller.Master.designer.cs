@@ -60,6 +60,15 @@ namespace WorKar
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl h2_user_firstnameID;
 
         /// <summary>
+        /// h2_user_username control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl h2_user_username;
+
+        /// <summary>
         /// hyperlink_homeID control.
         /// </summary>
         /// <remarks>
