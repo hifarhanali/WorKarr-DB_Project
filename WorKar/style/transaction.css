@@ -140,12 +140,40 @@
 
 
 
+.payment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
 
 
+.payment-header button{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 5px;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+}
+
+.payment-header button i{
+    color: white;
+}
+
+.payment-header button:hover{
+    cursor: pointer;
+}
+
+.payment-header button:hover i {
+    color: #004675;
+}
 
 .right-inner-section {
-    width: auto;
+    width: auto !important;
 }
 
 .right-section .right-inner-section .container {
@@ -160,27 +188,33 @@
     background: white;
     display: grid;
     grid-template-columns: 1fr;
-    width: 100%;
+    width: 100% !important;
     grid-row-gap: 30px;
     place-items: center;
     vertical-align: central;
 }
 
+
+
+
+
 .box {
-    width: 95%;
+    width: 95% !important;
     padding: 15px 20px !important;
-    background-color: rgb(1, 46, 77);
-    color: white;
-    box-shadow: 0px 0px 10px rgba(107, 107, 107, 0.589);
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    background-color: rgb(1, 46, 77) !important;
+    color: white !important;
+    box-shadow: 0px 0px 10px rgba(107, 107, 107, 0.589) !important;
+    border-radius: 10px !important;
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    -ms-border-radius: 10px !important;
+    -o-border-radius: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
 }
+
+
 
     .box .flex {
         display: flex;
@@ -224,12 +258,12 @@
             color: white;
         }
 
-    .box p {
-        font-size: 0.9rem;
+    .box h1 {
+        font-size: 1.5rem !important;
     }
 
 .whole-container {
-    width: 100%;
+    width: 100% !important;
     padding: 15px;
     overflow-y: scroll;
     margin-bottom: 160px;
@@ -237,7 +271,7 @@
 }
 
     .whole-container::-webkit-scrollbar {
-        width: 7px;
+        width: 7px !important;
     }
 
     .whole-container::-webkit-scrollbar-thumb {
@@ -245,3 +279,22 @@
         outline: none;
         border: none;
     }
+
+body p {
+    font-size: 1em;
+    font-weight: 200;
+}
+
+li p {
+    margin-top: 20px;
+}
+
+
+
+#cross-btn {
+    width: auto !important;
+}
+
+input[type=submit] {
+    width: auto !important;
+}

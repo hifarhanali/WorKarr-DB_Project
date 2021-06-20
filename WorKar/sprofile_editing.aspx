@@ -116,7 +116,6 @@
             });
             return responseResult;
         };
-
     </script>
 
     <!--CDNs For Bootstrap Modal-->
