@@ -165,6 +165,7 @@ namespace WorKar
                 // not sufficient balance
                 if(balance < (int)Convert.ToInt32(amount))
                 {
+                    db_card_detail_count.Execute_Non_Query("UPDATE Card_Detail SET Balance=Balance-" + prevAmount + " WHERE  AccountNumber='" + accountNum + "'");
                     return 1;
                 }
                 // decrease balance in credit card
