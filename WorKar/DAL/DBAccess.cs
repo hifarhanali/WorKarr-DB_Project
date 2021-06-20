@@ -965,6 +965,33 @@ namespace WorKar.DAL
 
         }
 
+        // to insert new gig_user record and return GigUserID
+        public void Insert_Transaction_Detail(string storedProcedureName, int UserID, bool isWithdraw, int amount, DateTime transactionDate)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand(storedProcedureName, con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // set parameters
+                cmd.Parameters.AddWithValue("@UserID", UserID);
+                cmd.Parameters.AddWithValue("@IsWithDraw", isWithdraw);
+                cmd.Parameters.AddWithValue("@Amount", amount);
+                cmd.Parameters.AddWithValue("@TransactionDate", transactionDate);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
+            }
+        }
+
 
     }
 }

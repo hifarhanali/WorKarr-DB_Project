@@ -51,7 +51,7 @@ namespace WorKar
 
             int totalEarnings = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT SUM(Amount) FROM [Order] WHERE ToUserID=" + userID + " AND LOWER(Status)=LOWER('Completed')"));
 
-            int myNetBalance = totalEarnings + (int)Convert.ToInt32(TotalCredit.InnerText) + (int)Convert.ToInt32(TotalDebit.InnerText);
+            int myNetBalance = totalEarnings + (int)Convert.ToInt32(TotalCredit.InnerText) - (int)Convert.ToInt32(TotalDebit.InnerText);
 
             netBalance.InnerText = myNetBalance.ToString();
         }
@@ -107,7 +107,7 @@ namespace WorKar
                 int UserID = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
                 DateTime transactionDateDate = DateTime.Now;
 
-                db_card_detail_count.Execute_Non_Query("EXEC Insert_Transaction_Detail @UserID=" + UserID + ",@IsWithDraw=" + isWithdraw + ",@Amount=" + amount + ",@TransactionDate=" + transactionDateDate.ToString());
+                db_card_detail_count.Insert_Transaction_Detail("Insert_Transaction_Detail", UserID, Convert.ToBoolean(isWithdraw), (int)Convert.ToInt32(amount), transactionDateDate);
                 return 1;
             }
             return 2;           // card details are not correct

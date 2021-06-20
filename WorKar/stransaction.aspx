@@ -89,8 +89,8 @@
                                 <div class="col">\
                                     <label>Transaction Type</label> \
                                     <select id="transactionType" class="form-control">\
-                                        <option value=0 checked="true">Withdraw</option>\
-                                        <option value=1>Deposit</option>\
+                                        <option value=1 checked="true">Withdraw</option>\
+                                        <option value=0>Deposit</option>\
                                     </select>\
                                 </div > \
                                 <div class="col">\
@@ -151,7 +151,6 @@
                 $("#RequiredField_CardAmount_Error").css("display", "block");
                 isValidMessage = false;
             }
-
 
             if (!isValidMessage) return false;
 
