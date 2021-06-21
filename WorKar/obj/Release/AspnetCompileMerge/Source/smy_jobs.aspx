@@ -32,7 +32,7 @@
             height: 245px;
         }
         .job .middle-sec p{
-            height: 7.7rem;
+            height: 7.6rem !important;
     }
     </style>
 
@@ -48,24 +48,23 @@
                 data: '{ deleteJobID :' + input.id.toString() + '}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: OnSuccess
+                success: function (response) {
+                    // remove job card
+                    document.getElementById("card-" + response.d).remove();
+
+                    // display message
+                    let msg_block = $("#msg_block");
+                    msg_block.css("background-color", "rgba(0, 255, 0, 0.2)");
+                    msg_block.children('span').html("Job has been deleted successfully!");
+                    msg_block.children('span').css("color", "green");
+                    msg_block.css("display", "flex");
+                }
+
             });
-        }
-        function OnSuccess(response) {
-            // remove job card
-            document.getElementById("card-" + response.d).remove();
         }
     </script>
 
-    <!--CDN To drag jobs-->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        // to drag gigs
-        $(function () {
-            $("#sortable").sortable();
-            $("#sortable").disableSelection();
-        });
 
         // to display dot menu on click
         function display_dotMenu(icon) {

@@ -83,7 +83,7 @@
                                         <td class="right"><%# Handle_SQL_NULL(Eval("Earnings")) %></td>
                                     </tr>
                                     <tr>
-                                        <td class="left">Earning in <span class="month"><%# Eval("CurrMonth") %> Months</span></td>
+                                        <td class="left">Earning in <span class="month"><%# Get_Full_Month_Name(Eval("CurrMonth")) %> </span></td>
                                         <td class="right"><%# Handle_SQL_NULL(Eval("CurrentMonthIncome")) %></td>
                                     </tr>
                                     <tr>

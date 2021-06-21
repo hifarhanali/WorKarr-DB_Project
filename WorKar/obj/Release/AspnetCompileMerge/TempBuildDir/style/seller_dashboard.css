@@ -89,7 +89,7 @@
 .box {
 	width: 22%;
 	height: auto;
-	padding: 10px 20px;
+	padding: 10px 30px !important;
 	margin: 0 1%;
 	background-color: rgb(1, 46, 77);
 	color: white;
@@ -127,7 +127,7 @@
 		.box .flex h1 {
 			font-weight: 500;
 			font-size: 1rem;
-			flex-basis: 70%;
+			flex-basis: 80% !important;
 		}
 
 

@@ -117,5 +117,15 @@ namespace WorKar.BLL
                 db_set_user_offline.Execute_Non_Query("UPDATE Online_Users SET openWindows = openWindows - 1 WHERE UserID=" + UserID);
             }
         }
+
+
+        // function to get the full month name
+        public static string getFullName(int month)
+        {
+            DateTime date = new DateTime(2020, month, 1);
+
+            return date.ToString("MMMM");
+        }
+
     }
 }

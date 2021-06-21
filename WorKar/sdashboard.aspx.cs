@@ -108,7 +108,22 @@ namespace WorKar
         }
 
 
+        public string Get_Full_Month_Name(object month)
+        {
+            string monthName = "";
+            try
+            {
+                int monthNum = DBNull.Value.Equals(month) ? 0 : (int)Convert.ToInt32(month);
+                monthName = BLL.Helper.getFullName(monthNum);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            return monthName;
+        }
 
+        // get date from datetime onject
         public string Get_Date(object myValue)
         {
             char[] seprator = { ' ' };

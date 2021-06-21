@@ -127,7 +127,7 @@
 		.box .flex h1 {
 			font-weight: 500;
 			font-size: 1rem;
-			flex-basis: 70%;
+			flex-basis: 80% !important;
 		}
 
 

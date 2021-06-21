@@ -8,12 +8,15 @@ USE WorKarr_db
 GO
 
 
--- to display all constraits of a table
+ --to display all constraits of a table
 --SELECT OBJECT_NAME(object_id) AS ConstraintName,
 --SCHEMA_NAME(schema_id) AS SchemaName,
 --type_desc AS ConstraintType
 --FROM sys.objects
 --WHERE type_desc LIKE '%CONSTRAINT' AND OBJECT_NAME(parent_object_id)='User'
+
+--ALTER TABLE [User] DROP CONSTRAINT DF_USER_PHOTO
+--ALTER TABLE [User] ADD CONSTRAINT DF_USER_PHOTO DEFAULT 'icons/avatar.png' FOR Photo
 
 
 ----username=farhan_a1i
@@ -45,7 +48,7 @@ Username				VARCHAR(50)			NOT NULL UNIQUE,
 CategoryID				INT			 	    CONSTRAINT USER_FK_CATEGORY FOREIGN KEY REFERENCES Category(CategoryID) ON DELETE NO ACTION ON UPDATE CASCADE,
 [GUID]					VARCHAR(50)			NOT NULL UNIQUE,
 IsValidEmail			BIT					DEFAULT 0,
-Photo					VARCHAR(200)		DEFAULT 'Dummy.png',
+Photo					VARCHAR(200)		DEFAULT 'icons\avatar.png',
 Country					VARCHAR(100)		DEFAULT NULL
 )
 GO
@@ -179,6 +182,8 @@ ExpiryDate			DATE
 )
 GO
 
+SELECT * FROM Card_Detail
+
 
 -- to store views of a user gig
 DROP TABLE IF EXISTS User_Gig_View
@@ -204,10 +209,11 @@ ToUserName			VARCHAR(50) NULL CONSTRAINT MESSAGE_RECIEVER_FK_USER FOREIGN KEY RE
 )
 GO
 
-
 -- to store online users
 DROP TABLE IF EXISTS Online_Users
 GO
 CREATE TABLE Online_Users(
-UserID			INT PRIMARY KEY CONSTRAINT ONLINEUSERS_FK_USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE CASCADE ON UPDATE CASCADE
+UserID			INT PRIMARY KEY CONSTRAINT ONLINEUSERS_FK_USER FOREIGN KEY REFERENCES [User](UserID) ON DELETE CASCADE ON UPDATE CASCADE,
+OpenWindows		INT DEFAULT 0 CHECK(openWindows >= 0)
 )
+GO

@@ -39,20 +39,38 @@ namespace WorKar
         }
 
 
+
+        private static string Get_Net_Balance(int totalCredit, int totalDebit)
+        {
+            DAL.DBAccess db_earning_detail = new DAL.DBAccess();
+            int userID = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
+            int totalEarnings = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT CASE WHEN SUM(Amount) IS NULL THEN 0 ELSE SUM(AMOUNT) END FROM [Order] WHERE ToUserID=" + userID + " AND LOWER(Status)=LOWER('Completed')"));
+
+            int myNetBalance = totalEarnings + totalCredit - totalDebit;
+            if (myNetBalance < 0) myNetBalance = 0;
+
+            return myNetBalance.ToString();
+        }
+        private static string Get_Credit_Balance()
+        {
+            DAL.DBAccess db_earning_detail = new DAL.DBAccess();
+            return db_earning_detail.Get_Total_Credit_Debit("Get_Total_Credit", HttpContext.Current.Session["username"].ToString()).ToString();
+        }
+        private static string Get_Debit_Balance()
+        {
+            DAL.DBAccess db_earning_detail = new DAL.DBAccess();
+            return db_earning_detail.Get_Total_Credit_Debit("Get_Total_Debit", HttpContext.Current.Session["username"].ToString()).ToString();
+        }
+
+
+
         // load total credit and total debit
         private void Bind_Earning_Detail()
         {
             DAL.DBAccess db_earning_detail = new DAL.DBAccess();
-            TotalCredit.InnerText = db_earning_detail.Get_Total_Credit_Debit("Get_Total_Credit", Session["username"].ToString()).ToString();
-            TotalDebit.InnerText = db_earning_detail.Get_Total_Credit_Debit("Get_Total_Debit", Session["username"].ToString()).ToString();
-
-            int userID = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + Session["username"].ToString() + "'"));
-
-            int totalEarnings = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT CASE WHEN SUM(Amount) IS NULL THEN 0 ELSE SUM(AMOUNT) END FROM [Order] WHERE ToUserID=" + userID + " AND LOWER(Status)=LOWER('Completed')"));
-
-            int myNetBalance = totalEarnings + (int)Convert.ToInt32(TotalCredit.InnerText) - (int)Convert.ToInt32(TotalDebit.InnerText);
-
-            netBalance.InnerText = myNetBalance.ToString();
+            TotalCredit.InnerText = Get_Credit_Balance();
+            TotalDebit.InnerText = Get_Debit_Balance();
+            netBalance.InnerText = Get_Net_Balance(Convert.ToInt32(TotalCredit.InnerText), Convert.ToInt32(TotalDebit.InnerText));
         }
 
         // load transaction history
@@ -94,9 +112,14 @@ namespace WorKar
                 isWithdraw = isWithdraw.Trim();
                 int withdrawAmount = (int)Convert.ToInt32(amount.Trim());
 
+                DateTime transactionDateDate = DateTime.Now;
+                int UserID = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
                 if (isWithdraw == "1")
                 {
-                    int balance = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT balance FROM Card_Detail WHERE AccountNumber='" + accountNum + "'"));
+                    int totalCredit = Convert.ToInt32(Get_Credit_Balance());
+                    int totalDebit = Convert.ToInt32(Get_Debit_Balance());
+
+                    int balance = Convert.ToInt32(Get_Net_Balance(totalCredit, totalDebit)) + totalCredit - totalDebit;
 
                     // not sufficient balance
                     if (balance < withdrawAmount)
@@ -104,10 +127,27 @@ namespace WorKar
                         return 0;
                     }
                 }
-                int UserID = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
-                DateTime transactionDateDate = DateTime.Now;
-
+                else
+                {
+                    int balance = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT balance FROM Card_Detail WHERE AccountNumber='" + accountNum + "'"));
+                    // not sufficient balance
+                    if (balance < withdrawAmount)
+                    {
+                        return 0;
+                    }
+                }
+   
                 db_card_detail_count.Insert_Transaction_Detail("Insert_Transaction_Detail", UserID, (isWithdraw == "1" ? true : false), withdrawAmount, transactionDateDate);
+                
+                if(isWithdraw == "1")
+                {
+                    db_card_detail_count.Execute_Non_Query("Update [Card_Detail] SET Balance = Balance + " + withdrawAmount + " WHERE  AccountNumber='" + accountNum + "'");
+                }
+                else
+                {
+                    db_card_detail_count.Execute_Non_Query("Update [Card_Detail] SET Balance = Balance - " + withdrawAmount + " WHERE  AccountNumber='" + accountNum + "'");
+                }
+
                 return 1;
             }
 

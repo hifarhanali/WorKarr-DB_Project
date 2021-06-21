@@ -25,9 +25,9 @@
     <!--AJAX API-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
-        function load_messages(input) {
+        function load_messages(input)
+        {
             let contactUsername = input.split('_')[1];
-
             $.ajax({
                 type: "POST",
                 url: "chat.aspx/Load_Messages",
@@ -49,10 +49,26 @@
                 },
                 failure: function (response) {
                     alert("Failed");
+                },
+                complete: function () {
+                    update_contacts_status();
+                    //let myUpdateContactsStatus = setTimeout(function () {
+                    //}, 15000);
                 }
             });
             return false;
         };
+
+
+        function wrapper_for_load_messages() {
+            let profile_header = $(".contact-profile");
+            if (profile_header.length > 0) {
+                let contactUserName = profile_header.attr('id').split('_')[1];
+                let contact_tag_id = "contact_" + contactUserName.trim();
+
+                load_messages(contact_tag_id);
+            }
+        }
 
 
         // function to load chat window header
@@ -124,12 +140,8 @@
             var strTime = hours + ':' + minutes + ' ' + ampm;
             return strTime;
         }
-    </script>
 
-
-    <!--to send private message-->
-    <script type="text/javascript">
-
+        // to send private message 
         function send_msg_btn_click() {
             let message = $("#message_inputID").val();
             if (message.length > 0) {
@@ -139,13 +151,21 @@
                 $("#message_inputID").val("");
                 $("#message_inputID").focus();
             }
-
             return false;
         }
 
 
         // to save provate msg in database
         function send_private_message(toUsername, message) {
+
+            var messageObject = {
+                Msg: message,
+                MsgType: "Send",
+                MsgTime: new Date().toString()
+            };
+            AddMessage(messageObject);
+            $("#messagesListID-container").animate({ scrollTop: 9999 }, 'slow');
+
             $.ajax({
                 type: "POST",
                 url: "chat.aspx/Send_Private_Message",
@@ -154,15 +174,15 @@
                 dataType: "json",
                 success: function (response) {
 
-                    let returnValue = response.d.toString().split("-");
+                    //let returnValue = response.d.toString().split("-");
 
-                    var messageObject = {
-                        Msg: returnValue[0],
-                        MsgType: "Send",
-                        MsgTime: returnValue[1]
-                    };
-                    AddMessage(messageObject);
-                    $("#messagesListID-container").animate({ scrollTop: 9999 }, 'slow');
+                    //var messageObject = {
+                    //    Msg: returnValue[0],
+                    //    MsgType: "Send",
+                    //    MsgTime: returnValue[1]
+                    //};
+                    //AddMessage(messageObject);
+                    //$("#messagesListID-container").animate({ scrollTop: 9999 }, 'slow');
                 },
                 failure: function (response) {
                     alert("Failed to send message. Retry!");
@@ -170,28 +190,13 @@
             });
             return false;
         };
-    </script>
 
-    <!--set interval to reload messages and update contacts statuses after every 5 seconds-->
-    <script type="text/javascript">
-        setTimeout(function () {
-            let profile_header = $(".contact-profile");
-            if (profile_header.length > 0) {
-                let contactUserName = profile_header.attr('id').split('_')[1];
-                let contact_tag_id = "contact_" + contactUserName.trim();
-
-                load_messages(contact_tag_id);
-            }
-        }, 10000);
-
-        setTimeout(function () {
-            this.update_contacts_status();
-        }, 10000);
-
-
-    </script>
-
-    <script type="text/javascript">
+       // set interval to reload messages and update contacts statuses after every 5 seconds
+        $(document).ready(function () {
+            let myLoadMsgInterval = setInterval(function () {
+                wrapper_for_load_messages();
+            }, 20000);
+        });
 
         // to get value of a parameter
         function GetUrlParameter(sParam) {
@@ -221,9 +226,6 @@
 
         window.onload = open_top_contact_chat_window();
 
-    </script>
-
-    <script type="text/javascript">
         function update_contacts_status() {
             let contacts = document.getElementsByClassName("contact");
             let contactsUsernames = new Array();

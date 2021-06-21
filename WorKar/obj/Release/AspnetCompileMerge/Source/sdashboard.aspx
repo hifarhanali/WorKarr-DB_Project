@@ -37,48 +37,34 @@
                 <div class="mid-upper-container">
                     <div class="box1-container box">
                         <div class="flex">
-                            <h1>Debit</h1>
+                            <h1>Debit Balanace</h1>
                             <div class="icon">
                                 <i class="fas fa-dollar-sign"></i>
                             </div>
                         </div>
-                        <h1>$1200</h1>
-                        <p>45% This Week</p>
+                            <h1>Rs. <span id="TotalDebit" runat="server"></span></h1>
                     </div>
                     <div class="box2-container box">
                         <div class="flex">
-                            <h1>Debit</h1>
+                            <h1>Credit Balanace</h1>
                             <div class="icon">
                                 <i class="fas fa-dollar-sign"></i>
                             </div>
                         </div>
-                        <h1>$1200</h1>
-                        <p>45% This Week</p>
+                            <h1>Rs. <span id="TotalCredit" runat="server"></span></h1>
                     </div>
                     <div class="box3-container box">
                         <div class="flex">
-                            <h1>Debit</h1>
+                            <h1>Net Balanace</h1>
                             <div class="icon">
                                 <i class="fas fa-dollar-sign"></i>
                             </div>
                         </div>
-                        <h1>$1200</h1>
-                        <p>45% This Week</p>
-                    </div>
-                    <div class="box4-container box">
-                        <div class="flex">
-                            <h1>Debit</h1>
-                            <div class="icon">
-                                <i class="fas fa-dollar-sign"></i>
-                            </div>
-                        </div>
-                        <h1>$1200</h1>
-                        <p>45% This Week</p>
+                            <h1>Rs. <span id="netBalance" runat="server"></span></h1>
                     </div>
                 </div>
 
                 <div class="chart-card-container">
-
                     <!-- mid lower Container -->
                     <div class="mid-lower-container">
                         <h3>Profile Overview</h3>
@@ -97,7 +83,7 @@
                                         <td class="right"><%# Handle_SQL_NULL(Eval("Earnings")) %></td>
                                     </tr>
                                     <tr>
-                                        <td class="left">Earning in <span class="month"><%# Eval("CurrMonth") %> Months</span></td>
+                                        <td class="left">Earning in <span class="month"><%# Get_Full_Month_Name(Eval("CurrMonth")) %> </span></td>
                                         <td class="right"><%# Handle_SQL_NULL(Eval("CurrentMonthIncome")) %></td>
                                     </tr>
                                     <tr>

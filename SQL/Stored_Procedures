@@ -12,20 +12,17 @@ CREATE PROCEDURE Insert_User
 @email varchar(60),
 @password varchar(50),
 @username varchar(50),
-@numoforders INT = 0,
-@rating DECIMAL(2, 1) = 0,
-@earnings INT = 0,
 @description VARCHAR(600) = NULL,
 @availability BIT = 1,
 @categoryID INT = NULL,
 @guid varchar(50),
 @isValidEmail bit = 0,
-@Photo varchar(200)= 'Dummy.png',
+@Photo varchar(200)= 'icons/avatar.png',
 @Country VARCHAR(100) = NULL
 AS
 BEGIN
 INSERT INTO [User]
-VALUES (@fName, @lName, @gender, @email, @password, @username, @numoforders, @rating, @earnings, @description, @availability, @categoryID, @guid, @isValidEmail, @Photo, @Country);
+VALUES (@fName, @lName, @gender, @email, @password, @username, @description, @availability, @categoryID, @guid, @isValidEmail, @Photo, @Country);
 END
 
 
@@ -48,7 +45,20 @@ CREATE PROCEDURE Match_Users_Count
 @Count INT OUTPUT
 AS
 BEGIN
-SELECT @Count=COUNT(*) FROM [User] WHERE [User].Username=@Username AND [User].Password=@Password
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+BEGIN TRAN
+SAVE TRANSACTION SAVEPOINT
+BEGIN TRY
+	SELECT @Count=COUNT(*) FROM [User] WHERE [User].Username=@Username AND [User].Password=@Password
+END TRY
+BEGIN CATCH
+		IF @@TRANCOUNT > 0
+		BEGIN
+			ROLLBACK TRANSACTION SAVEPOINT 	
+			SET @Count = 0
+		END
+	END CATCH
+	COMMIT TRANSACTION
 END
 GO
 
@@ -176,22 +186,29 @@ CREATE PROCEDURE Get_Filtered_Gigs_Detail
 @searchText Varchar(500) = NULL
 AS
 BEGIN
-		DECLARE @result TABLE (UserPhoto VARCHAR(200) NULL, GigID INT, Title VARCHAR(100), [Description] VARCHAR(1200), Amount INT, Category VARCHAR(50), PostedDate DATETIME, Image1 VARCHAR(100));
+		DECLARE @result TABLE (UserPhoto VARCHAR(200) NULL, GigID INT, Title VARCHAR(100), [Description] VARCHAR(1200), Amount INT, Category VARCHAR(50), PostedDate DATETIME, Image1 VARCHAR(100), UserStatus VARCHAR(10) NULL) ;
 
 		-- store result in a variable
 		INSERT INTO @result
-		SELECT [User].Photo UserPhoto, Gig.GigID, Title, Gig.[Description], Amount, Category.[Name] AS Category, Gig.PostedDate, [dbo].[GigImages].Image1
+		SELECT [User].Photo UserPhoto, Gig.GigID, Title, Gig.[Description], Amount, Category.[Name] AS Category, Gig.PostedDate, [dbo].[GigImages].Image1,
+		CASE
+			WHEN Online_Users.UserID IS NOT NULL THEN 'online'
+			ELSE 'offline'
+		END UserStatus
 		FROM Gig JOIN Gig_user ON [dbo].[Gig_user].GigID = [dbo].[Gig].GigID
 		JOIN [dbo].[GigImages] ON [dbo].[GigImages].GigUserID = [dbo].[Gig_user].GigUserID
 		JOIN Category ON Category.CategoryID = Gig.CategoryID
 		JOIN [dbo].[User] ON [dbo].[User].UserID = [dbo].[Gig_user].UserID
-		WHERE	(@CategoryID IS NULL OR @CategoryID = Gig.CategoryID) AND
+		LEFT JOIN Online_Users ON Online_Users.UserID = [User].UserID
+		WHERE	[User].[Availability] = 1 AND
+				(@CategoryID IS NULL OR @CategoryID = Gig.CategoryID) AND
 				(@Country IS NULL OR @Country = [User].Country) AND
 				(@Duration IS NULL OR @Duration >= Gig.Duration) AND
 				(@MinPrice IS NULL OR @MinPrice <= Gig.Amount) AND
 				(@MaxPrice IS NULL OR @MaxPrice >= Gig.Amount) AND
 				(@searchText IS NULL OR (LOWER(Gig.Title) LIKE '%' + LOWER(@searchText) + '%' OR LOWER(@searchText) LIKE '%' + LOWER(Gig.Title) + '%') OR
 				(LOWER(Gig.[Description]) LIKE '%' + LOWER(@searchText) + '%' OR LOWER(Gig.[Description]) LIKE '%' + LOWER(@searchText) + '%'))
+		
 		IF @SortBY IS NOT NULL
 		BEGIN
 			IF @SortBy = 'Price'
@@ -206,7 +223,7 @@ BEGIN
 				LEFT JOIN Gig_user ON Gig_user.GigID = R.GigID
 				LEFT JOIN User_Review ON User_Review.GigUserID = Gig_user.GigUserID
 				LEFT JOIN Review ON Review.ReviewID = User_Review.ReviewID
-				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1] 
+				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1], R.UserStatus 
 				ORDER BY R.Amount
 			END
 			ELSE IF @SortBy = 'Date'
@@ -221,7 +238,7 @@ BEGIN
 				LEFT JOIN Gig_user ON Gig_user.GigID = R.GigID
 				LEFT JOIN User_Review ON User_Review.GigUserID = Gig_user.GigUserID
 				LEFT JOIN Review ON Review.ReviewID = User_Review.ReviewID
-				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1] 
+				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1], R.UserStatus 
 				ORDER BY R.PostedDate DESC				
 			END
 			ELSE
@@ -236,7 +253,7 @@ BEGIN
 				LEFT JOIN Gig_user ON Gig_user.GigID = R.GigID
 				LEFT JOIN User_Review ON User_Review.GigUserID = Gig_user.GigUserID
 				LEFT JOIN Review ON Review.ReviewID = User_Review.ReviewID
-				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1] 
+				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1], R.UserStatus 
 				ORDER BY GigRating DESC
 			END
 		END
@@ -252,7 +269,7 @@ BEGIN
 				JOIN Gig_user ON Gig_user.GigID = R.GigID
 				LEFT JOIN User_Review ON User_Review.GigUserID = Gig_user.GigUserID
 				LEFT JOIN Review ON Review.ReviewID = User_Review.ReviewID
-				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1] 
+				GROUP BY R.GigID, R.UserPhoto, R.Title, R.[Description], R.Amount, R.Category, R.PostedDate, R.[Image1], R.UserStatus 
 		END
 END
 GO
@@ -564,7 +581,6 @@ EXEC Get_Total_Credit
 GO
 
 
-
 -- to get total debit of a user
 DROP PROCEDURE IF EXISTS Get_Total_Debit
 GO
@@ -868,7 +884,9 @@ BEGIN
 END
 GO
 EXEC Get_User_Summary
-@USerID = 19
+@USerID = 23
+
+
 
 
 -- to insert detail of a new message
@@ -938,16 +956,113 @@ GO
 CREATE PROCEDURE Load_Contacts
 @Username		varchar(50)
 AS
-DECLARE @orderContacts TABLE (contactUserName VARCHAR(50) NULL, contactUserPhoto VARCHAR(200) NULL);
-
+DECLARE @orderContacts TABLE (contactUserName VARCHAR(50) NULL, contactUserPhoto VARCHAR(200) NULL, contactStatus VARCHAR(10));
 -- store result in a variable
 INSERT INTO @orderContacts
-SELECT [User].Username contactUserName, [User].Photo contactUserPhoto FROM [User]
+SELECT [User].Username contactUserName, [User].Photo contactUserPhoto,
+CASE
+WHEN EXISTS (SELECT * FROM Online_Users WHERE Online_Users.UserID = [User].UserID) THEN 'online'
+ELSE 'offline'
+END contactStatus
+FROM [User]
 JOIN dbo.User_Contacts_Function(@Username) contacts ON contacts.contactUserName = [User].Username
 ORDER BY contacts.AddedOn DESC
 
 SELECT DISTINCT * FROM @orderContacts
 GO
 EXEC Load_Contacts
-@Username = 'FarhanAli20'
+@Username = 'FaisalQuraishi19'
+GO
+
+
+
+-- to delete entries of offline users
+DROP TRIGGER IF EXISTS Delete_Offline_Users_Trigger
+GO
+CREATE TRIGGER Delete_Offline_Users_Trigger
+ON Online_Users
+FOR INSERT, Update 
+AS
+	DELETE FROM Online_Users WHERE UserID=(SELECT UserID FROM inserted) AND openWindows = 0;
+GO
+ENABLE TRIGGER Delete_Offline_Users_Trigger ON Online_Users
+GO
+INSERT INTO Online_Users VALUES(19, 1);
+GO
+Update Online_Users SET openWindows = openWindows-1 WHERE UserID = 19
+GO
+SELECT * FROM Online_Users
+GO
+TRUNCATE TABLE Online_Users
+GO
+
+
+-- to get status of a user
+DROP FUNCTION IF EXISTS Get_User_Status
+GO
+CREATE FUNCTION Get_User_Status(@Username VARCHAR(50))
+RETURNS VARCHAR(10)
+AS
+BEGIN
+DECLARE @UserID INT = (SELECT UserID FROM [User] WHERE Username = @Username);
+DECLARE @Status VARCHAR(10) = NULL;
+SELECT @Status = CASE
+			WHEN EXISTS (SELECT * FROM Online_Users WHERE Online_Users.UserID = @UserID) THEN 'online'
+			ELSE 'offline'
+		END
+FROM [Online_Users]
+RETURN @Status
+END
+GO
+SELECT dbo.Get_User_Status('FarhanAli20')
+GO
+
+
+
+-- set order status to complete, if completed within due date
+DROP PROCEDURE IF EXISTS Update_Order_Status
+GO
+CREATE PROCEDURE Update_Order_Status
+@OrderID		INT
+AS
+DECLARE @temp INT = 0;
+SELECT @temp =  (SELECT COUNT(*) FROM [Order] WHERE OrderId = @OrderId AND EndingDate >= GetDate())
+
+IF @temp <> 0
+BEGIN
+	UPDATE [Order] SET [Status] = 'Completed' WHERE OrderID = @OrderID
+	SELECT 'Completed'
+END
+ELSE
+BEGIN
+	UPDATE [Order] SET [Status] = 'Cancelled' WHERE OrderID = @OrderID
+	SELECT 'Cancelled'
+END
+GO
+EXEC Update_Order_Status
+@OrderID = 14
+GO
+
+
+
+
+-- insert transaction details
+DROP PROCEDURE IF EXISTS Insert_Transaction_Detail
+GO
+CREATE PROCEDURE Insert_Transaction_Detail
+@UserID INT,
+@IsWithDraw BIT,
+@Amount INT,
+@TransactionDate DATETIME
+AS
+INSERT INTO [TRANSACTION] VALUES (@UserID, @IsWithDraw, @Amount, @TransactionDate);
+GO
+EXEC Insert_Transaction_Detail @UserID=22, @IsWithDraw=1, @Amount=500, @TransactionDate='2020-08-10'
+GO
+
+delete FROM [Transaction]
+GO
+SELECT * FROM [Transaction]
+GO
+SELECT * FROM [User_Review]
 GO

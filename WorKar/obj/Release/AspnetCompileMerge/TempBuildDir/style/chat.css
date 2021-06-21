@@ -257,16 +257,12 @@ body main .glass .content .messages ul li {
     font-size: 0.9em;
 }
 
-body main .glass .content .messages ul li img {
-    width: 40px;
-    height: 40px;
-}
 
 body main .glass .content .messages ul li p {
     display: inline-block;
     padding: 10px 15px;
     border-radius: 10px;
-    max-width: 205px;
+    max-width: 205px; 
     line-height: 130%;
 }
 

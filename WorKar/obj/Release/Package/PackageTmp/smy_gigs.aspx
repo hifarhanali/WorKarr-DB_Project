@@ -56,16 +56,7 @@
         }
     </script>
 
-    <!--CDN To drag gigs-->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        // to drag gigs
-        $(function () {
-            $("#sortable").sortable();
-            $("#sortable").disableSelection();
-        });
-
         // to display dot menu on click
         function display_dotMenu(icon) {
             var gigID = icon.id;

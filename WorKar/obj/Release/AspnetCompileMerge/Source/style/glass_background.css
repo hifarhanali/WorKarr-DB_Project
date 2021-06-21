@@ -1,4 +1,8 @@
-﻿.glass {
+﻿p{
+  font-weight: 300 !important;  
+}
+
+.glass {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

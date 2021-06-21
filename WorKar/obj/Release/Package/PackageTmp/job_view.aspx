@@ -20,6 +20,7 @@
     <!--Font Awsome linkk-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script src="https://kit.fontawesome.com/571b8d9aa3.js" crossorigin="anonymous"></script>
+
     <!--For Fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -203,7 +204,7 @@
 
                                 <div class="description">
                                     <h2>Description</h2>
-                                    <p><%# Eval("Description") %></p>
+                                    <p id="job_description"><%# Eval("Description") %></p>
                                 </div>
 
                                 <input id="Job_Price_HiddenField" hidden="hidden" value="<%# Eval("Amount") %>" />
@@ -230,7 +231,7 @@
                                     <br />
 
                                     <div class="user-description">
-                                        <p id="job_description">
+                                        <p>
                                             <%#Eval("UserDescription") %>
                                         </p>
                                     </div>
