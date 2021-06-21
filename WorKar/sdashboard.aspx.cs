@@ -43,6 +43,7 @@ namespace WorKar
         }
 
 
+
         // load total credit and total debit
         private void Bind_Earning_Detail()
         {
@@ -52,7 +53,7 @@ namespace WorKar
 
             int userID = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + Session["username"].ToString() + "'"));
 
-            int totalEarnings = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT SUM(Amount) FROM [Order] WHERE ToUserID=" + userID + " AND LOWER(Status)=LOWER('Completed')"));
+            int totalEarnings = (int)Convert.ToInt32(db_earning_detail.Get_Execute_Scalar("SELECT CASE WHEN SUM(Amount) IS NULL THEN 0 ELSE SUM(AMOUNT) END FROM [Order] WHERE ToUserID=" + userID + " AND LOWER(Status)=LOWER('Completed')"));
 
             int myNetBalance = totalEarnings + (int)Convert.ToInt32(TotalCredit.InnerText) - (int)Convert.ToInt32(TotalDebit.InnerText);
 
