@@ -20,6 +20,19 @@
     <link href="style/sidebar.css" rel="stylesheet" runat="server" />
     <link href="style/profile_editing.css" rel="stylesheet" runat="server" />
 
+    <style runat="server">
+        .side-bar ul a li {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+            .side-bar ul a li p, .transaction p, .order p {
+                margin-top: 20px !important;
+            }
+
+    </style>
+
     <script>
         // click file upload buttons on click on image
         function click_fileUplaod() {
