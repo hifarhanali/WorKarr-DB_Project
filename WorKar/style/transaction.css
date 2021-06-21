@@ -31,16 +31,16 @@
 
     .transaction,
     .order {
-        padding: 25px 20px !important;
+        padding: 15px 20px !important;
         width: 100% !important;
         color: #012e4d !important;
         display: -ms-grid !important;
         display: grid !important;
         grid-template-columns: 1fr 1fr 2fr 1fr !important;
         gap: 20px !important;
-        -ms-flex-line-pack: center;
-        align-content: center;
-        align-items: center;
+        -ms-flex-line-pack: center !important;
+        align-content: center !important;
+        align-items: center !important;
         -webkit-box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.3);
         box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.3);
         background-color: white;
@@ -280,14 +280,6 @@
         border: none;
     }
 
-body p {
-    font-size: 1em;
-    font-weight: 200;
-}
-
-li p {
-    margin-top: 20px;
-}
 
 
 
@@ -298,3 +290,6 @@ li p {
 input[type=submit] {
     width: auto !important;
 }
+
+
+

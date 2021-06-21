@@ -5,6 +5,9 @@
 <html>
 <head runat="server">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
     <link rel="icon" href="images/logo_square.png"
         type="image/x-icon" />
 
@@ -35,6 +38,7 @@
         .side-bar ul {
             padding-left: 0 !important;
         }
+
     </style>
 
     <!--Jquery link -->
@@ -51,8 +55,6 @@
     </script>
 
 
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
 </head>
 <body>
     <div id="loading"></div>
@@ -77,7 +79,7 @@
                         </div>
                         <!--Side bar menu-->
                         <div class="side-bar">
-                            <ul>
+                            <ul class = "list-unstyled">
                                 <asp:LinkButton ID="hyperlink_homeID" OnClick="hyperlink_homeID_Click" runat="server"><li>
                             <i class="far fa-home"></i>
                             <p>Home</p>
