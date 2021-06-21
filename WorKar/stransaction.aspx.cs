@@ -93,13 +93,14 @@ namespace WorKar
             {
 
                 isWithdraw = isWithdraw.Trim();
+                int withdrawAmount = (int)Convert.ToInt32(amount.Trim());
 
-                if(isWithdraw == "1")
+                if (isWithdraw == "1")
                 {
                     int balance = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT balance FROM Card_Detail WHERE AccountNumber='" + accountNum + "'"));
 
                     // not sufficient balance
-                    if (balance < (int)Convert.ToInt32(amount))
+                    if (balance < withdrawAmount)
                     {
                         return 0;
                     }
@@ -107,9 +108,10 @@ namespace WorKar
                 int UserID = (int)Convert.ToInt32(db_card_detail_count.Get_Execute_Scalar("SELECT UserID FROM [User] WHERE Username='" + HttpContext.Current.Session["username"].ToString() + "'"));
                 DateTime transactionDateDate = DateTime.Now;
 
-                db_card_detail_count.Insert_Transaction_Detail("Insert_Transaction_Detail", UserID, Convert.ToBoolean(isWithdraw), (int)Convert.ToInt32(amount), transactionDateDate);
+                db_card_detail_count.Insert_Transaction_Detail("Insert_Transaction_Detail", UserID, (isWithdraw == "1" ? true : false), withdrawAmount, transactionDateDate);
                 return 1;
             }
+
             return 2;           // card details are not correct
         }
 

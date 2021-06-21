@@ -96,7 +96,7 @@
                                 <div class="col">\
                                 <div class="form-group"> \
                                     <label>Amount In PKR</label> \
-                                    <input id="card_amountID" class="form-control" type="number" min=0 placeholder="500"  onfocusout="reset_required_field_error(this, \'RequiredField_CardAmount_Error\')" />\
+                                    <input id="card_amountID" class="form-control" type="number" min=0 max="2147483647" placeholder="500"  onfocusout="reset_required_field_error(this, \'RequiredField_CardAmount_Error\')" />\
                                     <span id="RequiredField_CardAmount_Error" style="display:none; color: red;">Required*</span> \
                                 </div > \
                                 </div > \
@@ -111,6 +111,22 @@
                 </div> \
             </div>';
         }
+
+        function format_num_to_currency(currencyType, number) {
+            // Create our number formatter.
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: currencyType,
+
+                // These options are needed to round to whole numbers if that's what you want.
+                minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+                maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+            });
+            return formatter.format(number);
+        }
+
+
+
 
         // send message of user to WorKarr
         function perform_transaction() {
@@ -147,7 +163,15 @@
                 $("#RequiredField_CardExpDate_Error").css("display", "block");
                 isValidMessage = false;
             }
-            if (amount == "" || amount.length <= 0) {
+            if (amount <= 0) {
+                $("#RequiredField_CardAmount_Error").text("Withdraw amount should be greater than 0.");
+                $("#RequiredField_CardAmount_Error").css("display", "block");
+                isValidMessage = false;
+            }
+
+            const MAX_AMOUTNT = 2147483647;
+            if (amount > MAX_AMOUTNT) {
+                $("#RequiredField_CardAmount_Error").text("Withdraw amount should be less than " + MAX_AMOUTNT + ".");
                 $("#RequiredField_CardAmount_Error").css("display", "block");
                 isValidMessage = false;
             }
