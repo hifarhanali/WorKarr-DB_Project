@@ -5,6 +5,9 @@
 <html>
 <head runat="server">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
     <link rel="icon" href="images/logo_square.png"
         type="image/x-icon" />
 
@@ -22,7 +25,7 @@
     <link href="style/circle.css" rel="stylesheet" runat="server" />
     <link href="style/sidebar.css" rel="stylesheet" runat="server" />
     <link href="style/preloader.css" rel="stylesheet" runat="server" />
-
+    <link href="style/Message_Block.css" rel="stylesheet" runat="server"/>
     <style runat="server">
         .glass {
             width: 100% !important;
@@ -35,15 +38,32 @@
         .side-bar ul {
             padding-left: 0 !important;
         }
+
     </style>
 
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
+    <!--Jquery link -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <script> 
+        const MSG_DIPLAY_INTERVAL = 10000;
+        // animation to hide error block
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#msg_block").slideUp("slow");
+            }, MSG_DIPLAY_INTERVAL);
+        });
+    </script>
+
+
 </head>
 <body>
     <div id="loading"></div>
     <form id="form1" runat="server" style="width: 100%;">
         <main id="main">
+
+            <div class="error_block" id="msg_block">
+                <span></span>
+            </div>
             <section class="outer-glass glass">
                 <!--Middle Container-->
                 <section class="middle-container">
@@ -59,7 +79,7 @@
                         </div>
                         <!--Side bar menu-->
                         <div class="side-bar">
-                            <ul>
+                            <ul class = "list-unstyled">
                                 <asp:LinkButton ID="hyperlink_homeID" OnClick="hyperlink_homeID_Click" runat="server"><li>
                             <i class="far fa-home"></i>
                             <p>Home</p>

@@ -6,7 +6,7 @@
 
     <%-- My Stylesheet --%>
     <link href="style/jobs_list.css" rel="stylesheet" runat="server" />
-
+    <link href="style/Message_Block.css" rel="stylesheet" runat="server"/>
     <style runat="server">
         .list-view {
             width: 100%;
@@ -43,33 +43,33 @@
 
         // to delete a gig without page reloading
         function cancel_order(input) {
+            let orderId = input.id.split('_')[1];
             $.ajax({
                 type: "POST",
                 url: "sorders_list.aspx/cancel_order",
-                data: '{ deleteOrderID :' + input.id.toString() + '}',
+                data: '{ deleteOrderID :' + orderId + '}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: OnSuccess
+                success: function (response) {
+                    // remove order card
+                    let orderId = response.d.split('_')[0];
+
+                    // remove order card
+                    document.getElementById("card-" + orderId).remove();
+                    let msg_block = $("#msg_block");
+                    msg_block.css("background-color", "rgba(0, 255, 0, 0.2)");
+                    msg_block.children('span').html("Order has been cancelled successfully!");
+                    msg_block.children('span').css("color", "green");
+                    msg_block.css("display", "flex");
+                }
+
             });
-        }
-        function OnSuccess(response) {
-            // remove order card
-            document.getElementById("card-" + response.d).remove();
         }
     </script>
 
 
 
-    <!--CDN To drag jobs-->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        // to drag gigs
-        $(function () {
-            $("#sortable").sortable();
-            $("#sortable").disableSelection();
-        });
-
         // to display dot menu on click
         function display_dotMenu(icon) {
             var JobID = icon.id;
@@ -88,7 +88,48 @@
                 }
             }, true);
         });
+    </script>
 
+    <script type="text/javascript">
+        // to delete a gig without page reloading
+        function complete_my_order(order) {
+
+            let orderId = order.id.split('_')[1];
+
+            $.ajax({
+                type: "POST",
+                url: "sorders_list.aspx/Complete_Order",
+                data: '{ completeOrderID :' + orderId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    let orderId = response.d.split('_')[0];
+                    let status = response.d.split('_')[1];
+
+                    // remove order card
+                    document.getElementById("card-" + orderId).remove();
+
+                    let msg_block = $("#msg_block");
+                    if (status == 'Completed') {
+                        msg_block.css("background-color", "rgba(0, 255, 0, 0.2)");
+                        msg_block.children('span').html("Order has been completed successfully!");
+                        msg_block.children('span').css("color", "green");
+                    }
+                    else {
+                        msg_block.css("background-color", "rgba(255, 0, 0, 0.2)");
+                        msg_block.children('span').html("Order has not been completed with in due date!");
+                        msg_block.children('span').css("color", "red");
+                    }
+
+                    msg_block.css("display", "flex");
+                }
+,
+                failure: function () {
+                    alert("Order Complete Status Failed");
+                }
+            });
+        }
     </script>
 
 </asp:Content>
@@ -98,7 +139,7 @@
             <div>
                 <h2 class="heading" title="Active orders you have posted">Posted Orders</h2>
                 <div class="list-view">
-                    <div class="jobs-container" id="sortable">
+                    <div class="jobs-container" id="sortable1">
                         <asp:Repeater ID="posted_orders_list" runat="server">
                             <ItemTemplate>
                                 <div class="job" id="card-<%# Eval("OrderID") %>">
@@ -133,7 +174,6 @@
                                                     <p id="OrderID=<%# Eval("OrderID") %>">Cancel</p>
                                                     <i class="far fa-trash-alt"></i>
                                                 </a>
-
                                             </ul>
                                         </div>
                                         <div class="icon-container">
@@ -167,7 +207,7 @@
             <div>
                 <h2 class="heading" title="Active orders you have to complete">Recieved Orders</h2>
                 <div class="list-view">
-                    <div class="jobs-container" id="sortable">
+                    <div class="jobs-container" id="sortable2">
                         <asp:Repeater ID="recieved_orders_list" runat="server">
                             <ItemTemplate>
                                 <div class="job" id="card-<%# Eval("OrderID") %>">
@@ -195,14 +235,17 @@
                                         <!-- display job view/edit/delete menu--->
                                         <div class="gig-dots-menu hide-menu" id="dot_menu-<%# Eval("OrderID") %>">
                                             <ul>
+                                                <a id="CompleteOrder_<%# Eval("OrderID") %>" onclick="complete_my_order(this)">
+                                                    <p>Complete</p>
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
                                                 <a href="sorder_view.aspx?OrderID=<%# Eval("OrderID") %>">
                                                     <p>View</p>
                                                     <i class="far fa-eye"></i></a>
-                                                <a id="<%# Eval("OrderID") %>" onclick="cancel_order(this)">
+                                                <a id="CancelledOrder_<%# Eval("OrderID") %>" onclick="cancel_order(this)">
                                                     <p id="OrderID=<%# Eval("OrderID") %>">Cancel</p>
                                                     <i class="far fa-trash-alt"></i>
                                                 </a>
-
                                             </ul>
                                         </div>
                                         <div class="icon-container">
@@ -226,14 +269,12 @@
                             </FooterTemplate>
 
                         </asp:Repeater>
-
                         <!--Job end-->
                     </div>
                     <!--Jobs contaiber end-->
                 </div>
                 <!--List view end-->
             </div>
-
         </div>
         <!--Middle Container End-->
     </div>

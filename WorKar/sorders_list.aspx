@@ -18,6 +18,7 @@
 
         .job {
             transition-delay: 0 !important;
+            job-he
         }
 
             .job .bottom-sec {
@@ -33,7 +34,7 @@
         }
 
             .job .middle-sec p {
-                height: 7.7rem;
+                height: 6.6rem !important;
             }
     </style>
 
@@ -236,8 +237,8 @@
                                         <div class="gig-dots-menu hide-menu" id="dot_menu-<%# Eval("OrderID") %>">
                                             <ul>
                                                 <a id="CompleteOrder_<%# Eval("OrderID") %>" onclick="complete_my_order(this)">
-                                                    <p>Complete</p>
-                                                    <i class="far fa-trash-alt"></i>
+                                                    <p>Done</p>
+                                                    <i class="far fa-check"></i>
                                                 </a>
                                                 <a href="sorder_view.aspx?OrderID=<%# Eval("OrderID") %>">
                                                     <p>View</p>

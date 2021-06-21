@@ -43,13 +43,13 @@ namespace WorKar.DAL
                 var count = outputParameter.Value;
                 returnValue = (int)Convert.ToInt32(count);
             }
-            catch
+            catch (Exception ex)
             {
-                return 0;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return returnValue;
         }
@@ -66,11 +66,11 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return result;
         }
@@ -96,11 +96,11 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
         }
 
@@ -116,11 +116,11 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
         }
 
@@ -147,13 +147,13 @@ namespace WorKar.DAL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return table;
         }
@@ -182,13 +182,13 @@ namespace WorKar.DAL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return table;
 
@@ -236,13 +236,13 @@ namespace WorKar.DAL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return table;
         }
@@ -267,13 +267,13 @@ namespace WorKar.DAL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return table;
         }
@@ -297,13 +297,13 @@ namespace WorKar.DAL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return table;
         }
@@ -311,15 +311,22 @@ namespace WorKar.DAL
         // get table of data using query
         public DataTable GetData(string query)
         {
-            using (SqlCommand cmd = new SqlCommand(query, con))
+            DataTable dt = new DataTable();
+            try
             {
-                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    DataTable dt = new DataTable();
-                    sda.Fill(dt);
-                    return dt;
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dt);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            return dt;
         }
 
         // to insert images of a gig
@@ -341,7 +348,7 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
@@ -375,12 +382,13 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
                 if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
+
             return (GigID);
         }
 
@@ -402,12 +410,13 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
                 if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
+
             return (int)(GigUserID);
         }
 
@@ -433,12 +442,13 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
                 if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
+
             return (JobID);
         }
 
@@ -459,12 +469,13 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
                 if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
+
         }
 
         // top update gig detail
@@ -497,12 +508,13 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
+
         }
 
         // top update job detail
@@ -526,12 +538,13 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
+
         }
 
         // top update gig detail
@@ -566,11 +579,11 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
         }
 
@@ -590,11 +603,11 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
 
             return totalAmount;
@@ -636,13 +649,13 @@ namespace WorKar.DAL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return table;
 
@@ -667,16 +680,15 @@ namespace WorKar.DAL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return table;
-
         }
 
 
@@ -701,11 +713,11 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
 
             return count;
@@ -739,7 +751,7 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
@@ -768,7 +780,7 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
@@ -794,7 +806,7 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
@@ -822,7 +834,7 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
@@ -849,13 +861,13 @@ namespace WorKar.DAL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return table;
         }
@@ -894,13 +906,12 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
-
         }
 
 
@@ -921,13 +932,13 @@ namespace WorKar.DAL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
             return table;
         }
@@ -956,13 +967,12 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
-                con.Close();
+                if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
-
         }
 
         // to insert new gig_user record and return GigUserID
@@ -984,15 +994,13 @@ namespace WorKar.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.Message);
             }
             finally
             {
                 if (con.State == System.Data.ConnectionState.Open) con.Close();
             }
         }
-
-
     }
 }
 

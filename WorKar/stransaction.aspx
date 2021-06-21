@@ -288,7 +288,6 @@
                                     <span class="status <%# Eval("Status") %>"></span>
                                     <p><%# Eval("Status") %></p>
                                 </div>
-
                             </div>
                         </ItemTemplate>
                         <FooterTemplate>
@@ -304,7 +303,7 @@
                 <div class="right-inner-section">
                     <div class="payment-header">
                         <h2>Payment</h2>
-                        <button type="button" data-toggle="modal" data-target="#exampleModalCenter" data-backdrop='static' data-keyboard='false'><i class="fas fa-plus"></i></button>
+                        <button type="button" title="Add Transaction" data-toggle="modal" data-target="#exampleModalCenter" data-backdrop='static' data-keyboard='false'><i class="fas fa-plus"></i></button>
                     </div>
                     <div class="container">
                         <div class="box1-container box">

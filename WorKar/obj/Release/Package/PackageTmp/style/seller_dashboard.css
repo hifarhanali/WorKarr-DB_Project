@@ -89,7 +89,7 @@
 .box {
 	width: 22%;
 	height: auto;
-	padding: 10px 20px;
+	padding: 10px 30px !important;
 	margin: 0 1%;
 	background-color: rgb(1, 46, 77);
 	color: white;
