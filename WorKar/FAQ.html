@@ -1,0 +1,137 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>FAQ | WorKarr</title>
+
+
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+    <!--poppins font link-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!---My style sheets-->
+    <link href="style/main_background.css" rel="stylesheet" runat="server" />
+    <link href="style/glass_background.css" rel="stylesheet" runat="server" />
+    <link href="style/circle.css" rel="stylesheet" runat="server" />
+    <link href="style/preloader.css" rel="stylesheet" runat="server" />
+    <link href="style/terms_conditions.css" rel="stylesheet" runat="server" />
+    <link href="style/FAQ.css" rel="stylesheet" runat="server" />
+
+    <!--AJAX API-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).on('ready', function () {
+            $('a.page-scroll').on('click', function (e) {
+                var anchor = $(this);
+                $('html, body').stop().animate({
+                    scrollTop: $(anchor.attr('href')).offset().top - 50
+                }, 1500);
+                e.preventDefault();
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <main>
+        <div class="glass">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title text-center wow zoomIn">
+                        <h1>Frequently Asked Questions</h1>
+                        <span></span>
+                        <p>Our Frequently Asked Questions here.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        How Does Workarr Work?
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <p>
+                                        Workarr, the world’s alluring platform for digital services, offering both Buyer and Seller an Opportunity To Get Their Needs met . Like some Famous Freelance websites before Workarr, Workarr also have The unique term for a service offered by a Seller on Workarr is called a 'Gig'.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Why do my payment fail?
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <p>
+                                        <ul>
+                                            <li>One potential reason can turn out to be the Number of pending Requests to your bank account which are not resolved yet.</li>
+                                            <li>Another reason can be the issue with systems of Paypal, it's because Workarr do work with PayPal with payment stuff.</li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingThree">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        What I can do, if my payment fails?
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <div class="panel-body">
+                                    <p>
+                                        <ul>
+                                            <li>Check your Bank Account Queue of the transaction requests.</li>
+                                            <li>Wait for 20 minutes and then restart the service</li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingFour">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        Why am I warned on Workarr?
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                <div class="panel-body">
+                                    <p>WorKarr, as you know, is a world class Freelancing Website where all the users Report to be succeeded.</p>
+                                    <p>
+                                        Workarr Ensures that there is a friendly and instead of the Toxic Environment, we rather Focus on The Best User Experience To make them Feel home .
+                                        So there is a <strong>"Workarr Culture"</strong> Which is composed of some Rules.
+                                        Anyone , disobeying the rules is in fact want to pollute the atmosphere of this Home .
+                                        So, to avoid that, we issue warnings to every individual that somehow violates some type of Workarr culture Characteristics.
+                                        If the warning Count is Three, the user can also be disabled by WorKarr Authorities.
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--- END COL -->
+            </div><!--- END ROW -->
+        </div>
+    </main>
+
+</body>
+</html>

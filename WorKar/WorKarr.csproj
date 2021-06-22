@@ -118,6 +118,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="email_confirmation.aspx" />
     <Content Include="Email_Verification.html" />
+    <Content Include="FAQ.html" />
     <Content Include="images\gig_images\gig_dummy.png" />
     <Content Include="gig_view.aspx" />
     <Content Include="icons\loading.gif" />
@@ -151,6 +152,7 @@
     <Content Include="script\signup_validation.js" />
     <Content Include="sorder_view.aspx" />
     <Content Include="style\chat.css" />
+    <Content Include="style\FAQ.css" />
     <Content Include="style\footer.css" />
     <Content Include="style\gig_creation.css" />
     <Content Include="style\input_tag.css" />
