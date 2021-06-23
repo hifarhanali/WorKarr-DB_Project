@@ -1,0 +1,34 @@
+﻿.circle {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 1;
+    -webkit-filter: blur(10px);
+    filter: blur(10px);
+}
+
+.circle1 {
+    height: 20rem;
+    width: 20rem;
+    top: -12%;
+    left: -3%;
+    background-color: rgba(252, 65, 127, 0.7);
+}
+
+.circle2 {
+    height: 20rem;
+    width: 20rem;
+    bottom: -12%;
+    right: -3%;
+    background-color: rgba(5, 150, 194, 0.63);
+}
+
+.circle3 {
+    height: 20rem;
+    width: 20rem;
+    top: 40%;
+    right: 28%;
+    background-color: rgba(2, 35, 221, 0.795);
+    opacity: 0.5;
+    filter: blur(50px);
+    -webkit-filter: blur(150px);
+}

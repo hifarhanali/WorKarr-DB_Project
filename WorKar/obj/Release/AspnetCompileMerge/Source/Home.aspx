@@ -68,7 +68,7 @@
                                     <p>We have expert freelancers who work in every technical, professional, and creative field imaginable.</p>
                                 </div>
                                 <div class="btn-container">
-                                    <asp:Button ID="btn_get_startedID" CssClass="button" runat="server" Text="Get Started" PostBackUrl="~/signup.aspx" />
+                                    <asp:Button ID="btn_get_startedID" CssClass="button" runat="server" Text="Get Started" PostBackUrl="signup.aspx" />
                                 </div>
                             </div>
                         </div>

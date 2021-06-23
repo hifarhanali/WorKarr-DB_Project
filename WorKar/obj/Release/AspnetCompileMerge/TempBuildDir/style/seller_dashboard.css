@@ -1,0 +1,332 @@
+﻿
+.right-section {
+	margin-left: 0;
+	width: 100%;
+}
+
+
+.inner-glass {
+	width: 100%;
+	margin: auto 0%;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	background-color: transparent;
+	backdrop-filter: none;
+	height: 90vh;
+	color: #012e4d;
+	overflow-y: scroll;
+}
+
+	.inner-glass::-webkit-scrollbar {
+		width: 7px;
+	}
+
+	.inner-glass::-webkit-scrollbar-thumb {
+		
+		background: #9b9b9bcc;
+		outline: none;
+		border: none;
+	}
+
+
+
+
+	.inner-glass .container {
+		width: 100% !important;
+		margin: 0%;
+		padding: 5px 15px;
+	}
+
+		.inner-glass .container > div {
+			margin: 20px 0px;
+		}
+
+		.inner-glass .container .header-container {
+			margin-top: 0;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			-webkit-box-pack: justify;
+			-ms-flex-pack: justify;
+			justify-content: space-between;
+		}
+
+			.inner-glass .container .header-container h2 {
+				font-size: 2rem !important;
+				font-weight: 500;
+			}
+
+
+		.inner-glass .container .mid-upper-container {
+			width: 100%;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			-ms-flex-pack: distribute;
+			justify-content: space-between;
+			background-color: #ffffff;
+			-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+			padding: 15px 20px;
+			border-radius: 5px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			-ms-border-radius: 5px;
+			-o-border-radius: 5px;
+		}
+
+
+
+.box {
+	width: 22%;
+	height: auto;
+	padding: 10px 30px !important;
+	margin: 0 1%;
+	background-color: rgb(1, 46, 77);
+	color: white;
+	box-shadow: 0px 0px 10px rgba(107, 107, 107, 0.589);
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+	.box .flex {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin: 5px 0px;
+	}
+
+
+		.box .flex .icon {
+			background-color: white;
+			height: 3vw;
+			width: 3vw;
+		}
+
+			.box .flex .icon i {
+				color: rgb(1, 46, 77);
+			}
+
+
+
+		.box .flex h1 {
+			font-weight: 500;
+			font-size: 1rem;
+			flex-basis: 80% !important;
+		}
+
+
+.inner-glass .container .mid-upper-container .box:first-child {
+	margin-left: 0% !important;
+}
+
+.inner-glass .container .mid-upper-container .box:last-child {
+	margin-right: 0% !important;
+}
+
+.box .icon,
+.activity .icon,
+.activity .icon {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	-o-border-radius: 50%;
+}
+
+	.box .icon i {
+		color: white;
+	}
+
+.box p {
+	font-size: 0.9rem;
+}
+
+
+.chart-card-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.independent-card {
+	font-size: 0.8rem;
+	color: white;
+	padding: 20px 40px;
+	background-color: #012e4d;
+	z-index: 3;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(107, 107, 107, 0.589);
+	width: 28%;
+}
+
+	.independent-card h3 {
+		font-size: 18px;
+		margin: 5% 0 10%;
+	}
+
+	.independent-card table {
+		width: 100%;
+		line-height: 1.7rem;
+	}
+
+		.independent-card table td {
+			color: white;
+		}
+
+		.independent-card table .left {
+			width: 80%;
+		}
+
+		.independent-card table .right {
+			width: 20%;
+		}
+
+
+/* BAR CHAT*/
+
+.inner-glass .container .mid-lower-container {
+	width: 70%;
+	background-color: #ffffff;
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	padding: 15px 20px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+}
+
+	.inner-glass .container .mid-lower-container .chart-container {
+		position: relative;
+		height: auto;
+	}
+
+input {
+	outline: none;
+	border: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*******************************************************************************************/
+
+
+.inner-glass .container2 {
+	display: flex;
+	justify-content: space-between;
+}
+
+
+	.inner-glass .container2 .left-inner-container {
+		width: 100%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+		flex-direction: column;
+	}
+
+.left-inner-container .chart-outer-container {
+	padding: 15px 20px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	padding: inherit 10px;
+	background-color: #ffffff;
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	width: 100%;
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
+}
+
+.chart-container {
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
+	padding: 5px 10px;
+	width: 100%;
+	position: relative;
+}
+
+	.chart-container h3 {
+		margin-bottom: 5px;
+	}
+
+
+
+
+.inner-glass .container2 .right-inner-container {
+	width: 30%;
+}
+
+.inner-glass .container .right-inner-container .monthly-activity-container {
+	background-color: #ffffff;
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	padding: 15px 20px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	margin-top: -30px;
+}
+
+.inner-glass .right-inner-container .monthly-activity-container {
+	width: 100%;
+}
+
+	.inner-glass .right-inner-container .monthly-activity-container .pie-chart-container {
+		width: 500px;
+		height: auto;
+	}
