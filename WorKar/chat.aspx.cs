@@ -96,7 +96,7 @@ namespace WorKar
             DataSet set = new DataSet();
 
             DAL.DBAccess db_load_messages = new DAL.DBAccess();
-            table = db_load_messages.Load_Messages("Load_Messages", contactUserName);
+            table = db_load_messages.Load_Messages("Load_Messages", contactUserName, HttpContext.Current.Session["username"].ToString());
 
             set.Tables.Add(table);
             return set.GetXml();

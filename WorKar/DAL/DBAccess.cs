@@ -916,7 +916,7 @@ namespace WorKar.DAL
 
 
         // to load messages from ddatabase
-        public DataTable Load_Messages(string storedProcedureName, string fromUserName)
+        public DataTable Load_Messages(string storedProcedureName, string contactUserName, string myUsername)
         {
             DataTable table = new DataTable();
             try
@@ -924,7 +924,8 @@ namespace WorKar.DAL
                 using (SqlCommand cmd = new SqlCommand(storedProcedureName, con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@FromUserName", fromUserName);
+                    cmd.Parameters.AddWithValue("@MyUserName", myUsername);
+                    cmd.Parameters.AddWithValue("@ContactUserName", contactUserName);
                     con.Open();
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
