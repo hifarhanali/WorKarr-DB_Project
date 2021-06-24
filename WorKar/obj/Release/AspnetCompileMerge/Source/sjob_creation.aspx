@@ -17,6 +17,19 @@
     <link href="style/gig_creation.css" rel="stylesheet" runat="server" />
     <link href="style/input_tag.css" rel="stylesheet" runat="server" />
 
+    <style runat="server">
+        .side-bar ul a li {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+            .side-bar ul a li p, .transaction p, .order p {
+                margin-top: 20px !important;
+            }
+    </style>
+
+
     <!--AJAX API-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -73,14 +86,13 @@
             return responseResult;
         }
 
-        function is_valid_Card_details()
-        {
+        function is_valid_Card_details() {
             // check for client side validation
             if (!Page_ClientValidate()) {
                 return false;
             }
             // prevent button click event, if card details are not verified
-            if (!verify_card_detail()){
+            if (!verify_card_detail()) {
                 event.preventDefault();
                 return false;
             }

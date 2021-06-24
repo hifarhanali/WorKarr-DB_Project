@@ -55,14 +55,14 @@
 
 
         
-        //$(document).bind("contextmenu", function (e) {
-        //    e.preventDefault();
-        //});
-        //$(document).keydown(function (e) {
-        //    if (e.which === 123) {
-        //        return false;
-        //    }
-        //});
+        $(document).bind("contextmenu", function (e) {
+            e.preventDefault();
+        });
+        $(document).keydown(function (e) {
+            if (e.which === 123) {
+                return false;
+            }
+        });
     </script>
 
 
@@ -134,14 +134,14 @@
                                 <nav>
                                     <ul>
                                         <div>
-                                            <asp:LinkButton ID="hyperlink_ordersID" OnClick="hyperlink_ordersID_Click" runat="server"><i class="fas fa-th-large"></i></asp:LinkButton>
+                                            <asp:LinkButton ToolTip="Order Information" ID="hyperlink_ordersID" OnClick="hyperlink_ordersID_Click" runat="server"><i class="fas fa-th-large"></i></asp:LinkButton>
                                         </div>
 
                                         <div>
-                                            <asp:LinkButton ID="hyperlink_chatID" OnClick="hyperlink_chatID_Click" runat="server"><i class="far fa-comment-dots"></i></asp:LinkButton>
+                                            <asp:LinkButton ToolTip="Chat" ID="hyperlink_chatID" OnClick="hyperlink_chatID_Click" runat="server"><i class="far fa-comment-dots"></i></asp:LinkButton>
                                         </div>
                                         <div>
-                                            <asp:LinkButton ID="hyperlink_settingID" OnClick="hyperlink_settingID_Click" runat="server"><i class="far fa-users-cog"></i></asp:LinkButton>
+                                            <asp:LinkButton ToolTip="My Profile" ID="hyperlink_settingID" OnClick="hyperlink_settingID_Click" runat="server"><i class="far fa-users-cog"></i></asp:LinkButton>
                                         </div>
                                     </ul>
                                 </nav>

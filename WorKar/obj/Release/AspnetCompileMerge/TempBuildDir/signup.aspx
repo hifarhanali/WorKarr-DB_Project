@@ -30,6 +30,17 @@
     <link href="style/navbar.css" rel="stylesheet" runat="server" />
     <link href="style/login_signup_home_responsive.css" rel="stylesheet" runat="server" />
 
+
+    <script type="text/javascript">
+        $(document).bind("contextmenu", function (e) {
+            e.preventDefault();
+        });
+        $(document).keydown(function (e) {
+            if (e.which === 123) {
+                return false;
+            }
+        });
+    </script>
     <!--Jquery link -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
@@ -47,13 +58,17 @@
                                 <asp:HyperLink ID="hyperlink_homeID" runat="server" NavigateUrl="Home.aspx">Home</asp:HyperLink>
                             </li>
                             <li>
+                                <asp:HyperLink ID="hyperlink_teamID" runat="server" NavigateUrl="team.aspx">Team</asp:HyperLink>
+                            </li>
+
+                            <li>
                                 <asp:HyperLink ID="hyperlink_loginID" NavigateUrl="login.aspx" runat="server">Login</asp:HyperLink>
                             </li>
                             <li class="active-page">
                                 <asp:HyperLink ID="hyperlink_signupID" NavigateUrl="signup.aspx" runat="server">Signup</asp:HyperLink>
                             </li>
                             <li>
-                                <asp:HyperLink ID="hyperlink_faqID" runat="server" NavigateUrl="FAQ.aspx">FAQ</asp:HyperLink>
+                                <asp:HyperLink ID="hyperlink_faqID" runat="server" NavigateUrl="FAQ.html">FAQ</asp:HyperLink>
                             </li>
 
                         </ul>
@@ -113,6 +128,7 @@
 
                                             <div>
                                                 &nbsp;&nbsp; I agree to Platform's <a href="Terms_Conditions.aspx">Terms of Services</a> and <a href="privacy_policy.aspx">Privacy Policy</a>.
+                                           
                                             </div>
                                         </label>
                                         <div class="error_block" id="terms_error_blockID" runat="server">

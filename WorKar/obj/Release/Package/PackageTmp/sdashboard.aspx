@@ -167,6 +167,5 @@
             </div>
         </div>
     </div>
-    <script src="/script/buyer_bar_chart.js"></script>
     <script src="script/seller_chart.js"></script>
 </asp:Content>

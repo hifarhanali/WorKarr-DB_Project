@@ -112,7 +112,7 @@ function drawBarChart(id, data, chartType) {
 // get index of day
 function get_day_index(day) {
     if (day == "Monday") return 0;
-    if (day == "Tueday") return 1;
+    if (day == "Tuesday") return 1;
     if (day == "Wednesday") return 2;
     if (day == "Thursday") return 3;
     if (day == "Friday") return 4;
@@ -125,7 +125,6 @@ function get_day_index(day) {
 function get_user_week_days_summary() {
 
     $.ajax({
-        'async': false,
         type: "POST",
         url: "sdashboard.aspx/Get_User_Week_Days_Summary",
         contentType: "application/json; charset=utf-8",
@@ -139,8 +138,10 @@ function get_user_week_days_summary() {
             let data = [0, 0, 0, 0, 0, 0, 0];
             for (var i = 0; i < userWeekDaysViewsCounts.length; ++i) {
                 let dayName = userWeekDaysViewsCounts[i].getElementsByTagName("WeekDayName")[0].childNodes[0].nodeValue;
-                data[get_day_index(dayName)] = userWeekDaysViewsCounts[i].getElementsByTagName("UserTotalViews")[0].childNodes[0].nodeValue;
+                let views = userWeekDaysViewsCounts[i].getElementsByTagName("UserTotalViews")[0].childNodes[0].nodeValue
+                data.splice(get_day_index(dayName), 1, views);
             }
+
             // draw line chart
             drawLineChart("line-chart", data, "line");
 

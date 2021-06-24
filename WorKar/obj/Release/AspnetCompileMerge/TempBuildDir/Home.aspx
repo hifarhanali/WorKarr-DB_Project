@@ -42,6 +42,9 @@
                             <li class="active-page">
                                 <asp:HyperLink ID="hyperlink_homeID" runat="server" NavigateUrl="Home.aspx">Home</asp:HyperLink>
                             </li>
+                            <li >
+                                <asp:HyperLink ID="hyperlink_teamID" runat="server" NavigateUrl="team.aspx">Team</asp:HyperLink>
+                            </li>
                             <li>
                                 <asp:HyperLink ID="hyperlink_loginID" NavigateUrl="login.aspx" runat="server">Login</asp:HyperLink>
                             </li>

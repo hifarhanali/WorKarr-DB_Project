@@ -42,6 +42,15 @@ namespace WorKar
         protected global::System.Web.UI.WebControls.HyperLink hyperlink_homeID;
 
         /// <summary>
+        /// hyperlink_teamID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hyperlink_teamID;
+
+        /// <summary>
         /// hyperlink_loginID control.
         /// </summary>
         /// <remarks>

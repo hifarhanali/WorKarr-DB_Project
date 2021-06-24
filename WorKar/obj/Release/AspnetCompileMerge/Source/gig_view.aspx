@@ -26,13 +26,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+
+        <script type="text/javascript">
+            $(document).bind("contextmenu", function (e) {
+                e.preventDefault();
+            });
+            $(document).keydown(function (e) {
+                if (e.which === 123) {
+                    return false;
+                }
+            });
+        </script>
+
+
     <!--AJAX API-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
         const { type } = require("jquery");
 
         // to verify card details from the database
-        function verify_card_detail() {
+        function verify_card_detail()
+        {
             var responseResult = false;
 
             let duration = document.getElementById("duration_days").innerText;
@@ -83,10 +97,10 @@
 
             return responseResult;
         }
+
         //stop btn click event, if card details are not verified
         function is_valid_Card_details() {
-
-            if (!Page_ClientValidate()) {
+            if (!Page_ClientValidate) {
                 return false;
             }
 
@@ -157,6 +171,7 @@
         }
 
         function verify_review() {
+
             if (!is_review_sent()) {
                 event.preventDefault();
                 return false;
@@ -273,12 +288,11 @@
                         <span id="incorrect_card_error" style="display: none"></span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="button1" data-dismiss="modal">Close</button>
+                        <button type="button" class="button1"  data-dismiss="modal">Close</button>
                         <asp:Button ID="place_orderID" ValidationGroup="place_order" CausesValidation="true" OnClientClick="return is_valid_Card_details();" class="button2" runat="server" Text="Place Order" />
                     </div>
                 </div>
             </div>
-
         </div>
 
 
