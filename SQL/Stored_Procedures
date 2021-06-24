@@ -903,6 +903,21 @@ GO
 
 
 -- load messages detail
+DROP PROCEDURE IF EXISTS Load_MessageDetail_List
+GO
+CREATE PROCEDURE Load_MessageDetail_List
+@FromUserName		varchar(50)
+AS
+SELECT Message_Detail.FromUserName, Message_Detail.ToUserName, Message_Detail.Message, Message_Detail.AddedOn FROM Message_Detail
+WHERE (Message_Detail.FromUserName=@FromUserName) OR (Message_Detail.ToUserName=@FromUserName)
+GO
+EXEC Load_MessageDetail_List
+@FromUserName = 'sajuthe'
+GO
+
+
+
+-- load messages detail
 DROP PROCEDURE IF EXISTS Load_Messages
 GO
 CREATE PROCEDURE Load_Messages
