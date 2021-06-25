@@ -22,9 +22,9 @@ namespace WorKar
 
                 if (!IsPostBack)
                 {
-                    Bind_Earning_Detail();
-                    Bind_Transaction_Detail();
-                    Bind_Order_Detail();
+                    Bind_Earning_Detail();          // load earning details
+                    Bind_Transaction_Detail();      // load transaction history
+                    Bind_Order_Detail();            // load order history
                 }
             }
         }
@@ -119,12 +119,12 @@ namespace WorKar
                     int totalCredit = Convert.ToInt32(Get_Credit_Balance());
                     int totalDebit = Convert.ToInt32(Get_Debit_Balance());
 
-                    int balance = Convert.ToInt32(Get_Net_Balance(totalCredit, totalDebit)) + totalCredit - totalDebit;
+                    int balance = Convert.ToInt32(Get_Net_Balance(totalCredit, totalDebit));
 
                     // not sufficient balance
                     if (balance < withdrawAmount)
                     {
-                        return 0;
+                        return 0; 
                     }
                 }
                 else
@@ -148,7 +148,7 @@ namespace WorKar
                     db_card_detail_count.Execute_Non_Query("Update [Card_Detail] SET Balance = Balance - " + withdrawAmount + " WHERE  AccountNumber='" + accountNum + "'");
                 }
 
-                return 1;
+                return 1;       // transaction has been performed sucessfully.
             }
 
             return 2;           // card details are not correct

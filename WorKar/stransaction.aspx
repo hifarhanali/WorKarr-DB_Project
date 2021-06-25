@@ -145,8 +145,9 @@
 
 
         // send message of user to WorKarr
-        function perform_transaction() {
-
+        function perform_transaction()
+        {
+            // to get input field values
             let nameOnCard = document.getElementById('card_nameID').value;
             let accountNum = document.getElementById('card_accountNumID').value;            
             let expDate = document.getElementById('card_expDateID').value;

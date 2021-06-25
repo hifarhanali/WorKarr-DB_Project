@@ -57,7 +57,7 @@
                     <!--Member 2-->
                     <div class="member2 member">
                         <div class="img-container">
-                            <img src='<%=ResolveUrl("~/icons/avatar.png") %>' alt="member2-photo">
+                            <img src='<%=ResolveUrl("~/images/member2.jpg") %>' alt="member2-photo" />
                         </div>
                         <div class="content">
                             <h2>Umar Khatab</h2>
@@ -79,7 +79,7 @@
                     <!--Member 3-->
                     <div class="member3 member">
                         <div class="img-container">
-                            <img src='<%=ResolveUrl("~/icons/avatar.png") %>' alt="member3-photo">
+                            <img src='<%=ResolveUrl("~/images/member3.JPEG") %>' alt="member3-photo">
                         </div>
 
                         <div class="content">

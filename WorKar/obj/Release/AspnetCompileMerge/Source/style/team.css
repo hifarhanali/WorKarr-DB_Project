@@ -96,8 +96,8 @@ h4 {
         }
 
             .container .member .img-container img {
-                width: 90%;
-                height: auto;
+                width: 150px;
+                height: 150px;
                 opacity: 1;
                 border-radius: 50%;
                 -webkit-filter: brightness(100%);

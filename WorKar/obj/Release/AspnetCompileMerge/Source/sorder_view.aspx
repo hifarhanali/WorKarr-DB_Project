@@ -110,7 +110,7 @@
                         <ItemTemplate>
                             <div class="right-section">
                                 <div class="user-bio">
-                                    <img src="/<%#Eval(" UserPhoto ") %>" style="width: 80px; height: 80px; border-radius: 50%;" alt="profile-avatar" />
+                                    <img src="/<%#Eval("UserPhoto") %>" style="width: 80px; height: 80px; border-radius: 50%;" alt="profile-avatar" />
                                     <h5>
                                         <%# Eval("UserFName") + " " + Eval("UserLName") %>
                                     </h5>

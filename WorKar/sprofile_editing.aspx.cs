@@ -191,8 +191,8 @@ namespace WorKar
 
             user.User_Password = null;
             string image = null;
-            this.Delete_Images_From_Folder();
-            this.Save_Images_In_Folder(ref image);
+            this.Delete_Images_From_Folder();               // delete previous image from the user folder
+            this.Save_Images_In_Folder(ref image);          // insert new image in the forlder
             user.photo = image;
             db_update_user.Update_User_Detail("Update_User_Detail", user);
         }
