@@ -18,7 +18,6 @@
 
         .job {
             transition-delay: 0 !important;
-            job-he
         }
 
             .job .bottom-sec {
@@ -45,6 +44,7 @@
         // to delete a gig without page reloading
         function cancel_order(input) {
             let orderId = input.id.split('_')[1];
+
             $.ajax({
                 type: "POST",
                 url: "sorders_list.aspx/cancel_order",
@@ -171,7 +171,7 @@
                                                 <a href="sorder_view.aspx?OrderID=<%# Eval("OrderID") %>">
                                                     <p>View</p>
                                                     <i class="far fa-eye"></i></a>
-                                                <a id="<%# Eval("OrderID") %>" onclick="cancel_order(this)">
+                                                <a id="CancelledOrder_<%# Eval("OrderID") %>" onclick="cancel_order(this)">
                                                     <p id="OrderID=<%# Eval("OrderID") %>">Cancel</p>
                                                     <i class="far fa-trash-alt"></i>
                                                 </a>
