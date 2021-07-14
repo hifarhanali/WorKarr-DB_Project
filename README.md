@@ -1,6 +1,6 @@
 # WorKarr
 
-WorKarr is a Pakistani online marketplace for freelance services founded by a team of 3 individuals at FAST-NUCES Lahore. The website provides a platform for freelancers to offer services to customers worldwide.
+WorKarr is a Pakistani online marketplace for freelance services founded by a team of 3 individuals at FAST-NUCES Lahore. This website provides a platform for freelancers to offer services to customers worldwide.
 It was our Database Course project. Fortunately, we got full marks in the project and appreciation from our course lab instructor.
 
 ## Technologies
