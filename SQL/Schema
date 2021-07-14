@@ -19,8 +19,6 @@ GO
 --ALTER TABLE [User] ADD CONSTRAINT DF_USER_PHOTO DEFAULT 'icons/avatar.png' FOR Photo
 
 
-----username=farhan_a1i
-----password=()()WorKarr()()123
 
 --1) Category Table--------------
 DROP TABLE IF EXISTS Category
